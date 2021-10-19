@@ -1,6 +1,6 @@
-# Proyecto de Software - Aplicación de ejemplo
+# TTPS - Aplicación de ejemplo
 
-Aplicación de ejemplo para la cátedra de Proyecto de Software de la Facultad de Informática de la U.N.L.P.
+Aplicación de ejemplo para la cátedra de TTPS de la Facultad de Informática de la U.N.L.P.
 
 ## Iniciar ambiente
 
