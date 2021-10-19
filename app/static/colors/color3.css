@@ -1,0 +1,10 @@
+body {
+    background-color: #f3f3f3;
+    color: #212529;
+}
+
+header.bg-dark.text-white {
+    background-color: #673ab7 !important;
+}
+
+

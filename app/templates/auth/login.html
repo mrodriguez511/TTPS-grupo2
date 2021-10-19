@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+{% block title %}Login{% endblock %}
+{% block head %}
+{{ super() }}
+{% endblock %}
+{% block navbar %}{% endblock %}
+{% block content %}
+<main class="col-md-3 col-6 mx-auto my-5 text-center">
+  <h1 id="logo" class="mb-4">LOGOapp</h1>
+  <form action="{{ url_for('auth_authenticate') }}" method="POST">
+    <h1 class="h3 mb-3 fw-normal">Iniciar sesión</h1>
+    <div class="form-floating">
+      <input name="email" class="form-control" id="floatingInput" placeholder="Usuario" required>
+      <label for="floatingInput">Email</label>
+    </div>
+    <div class="form-floating">
+      <input type="password" name="password" class="form-control" id="floatingPassword" placeholder="Clave" required>
+      <label for="floatingPassword">Contraseña</label>
+    </div>
+
+    <button class="w-100 btn btn-lg btn-primary mt-5" type="submit">Login</button>
+
+  </form>
+</main>
+{% endblock %}

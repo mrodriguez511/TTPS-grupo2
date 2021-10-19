@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+{% block title %}Punto de encuentro{% endblock %}
+{% block head %}
+{{ super() }}
+{% endblock %}
+{% block content %}
+<h1>Editar usuario</h1>
+
+<form action="{{ url_for('punto_encuentro_update',id=punto_encuentro.id) }}" method="POST">
+  <p><strong>Nombre {{ punto_encuentro.nombre }}</strong></p>
+  <p><strong>Dirección {{ punto_encuentro.direccion }}</strong></p>
+  <p>
+    <label>Coordenadas<label></br>
+        <input name="coordenadas" placeholder="Coordenadas" value={{ punto_encuentro.coordenadas }} />
+  </p>
+  <p>
+    <label>Telefono<label></br>
+        <input name="telefono" placeholder="Apellido" value={{ punto_encuentro.telefono }} />
+  </p>
+  <p>
+    <label>Email<label></br>
+        <input name="email" placeholder="email" value={{ punto_encuentro.email}} />
+  </p>
+
+
+  <div class="container py-5">
+    <input type="submit" class="btn btn-success" value="Guardar cambios">
+    <button type="reset" class="btn btn-outline-secondary">Cancelar</button>
+  </div>
+</form>
+<a class="btn btn-dark" href="{{ url_for('punto_encuentro_index') }}">Volver</a>
+{% endblock %}

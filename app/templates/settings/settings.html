@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+{% block title %}Configuración{% endblock %}
+{% block head %}
+{{ super() }}
+{% endblock %}
+{% block content %}
+<h1>Configuracion del sistema</h1>
+
+<form action="{{ url_for('settings_update') }}" method="POST">
+  <p>
+    <label>Cantidad de elementos a mostrar en listado<label></br>
+        <input name="paginado" class="form-control" placeholder="Cantidad de elementos" value={{ config.paginado }} />
+  </p>
+  <p>
+    <label>Criterio ordenacion de tablas<label></br>
+
+        <select name="ordenacion" class="form-select form-select-sm mb-3" aria-label=".form-select-sm ">
+          <option value="1">Ascendente</option>
+          <option value="0">Descendente</option>
+        </select>
+  </p>
+  <p>
+    <label>Paleta de colores para app publica<label></br>
+        <select name="paleta_AppPublica" class="form-select form-select-sm mb-3" aria-label=".form-select-sm ">
+          <option value="1">Light</option>
+          <option value="2">Dark</option>
+          <option value="3">Colorida</option>
+        </select>
+  </p>
+  <p>
+    <label>Paleta de colores para app privada<label></br>
+        <select name="paleta_AppPrivada" class="form-select form-select-sm mb-3" aria-label=".form-select-sm ">
+          <option value="1">Light</option>
+          <option value="2">Dark</option>
+          <option value="3">Colorida</option>
+        </select>
+  </p>
+
+
+  <div class="container py-5">
+    <input type="submit" class="btn btn-success" value="Guardar cambios">
+    <button type="reset" class="btn btn-outline-secondary">Cancelar</button>
+  </div>
+</form>
+{% endblock %}

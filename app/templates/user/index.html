@@ -1,0 +1,107 @@
+{% extends "layout.html" %}
+{% block title %}Usuarios{% endblock %}
+{% block head %}
+{{ super() }}
+{% endblock %}
+{% block content %}
+<h1>Usuarios</h1>
+
+<div class="container py-5">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Nombre</th>
+        <th scope="col">Apellido</th>
+        <th scope="col">Usuario</th>
+        <th scope="col">Email</th>
+        <th scope="col">Estado</th>
+        <th scope="col">Roles</th>
+        {% if (has_permission(session["id"],"user_edit") or has_permission(session["id"],"user_delete"))
+        %}
+        <th scope="col">Acciones</th>
+        {% endif %}
+      </tr>
+    </thead>
+    <tbody>
+      {% for user, rol in users %}
+      <tr>
+        <th scope="row">{{user.id}}</th>
+        <td>{{ user.first_name }}</td>
+        <td>{{ user.last_name }}</td>
+        <td>{{ user.username }}</td>
+        <td>{{ user.email }}</td>
+        <td>
+          {% if (has_permission(session["id"],"user_swichtstate") and (session["id"] != user.id)) %}
+          <div class="modal fade" id="estado{{user.id}}" tabindex="-1" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  ¿Desea cambiar el estado del usuario {{ user.first_name }} {{ user.last_name }}?
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                  <a type="button" class="btn btn-success"
+                    href="{{ url_for('user_swichtstate', id=user.id,activo=user.activo) }}">
+                    Cambiar estado</a>
+
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-check form-switch">
+
+            <input data-bs-toggle="modal" data-bs-target="#estado{{user.id}}" class="form-check-input" type="checkbox"
+              role="switch" value="" {%if user.activo %} checked {% endif %} id="flexSwitchCheckDefault">
+
+          </div>
+          {% else %}
+          {% if user.activo %} activo {% else %} inactivo {% endif %}
+          {% endif %}
+        </td>
+        <td> {{rol.name}}</td>
+        {% if (has_permission(session["id"],"user_edit") or has_permission(session["id"],"user_delete"))
+        %}
+        <td>
+          <div class="modal fade" id="delete{{user.id}}" tabindex="-1" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  ¿Desea eliminar al usuario {{ user.first_name }} {{ user.last_name }}?
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                  <a type="button" class="btn btn-danger" href="{{ url_for('user_delete', id=user.id) }}">
+                    Eliminar</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <a href="{{ url_for('user_edit', id=user.id )}}" class="btn btn-primary btn-sm">Editar</a>
+          {% if not (session["id"] == user.id) %}
+          <button data-bs-toggle="modal" data-bs-target="#delete{{user.id}}"
+            class="btn btn-danger btn-sm">Eliminar</button>
+          {% endif %}
+        </td>
+        {% endif %}
+
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+<a href="{{ url_for('home') }}" class="btn btn-outline-secondary">Volver</a>
+{% if (has_permission(session["id"],"user_new")) %}
+<a href="{{ url_for('user_new') }}" class="btn btn-outline-success">Nuevo</a>
+{% endif %}
+
+{% endblock %}
