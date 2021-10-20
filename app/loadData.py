@@ -31,7 +31,7 @@ def carga():
         dni=123456789,
         email="admin@gmail.com",
         password="123",
-        rol = rol1.id
+        rol = 1
     )
 
     usuario2 = User(
@@ -40,7 +40,7 @@ def carga():
         dni=987654321,
         email="emp1@gmail.com",
         password="123",
-        rol=rol2.id
+        rol= 2
     )
 
 
@@ -71,14 +71,18 @@ def cargarConfig():
 def cargarPermisos(rol1, rol2):
     from app.models.permiso import Permiso
 
-    permisos_ambos = [
-        Permiso(name="user_index"),
-        Permiso(name="punto_encuentro_index"),
-        Permiso(name="punto_encuentro_create"),
-        Permiso(name="punto_encuentro_new"),
-        Permiso(name="punto_encuentro_edit"),
-        Permiso(name="punto_encuentro_update"),
-        Permiso(name="punto_encuentro_show"),
+    permisos_empleado = [
+        Permiso(name="paciente_create"),
+        Permiso(name="paciente_new"),
+        Permiso(name="paciente_update"),
+        Permiso(name="paciente_edit"),
+        Permiso(name="paciente_delete"),
+
+        Permiso(name="estudio_create"),
+        Permiso(name="estudio_new"),
+        Permiso(name="estudio_update"),
+        Permiso(name="estudio_edit"),
+        Permiso(name="estudio_delete"),
     ]
     permisos_admin = [
         Permiso(name="user_create"),
@@ -86,22 +90,17 @@ def cargarPermisos(rol1, rol2):
         Permiso(name="user_update"),
         Permiso(name="user_edit"),
         Permiso(name="user_delete"),
-        Permiso(name="user_swichtstate"),
-        Permiso(name="rol_asignar"),
-        Permiso(name="configuracion_edit"),
-        Permiso(name="configuracion_update"),
-        Permiso(name="punto_encuentro_destroy"),
+        
     ]
 
-    for per in permisos_ambos:
-        db.session.add(per)
+    
     for per in permisos_admin:
+        db.session.add(per)
+    for per in permisos_empleado:
         db.session.add(per)
 
     rol1.permisos = permisos_admin
-    for per in permisos_ambos:
-        rol1.permisos.append(per)
-    rol2.permisos = permisos_ambos
+    rol2.permisos = permisos_empleado
 
 
 def cargarPuntosDeEncuentro():
