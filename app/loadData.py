@@ -24,6 +24,7 @@ def carga():
 
     db.session.commit()
 
+
     usuario1 = User(
         first_name="admin",
         last_name="admin",
