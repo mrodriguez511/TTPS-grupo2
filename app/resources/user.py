@@ -13,8 +13,8 @@ def index():
     if not authenticated(session):
         abort(401)
 
-    # if not check_permission(session["id"], "user_index"):
-    #    abort(401)
+    if not check_permission(session["id"], "user_index"):
+        abort(401)
 
     if session["rol"] == 1:
 
@@ -49,7 +49,6 @@ def create():
     if user:
         flash("El Email ingresado ya existe")
         return redirect(url_for("user_new"))
-    
 
     new_user = User(
         first_name=params["first_name"],
@@ -57,8 +56,7 @@ def create():
         dni=params["dni"],
         email=params["email"],
         password=params["password"],
-        rol=2
-        
+        rol=2,
     )
 
     db.session.add(new_user)
@@ -96,7 +94,6 @@ def update():
     user.password = params["password"]
     user.updated_at = datetime.now()
 
-
     db.session.commit()
 
     return redirect(url_for("user_index"))
@@ -112,9 +109,9 @@ def delete():
         flash("Operación NO permitida")
     user_id_eliminar = request.args.get("id")
     user_eliminar = db.session.query(User).filter(User.id == user_id_eliminar).one()
-    user_eliminar.borrado=True
-    user_eliminar.email="*"+user_eliminar.email
-    user_eliminar.dni=user_eliminar.dni*10
+    user_eliminar.borrado = True
+    user_eliminar.email = "*" + user_eliminar.email
+    user_eliminar.dni = user_eliminar.dni * 10
     db.session.commit()
 
     return redirect(url_for("user_index"))

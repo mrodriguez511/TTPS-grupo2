@@ -37,13 +37,13 @@ class User(db.Model):
     @classmethod
     def has_permission(cls, user_id, permission):
 
-        """permiso = (
+        permiso = (
             db.session.query(User, Rol, Permiso)
             .join(User)
-            .join(Rol)
+            .join(Rol.permisos)
             .filter(and_(User.id == user_id, Permiso.name == permission))
             .first()
         )
         if not permiso:
-            return False"""
+            return False
         return True

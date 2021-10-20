@@ -10,7 +10,6 @@
   <table class="table table-striped">
     <thead>
       <tr>
-        <th scope="col">#</th>
         <th scope="col">Nombre</th>
         <th scope="col">Apellido</th>
         <th scope="col">DNI</th>
@@ -20,10 +19,9 @@
     </thead>
     <tbody>
       {% for user in users %}
-      
+
       <tr>
-        <th scope="row">{{user.id}}</th>
-        <td>{{ user.first_name }}</td>
+        <td scope="row">{{ user.first_name }}</td>
         <td>{{ user.last_name }}</td>
         <td>{{ user.dni }}</td>
         <td>{{ user.email }}</td>
@@ -55,12 +53,11 @@
         </td>
 
       </tr>
-      
+
       {% endfor %}
     </tbody>
   </table>
 </div>
-<a href="{{ url_for('home') }}" class="btn btn-outline-secondary">Volver</a>
 {% if (has_permission(session["id"],"user_new")) %}
 <a href="{{ url_for('user_new') }}" class="btn btn-outline-success">Nuevo</a>
 {% endif %}
