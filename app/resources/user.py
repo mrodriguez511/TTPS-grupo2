@@ -18,10 +18,10 @@ def index():
 
     if session["rol"] == 1:
         users = db.session.query(User).all()
+        # filtrar los borrads y al admin
         return render_template("user/index.html", users=users)
 
-    users = db.session.query(User).all()
-    return render_template("empleados/index.html", users=users)
+    return render_template("empleados/index.html")
 
 
 def new():
