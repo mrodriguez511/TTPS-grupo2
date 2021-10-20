@@ -10,11 +10,7 @@
             </a>
             {% if is_authenticated(session) %}
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                <li><a href="{{ url_for('punto_encuentro_index') }}" class="nav-link px-2 text-white">Puntos de
-                        encuentro</a></li>
-                <li><a href="{{ url_for('user_index') }}" class="nav-link px-2 text-white">Usuarios</a></li>
-                <li><a href="{{ url_for('settings_edit') }}" class="nav-link px-2 text-white">Configuraciones del
-                        sistema</a></li>
+                <li><a href="{{ url_for('user_index') }}" class="nav-link px-2 text-white">Empleados</a></li>
             </ul>
             <div class="text-end">
                 <a href="#" class="d-block link-light text-decoration-none dropdown-toggle" id="dropdownUser2"

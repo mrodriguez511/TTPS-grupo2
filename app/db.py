@@ -17,7 +17,6 @@ def config_db(app):
     def init_database():  # se ejecuta la primera vez con el primer request
         db.create_all()  # a partir de mis modelos crea las tablas en la bd que configure sin valores
         from app import loadData
-
         loadData.cargarDatos()
 
     @app.teardown_request  # cuando termina el request, borra la sesion de la base de datos

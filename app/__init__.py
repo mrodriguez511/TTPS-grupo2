@@ -7,7 +7,8 @@ from app.resources import user
 from app.resources import auth
 from app.resources import configuracion
 from app.resources import punto_encuentro
-#from app.resources.api.issue import issue_api
+
+# from app.resources.api.issue import issue_api
 from app.helpers import handler
 from app.helpers import auth as helper_auth
 from app.helpers import check as helper_check
@@ -46,15 +47,13 @@ def create_app(environment="development"):
         "/autenticacion", "auth_authenticate", auth.authenticate, methods=["POST"]
     )
 
-
     # Rutas de Usuarios
-    app.add_url_rule("/usuarios", "user_index", user.index)
-    app.add_url_rule("/usuarios", "user_create", user.create, methods=["POST"])
-    app.add_url_rule("/usuarios/nuevo", "user_new", user.new)
-    app.add_url_rule("/usuarios/update", "user_update", user.update, methods=["POST"])
-    app.add_url_rule("/usuarios/edit", "user_edit", user.edit)
-    app.add_url_rule("/usuarios/delete", "user_delete", user.delete, methods=["GET"])
-    app.add_url_rule("/usuarios/state", "user_swichtstate", user.swichtstate)
+    app.add_url_rule("/empleados", "user_index", user.index)
+    app.add_url_rule("/empleados", "user_create", user.create, methods=["POST"])
+    app.add_url_rule("/empleados/nuevo", "user_new", user.new)
+    app.add_url_rule("/empleados/update", "user_update", user.update, methods=["POST"])
+    app.add_url_rule("/empleados/edit", "user_edit", user.edit)
+    app.add_url_rule("/empleados/delete", "user_delete", user.delete, methods=["GET"])
 
     # Rutas Puntos de encuentro
     app.add_url_rule("/puntoencuentro", "punto_encuentro_index", punto_encuentro.index)

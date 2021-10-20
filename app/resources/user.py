@@ -12,11 +12,16 @@ def index():
 
     if not authenticated(session):
         abort(401)
-    if not check_permission(session["id"], "user_index"):
-        abort(401)
 
-    users = db.session.query(User, Rol).outerjoin(User.roles).all()
-    return render_template("user/index.html", users=users)
+    # if not check_permission(session["id"], "user_index"):
+    #    abort(401)
+
+    if session["rol"] == 1:
+        users = db.session.query(User).all()
+        return render_template("user/index.html", users=users)
+
+    users = db.session.query(User).all()
+    return render_template("empleados/index.html", users=users)
 
 
 def new():
@@ -26,8 +31,7 @@ def new():
     if not check_permission(session["id"], "user_new"):
         abort(401)
 
-    roles = Rol.query.all()
-    return render_template("user/new.html", roles=roles)
+    return render_template("user/new.html")
 
 
 def create():
@@ -41,11 +45,9 @@ def create():
     # con los asteriscos convierto los parametros del diccionario, a parametros separados que requiere mi constructor
     params = request.form
 
-    user = User.query.filter(
-        User.email == params["email"] or User.username == params["username"]
-    ).first()
+    user = User.query.filter(User.email == params["email"]).first()
     if user:
-        flash("El Email o Username ya existen")
+        flash("El Email ingresado ya existen")
         return redirect(url_for("user_new"))
 
     new_user = User(

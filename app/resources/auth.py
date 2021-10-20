@@ -1,5 +1,7 @@
 from flask import redirect, render_template, request, url_for, abort, session, flash
 from app.models.user import User
+from app.models.rol import Rol
+from app.db import db
 
 
 def login():
@@ -19,19 +21,26 @@ def authenticate():
         flash("Usuario o clave incorrecto.")
         return redirect(url_for("auth_login"))
 
-    if not user.activo:
+    if user.borrado:
         flash("Usuario bloqueado.")
         return redirect(url_for("auth_login"))
 
-    session["user"] = user.email
+    session["rol"] = user.rol
     session["id"] = user.id
     flash("La sesión se inició correctamente.")
+
+    if user.rol == 1:
+        users = db.session.query(User).all()
+        return render_template("user/index.html", users=users)
+
+    users = db.session.query(User).all()
+    return render_template("empleados/index.html", users=users)
 
     return redirect(url_for("home"))
 
 
 def logout():
-    del session["user"]
+    del session["rol"]
     del session["id"]
     session.clear()
     flash("La sesión se cerró correctamente.")
