@@ -1,11 +1,13 @@
 # from flask import session
 from app.db import db
 
-
 def cargarDatos():
     from app.models.user import User
     if not db.session.query(User).first():
         carga()
+
+
+
 
 
 def carga():
@@ -13,56 +15,47 @@ def carga():
     from app.models.rol import Rol
 
     rol1 = Rol(name="administrador")
-    rol2 = Rol(name="operador")
-
-    usuario1 = User(
-        first_name="Mariana",
-        last_name="Rodriguez",
-        email="mari_r@gmail.com",
-        password="123",
-        username="mari_r",
-    )
-
-    usuario2 = User(
-        first_name="Iona",
-        last_name="Arregui",
-        email="iona@gmail.com",
-        password="123",
-        username="iona",
-    )
-
-    usuario3 = User(
-        first_name="Mariana",
-        last_name="Jobse",
-        email="mari_j@gmail.com",
-        password="123",
-        username="mari_j",
-    )
-    usuario4 = User(
-        first_name="Damian ",
-        last_name="Candia",
-        email="damian@gmail.com",
-        password="123",
-        username="damian",
-    )
-
+    rol2 = Rol(name="empleado")
+    
     db.session.add(rol1)
     db.session.add(rol2)
 
-    usuario1.roles = [rol1]
-    usuario2.roles = [rol2]
-    usuario3.roles = [rol2]
-    usuario4.roles = [rol2]
+
+
+    db.session.commit()
+
+    usuario1 = User(
+        first_name="admin",
+        last_name="admin",
+        dni=123456789,
+        email="admin@gmail.com",
+        password="123",
+        rol = rol1.id
+    )
+
+    usuario2 = User(
+        first_name="empleado1",
+        last_name="uno",
+        dni=987654321,
+        email="emp1@gmail.com",
+        password="123",
+        rol=rol2.id
+    )
+
+
+  
 
     db.session.add(usuario1)
     db.session.add(usuario2)
-    db.session.add(usuario3)
-    db.session.add(usuario4)
     cargarConfig()
     cargarPermisos(rol1, rol2)
     cargarPuntosDeEncuentro()
 
     db.session.commit()
+
+
+
+
 
 
 def cargarConfig():
