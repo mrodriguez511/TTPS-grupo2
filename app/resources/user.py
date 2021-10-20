@@ -17,8 +17,10 @@ def index():
     #    abort(401)
 
     if session["rol"] == 1:
-        users = db.session.query(User).all()
+
         # filtrar los borrads y al admin
+
+        users = User.query.filter(User.borrado != True, User.id != session["id"]).all()
         return render_template("user/index.html", users=users)
 
     return render_template("empleados/index.html")
@@ -47,25 +49,19 @@ def create():
 
     user = User.query.filter(User.email == params["email"]).first()
     if user:
-        flash("El Email ingresado ya existen")
+        flash("El Email ingresado ya existe")
         return redirect(url_for("user_new"))
+    
 
     new_user = User(
         first_name=params["first_name"],
         last_name=params["last_name"],
+        dni=params["dni"],
         email=params["email"],
         password=params["password"],
-        username=params["username"],
+        rol=2
+        
     )
-
-    check_rol = params.getlist("checkbox_rol")
-
-    add_roles = []
-    for id_rol in check_rol:
-        rol = Rol.query.filter(Rol.id == id_rol).first()
-        add_roles.append(rol)
-
-    new_user.roles = add_roles
 
     db.session.add(new_user)
     db.session.commit()
@@ -102,14 +98,6 @@ def update():
     user.password = params["password"]
     user.updated_at = datetime.now()
 
-    check_rol = params.getlist("checkbox_rol")
-
-    add_roles = []
-    for id_rol in check_rol:
-        rol = Rol.query.filter(Rol.id == id_rol).first()
-        add_roles.append(rol)
-
-    user.roles = add_roles
 
     db.session.commit()
 
@@ -126,7 +114,7 @@ def delete():
         flash("Operación NO permitida")
     user_id_eliminar = request.args.get("id")
     user_eliminar = db.session.query(User).filter(User.id == user_id_eliminar).one()
-    db.session.delete(user_eliminar)
+    user_eliminar.borrado=True
     db.session.commit()
 
     return redirect(url_for("user_index"))

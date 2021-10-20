@@ -1,10 +1,10 @@
 {% extends "layout.html" %}
-{% block title %}Usuario{% endblock %}
+{% block title %}Nuevo Empleado{% endblock %}
 {% block head %}
 {{ super() }}
 {% endblock %}
 {% block content %}
-<h1>Crear un usuario</h1>
+<h1>Crear un empleado</h1>
 <form action="{{ url_for('user_create') }}" method="POST">
   <p>
     <label>Nombre<label></br>

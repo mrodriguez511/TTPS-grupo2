@@ -1,10 +1,10 @@
 {% extends "layout.html" %}
-{% block title %}Usuario{% endblock %}
+{% block title %}Nuevo empleado{% endblock %}
 {% block head %}
 {{ super() }}
 {% endblock %}
 {% block content %}
-<h1>Crear un usuario</h1>
+<h1>Crear un empleado</h1>
 <form action="{{ url_for('user_create') }}" method="POST">
   <p>
     <label>Nombre<label></br>
@@ -19,8 +19,8 @@
         <input name="email" placeholder="Correo" class="form-control" required />
   </p>
   <p>
-    <label>Nombre de usuario<label></br>
-        <input name="username" placeholder="Usuario" class="form-control" required />
+    <label>DNI<label></br>
+        <input name="dni" placeholder="dni" class="form-control" required />
   </p>
 
   <p>
