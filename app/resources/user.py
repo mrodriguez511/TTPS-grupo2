@@ -18,8 +18,6 @@ def index():
 
     if session["rol"] == 1:
 
-        # filtrar los borrads y al admin
-
         users = User.query.filter(User.borrado != True, User.id != session["id"]).all()
         return render_template("user/index.html", users=users)
 
@@ -115,6 +113,8 @@ def delete():
     user_id_eliminar = request.args.get("id")
     user_eliminar = db.session.query(User).filter(User.id == user_id_eliminar).one()
     user_eliminar.borrado=True
+    user_eliminar.email="*"+user_eliminar.email
+    user_eliminar.dni=user_eliminar.dni*10
     db.session.commit()
 
     return redirect(url_for("user_index"))
