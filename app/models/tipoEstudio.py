@@ -11,6 +11,7 @@ class TipoEstudio(db.Model):
     consentimientoInformado = Column(String(300))
     precioEstudio = Column(Integer)
     precioExtraccion = Column(Integer)
+    estudios = relationship("Estudio")
 
     def __init__(
         self,

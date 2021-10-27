@@ -88,7 +88,7 @@ class MedicoDerivante(db.Model):
         self.mail = mail
 
 
-class obraSocial(db.Model):
+class ObraSocial(db.Model):
 
     __tablename__ = "obrasSociales"
     id = Column(Integer, primary_key=True, autoincrement=True)
@@ -111,8 +111,8 @@ class Paciente(db.Model):
     telefono = Column(String(30), unique=True)
     resumenHC = Column(String(300), unique=True)
     password = Column(String(30), unique=False)
-    nroAfiliado = Column(String(30), unique=True)
-    obraSocial = Column(Integer, ForeignKey("obrasSociales.id"))
+    nroAfiliado = Column(String(30), unique=True, nullable=True)
+    obraSocial = Column(Integer, ForeignKey("obrasSociales.id"), nullable=True)
 
     def __init__(
         self,

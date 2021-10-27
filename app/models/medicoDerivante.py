@@ -11,6 +11,7 @@ class MedicoDerivante(db.Model):
     apellido = Column(String(30), unique=False)
     matricula = Column(String(30), unique=True)
     mail = Column(String(30), unique=True)
+    estudios = relationship("Estudio")
     # permisos = relationship("Permiso", secondary=roles_permisos, back_populates="roles")
 
     def __init__(self, nombre=None, apellido=None, matricula=None, mail=None):
