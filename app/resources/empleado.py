@@ -1,4 +1,5 @@
 from flask import redirect, render_template, request, url_for, session, abort, flash
+from app.helpers.archivos import generar_factura
 from app.models.user import User
 from app.models.rol import Rol
 from app.helpers.auth import authenticated
@@ -76,10 +77,10 @@ def create_paciente():
 def create_estudio():
     """función para alta de usuario"""
 
-    if not authenticated(session):
+    """if not authenticated(session):
         abort(401)
     if not check_permission(session["id"], "user_create"):
-        abort(401)
+        abort(401)"""
 
     # con los asteriscos convierto los parametros del diccionario, a parametros separados que requiere mi constructor
     params = request.form
@@ -100,6 +101,15 @@ def create_estudio():
 
     db.session.add(new_user)
     db.session.commit()"""
-    pdfkit.from_file("../templates/pdfs/presupuesto.html", "presu.pdf")
+
+    """html = render_template("pdfs/presupuesto.html", estudio="ssdfsdfsd")
+    nombre_archivo = "archivos/factura_"+ params.estudio.id;
+    path_wkthmltopdf = "C:/Program Files/wkhtmltopdf/bin/wkhtmltopdf.exe"
+
+    config = pdfkit.configuration(wkhtmltopdf=path_wkthmltopdf)
+
+    pdfkit.from_string(html, "archivos/SOF.pdf", configuration=config)"""
+    generar_factura("asdasd")
+    # pdfkit.from_string("Hello!", "archivos/out.pdf", configuration=config)
 
     return redirect(url_for("estudio_new"))
