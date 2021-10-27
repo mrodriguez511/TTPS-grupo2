@@ -1,8 +1,14 @@
 # from flask import session
 import datetime
 from app.db import db
-from app.models.medicoDerivante import MedicoDerivante
-from app.models.punto_encuentro import Paciente, TipoEstudio, ObraSocial
+
+# from app.models.medicoDerivante import MedicoDerivante
+from app.models.punto_encuentro import (
+    Paciente,
+    TipoEstudio,
+    ObraSocial,
+    MedicoDerivante,
+)
 
 
 def cargarDatos():
@@ -114,6 +120,9 @@ def cargarMedicosDerivantes():
             "medicoDerivante4", "cuatro", 4567, "medicoDerivante4@gmail.com"
         ),
     ]
+
+    for medico in medicosDerivantes:
+        db.session.add(medico)
 
 
 def cargarObrasSociales():
