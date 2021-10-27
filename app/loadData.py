@@ -1,6 +1,6 @@
 # from flask import session
 from app.db import db
-from app.models.tipoEstudio import TipoEstudio
+from app.models.punto_encuentro import TipoEstudio
 
 
 def cargarDatos():
