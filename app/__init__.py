@@ -4,6 +4,7 @@ from flask_session import Session
 from config import config
 from app import db
 from app.resources import user
+from app.resources import empleado
 from app.resources import auth
 from app.resources import configuracion
 from app.resources import punto_encuentro
@@ -48,12 +49,26 @@ def create_app(environment="development"):
     )
 
     # Rutas de Usuarios
-    app.add_url_rule("/empleados", "user_index", user.index)
-    app.add_url_rule("/empleados", "user_create", user.create, methods=["POST"])
-    app.add_url_rule("/empleados/nuevo", "user_new", user.new)
-    app.add_url_rule("/empleados/update", "user_update", user.update, methods=["POST"])
-    app.add_url_rule("/empleados/edit", "user_edit", user.edit)
-    app.add_url_rule("/empleados/delete", "user_delete", user.delete, methods=["GET"])
+    app.add_url_rule("/admin", "user_index", user.index)
+    app.add_url_rule("/admin", "user_create", user.create, methods=["POST"])
+    app.add_url_rule("/admin/nuevo", "user_new", user.new)
+    app.add_url_rule("/admin/update", "user_update", user.update, methods=["POST"])
+    app.add_url_rule("/admin/edit", "user_edit", user.edit)
+    app.add_url_rule("/admin/delete", "user_delete", user.delete, methods=["GET"])
+
+    # Rutas de Empleado
+    app.add_url_rule("/empleado", "empleado_index", empleado.index)
+    app.add_url_rule(
+        "/empleado", "estudio_create", empleado.create_estudio, methods=["POST"]
+    )
+    app.add_url_rule("/empleado/nuevo_estudio", "estudio_new", empleado.new_estudio)
+    app.add_url_rule("/empleado/nuevo_paciente", "paciente_new", empleado.new_paciente)
+    app.add_url_rule(
+        "/empleado/nuevo_paciente",
+        "paciente_create",
+        empleado.create_paciente,
+        methods=["POST"],
+    )
 
     # Rutas Puntos de encuentro
     app.add_url_rule("/puntoencuentro", "punto_encuentro_index", punto_encuentro.index)

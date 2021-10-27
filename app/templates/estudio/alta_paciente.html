@@ -1,0 +1,72 @@
+{% extends "layout.html" %}
+{% block title %}Usuarios{% endblock %}
+{% block head %}
+{{ super() }}
+{% endblock %}
+{% block content %}
+
+<h3>Alta de estudio</h3>
+<div class="container">
+    <form class="row g-3" action="{{ url_for('paciente_create') }}" method="POST">
+        {#El empleado carga los datos nombre del paciente, obra social del paciente, dnimédico derivante, empleado que
+        genera el alta, diagnóstico presuntivo, fecha de alta del estudio, tipo de estudio, estado actual y
+        presupuesto.#}
+        <div class="col-md-4">
+            <label for="inputEmail4" class="form-label">Nombre</label>
+            <input type="text" name="nombre" class="form-control" required>
+        </div>
+        <div class="col-md-4">
+            <label for="inputEmail4" class="form-label">Apellido</label>
+            <input type="text" name="apellido" class="form-control" required>
+        </div>
+        <div class="col-md-4">
+            <label for="inputEmail4" class="form-label">DNI</label>
+            <input type="number" name="dni" class="form-control" required>
+        </div>
+        <div class="col-md-4">
+            <label for="inputEmail4" class="form-label">Fecha de nacimiento</label>
+            <input type="date" name="fechaNacimiento" class="form-control" required>
+        </div>
+        <div class="col-md-4">
+            <label for="inputEmail4" class="form-label">Email</label>
+            <input type="email" name="email" class="form-control" required>
+        </div>
+        <div class="col-md-4">
+            <label for="inputEmail4" class="form-label">Telefono</label>
+            <input type="tel" name="email" class="form-control" required>
+        </div>
+        <div class="col-md-12">
+            <label for="inputEmail4" class="form-label">Resumen de historia clinica</label>
+            <textarea name="resumenHC" class="form-control" required></textarea>
+        </div>
+        <div class="col-md-4">
+            <label for="inputState" class="form-label">Obra Social</label>
+            <select id="inputState" class="form-select">
+                <option selected>Seleccionar</option>
+                {% for obra in obrasSociales %}
+                <option value={{obra.id}}> {{obra.nombre}} </option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-md-4">
+            <label for="inputEmail4" class="form-label">Numero de afiliado</label>
+            <input type="number" name="dni" class="form-control" required>
+        </div>
+        <div class="col-12">
+            <button type="submit" class="btn btn-primary">Alta de paciente</button>
+        </div>
+    </form>
+</div>
+<a href="{{ url_for('empleado_index') }}" class="btn btn-outline-secondary">Volver</a>
+
+
+
+{% endblock %}
+{% block scripts %}
+
+<link href="vendor/select2/dist/css/select2.min.css" rel="stylesheet" />
+<script src="vendor/select2/dist/js/select2.min.js"></script>
+<script> $(document).ready(function () {
+        $('#descriptionItem').select2();
+    });</script>
+{% endblock %}

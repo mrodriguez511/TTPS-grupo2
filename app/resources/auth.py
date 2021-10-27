@@ -30,13 +30,9 @@ def authenticate():
     flash("La sesión se inició correctamente.")
 
     if user.rol == 1:
-        users = db.session.query(User).all()
-        return render_template("user/index.html", users=users)
+        return redirect(url_for("user_index"))
 
-    users = db.session.query(User).all()
-    return render_template("empleados/index.html", users=users)
-
-    return redirect(url_for("home"))
+    return redirect(url_for("empleado_index"))
 
 
 def logout():

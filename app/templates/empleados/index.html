@@ -5,9 +5,12 @@
 {% endblock %}
 {% block content %}
 <h1>Home de empleado </h1>
-<a href="{{ url_for('home') }}" class="btn btn-outline-secondary">Volver</a>
-{% if (has_permission(session["id"],"user_new")) %}
-<a href="{{ url_for('user_new') }}" class="btn btn-outline-success">Nuevo</a>
-{% endif %}
+{#<a href="{{ url_for('home') }}" class="btn btn-outline-secondary">Volver</a>
+% if (has_permission(session["id"],"user_new")) %#}
+<a href="{{ url_for('estudio_new') }}" class="btn btn-outline-success">Alta de estudio</a>
+{#% endif %#}
 
 {% endblock %}
+
+
+{#https://developer.snapappointments.com/bootstrap-select/ selector con busqueda#}
