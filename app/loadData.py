@@ -1,6 +1,8 @@
 # from flask import session
+import datetime
 from app.db import db
-from app.models.punto_encuentro import TipoEstudio
+from app.models.medicoDerivante import MedicoDerivante
+from app.models.punto_encuentro import Paciente, TipoEstudio, ObraSocial
 
 
 def cargarDatos():
@@ -84,6 +86,9 @@ def carga():
     db.session.add(usuario5)
     db.session.add(usuario6)
     cargarConfig()
+    cargarObrasSociales()
+    cargarPacientes()
+    cargarMedicosDerivantes()
     cargarPermisos(rol1, rol2)
     cargarPuntosDeEncuentro()
     cargarTiposDeEstudio()
@@ -98,6 +103,60 @@ def cargarConfig():
         paginado=10, paleta_AppPublica=1, paleta_AppPrivada=1, ordenacion=True
     )
     db.session.add(config)
+
+
+def cargarMedicosDerivantes():
+    medicosDerivantes = [
+        MedicoDerivante("medicoDerivante1", "uno", 1234, "medicoDerivante1@gmail.com"),
+        MedicoDerivante("medicoDerivante2", "dos", 2345, "medicoDerivante2@gmail.com"),
+        MedicoDerivante("medicoDerivante3", "tres", 3456, "medicoDerivante3@gmail.com"),
+        MedicoDerivante(
+            "medicoDerivante4", "cuatro", 4567, "medicoDerivante4@gmail.com"
+        ),
+    ]
+
+
+def cargarObrasSociales():
+    obrasSociales = [
+        ObraSocial("IOMA"),
+        ObraSocial("OSPE"),
+        ObraSocial("Swiss Medical"),
+        ObraSocial("OSDE"),
+    ]
+
+    for obraSocial in obrasSociales:
+        db.session.add(obraSocial)
+
+
+def cargarPacientes():
+    fecha1 = datetime.date(2000, 5, 17)
+    fecha2 = datetime.date(2005, 6, 10)
+
+    pacientes = [
+        Paciente(
+            "Paciente1",
+            "uno",
+            4444,
+            fecha1,
+            "paciente1@gmail.com",
+            1111,
+            "El paciente presenta multiples fracturas desde niño",
+            12345,
+            1,
+        ),
+        Paciente(
+            "Paciente2",
+            "dos",
+            2222,
+            fecha2,
+            "paciente2@gmail.com",
+            54321,
+            "El paciente presenta alteraciones detectadas en su primer año de vida",
+        ),
+    ]
+
+    for paciente in pacientes:
+        db.session.add(paciente)
 
 
 def cargarPermisos(rol1, rol2):

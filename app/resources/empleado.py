@@ -5,7 +5,7 @@ from app.helpers.auth import authenticated
 from app.db import db
 from app.helpers.check import check_permission
 from datetime import datetime
-import pdfkit
+#import pdfkit
 
 # Protected resources
 def index():

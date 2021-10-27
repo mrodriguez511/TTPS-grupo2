@@ -3,7 +3,7 @@ from app.db import db
 from sqlalchemy.orm import relationship
 
 
-class obraSocial(db.Model):
+class ObraSocial(db.Model):
 
     __tablename__ = "obrasSociales"
     id = Column(Integer, primary_key=True, autoincrement=True)
