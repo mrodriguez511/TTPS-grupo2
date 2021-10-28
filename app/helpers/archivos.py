@@ -10,7 +10,7 @@ def generar_factura(estudio):
     html = render_template("pdfs/presupuesto.html", estudio="asdasdas")
     # html = render_template("pdfs/presupuesto.html", estudio=estudio)
 
-    ruta_archivo = "archivos/facturas/factura_" + "555" + ".pdf"
+    ruta_archivo = "app/static/archivos/facturas/factura_" + "555" + ".pdf"
     # ruta_archivo = "archivos/facturas/factura_" + estudio.id + ".pdf"
 
     pdfkit.from_string(html, ruta_archivo, configuration=config)

@@ -58,18 +58,29 @@ def create_app(environment="development"):
 
     # Rutas de Empleado
     app.add_url_rule("/empleado", "empleado_index", empleado.index)
+
+    # estudio estado 0
+    app.add_url_rule("/empleado/nuevo_estudio", "estudio_new", empleado.new_estudio)
     app.add_url_rule(
         "/empleado/nuevo_estudio",
         "estudio_create",
         empleado.create_estudio,
         methods=["POST"],
     )
-    app.add_url_rule("/empleado/nuevo_estudio", "estudio_new", empleado.new_estudio)
     app.add_url_rule("/empleado/nuevo_paciente", "paciente_new", empleado.new_paciente)
     app.add_url_rule(
         "/empleado/nuevo_paciente",
         "paciente_create",
         empleado.create_paciente,
+        methods=["POST"],
+    )
+
+    # estudio estado 1
+    app.add_url_rule("/empleado/estudio1", "estudio_estado1", empleado.estudio_estado1)
+    app.add_url_rule(
+        "/empleado/estudio1",
+        "estudio_estado1_carga",
+        empleado.estudio_estado1_carga,
         methods=["POST"],
     )
 

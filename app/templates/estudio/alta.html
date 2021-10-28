@@ -21,14 +21,6 @@
             {% for paciente in pacientes %}
             <option value={{paciente.id}} data-subtext="{{paciente.dni}}"> {{paciente.nombre}} </option>
             {% endfor %}
-
-            {#<option value=" Espresso">Espresso</option>
-            <option value="Americano">Americano</option>
-            <option value="Mocha">Mocha</option>
-            <option value="Capuccino">Capuccino</option>
-            <option value="Affogato">Affogato</option>
-            <option value="Long Black">Long Black</option>
-            <option value="Macchiato">Macchiato</option>#}
         </select>
     </div>
 
@@ -66,8 +58,8 @@
         </select>
     </div>
     <div class="col-md-4">
-        <label for="inputEmail4" class="form-label">Numero de afiliado</label>
-        <input type="number" name="dni" class="form-control" required>
+        <label for="inputEmail4" class="form-label">Presupuesto</label>
+        <input type="number" name="presupuesto" class="form-control" autocomplete="off" required>
     </div>
 
     <div class="col-12">
