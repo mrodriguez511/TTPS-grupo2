@@ -17,18 +17,18 @@
 
         <select name="paciente" class="selectpicker" data-show-subtext="true" data-live-search="true"
             aria-placeholder="seleccionar paciente">
+            <option selected>Seleccionar</option>
             {% for paciente in pacientes %}
             <option value={{paciente.id}} data-subtext="{{paciente.dni}}"> {{paciente.nombre}} </option>
             {% endfor %}
-            <option selected>Seleccionar</option>
 
-            <option value=" Espresso">Espresso</option>
+            {#<option value=" Espresso">Espresso</option>
             <option value="Americano">Americano</option>
             <option value="Mocha">Mocha</option>
             <option value="Capuccino">Capuccino</option>
             <option value="Affogato">Affogato</option>
             <option value="Long Black">Long Black</option>
-            <option value="Macchiato">Macchiato</option>
+            <option value="Macchiato">Macchiato</option>#}
         </select>
     </div>
 
@@ -42,8 +42,8 @@
         <label for="inputState" class="form-label">Medico derivante</label>
         <select name="medicoDerivante" class="selectpicker" data-show-subtext="true" data-live-search="true">
             <option selected>Seleccionar</option>
-            {% for medicoDer in medicoDers %}
-            <option value={{medicoDer.id}}> {{medicoDer.nombre}} </option>
+            {% for medico in medicos %}
+            <option value={{medico.id}}> {{medico.nombre}} </option>
             {% endfor %}
         </select>
     </div>
@@ -64,6 +64,10 @@
             <option value={{tipo.id}}> {{tipo.nombre}} </option>
             {% endfor %}
         </select>
+    </div>
+    <div class="col-md-4">
+        <label for="inputEmail4" class="form-label">Numero de afiliado</label>
+        <input type="number" name="dni" class="form-control" required>
     </div>
 
     <div class="col-12">
