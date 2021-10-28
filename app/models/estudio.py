@@ -1,6 +1,7 @@
+from app.models.estado import Estado
 from app.models.rol import Rol
 from app.models.permiso import Permiso
-from sqlalchemy import Column, Integer, String, Boolean, Date, and_, ForeignKey
+from sqlalchemy import Column, Integer, String, Boolean, Date, ForeignKey
 from datetime import datetime
 from app.db import db
 from sqlalchemy.orm import relationship
@@ -17,33 +18,34 @@ class Estudio(db.Model):
     paciente = Column(Integer, ForeignKey("pacientes.id"))
     empleado = Column(Integer, ForeignKey("users.id"))
     diagnosticoPresuntivo = Column(Integer, ForeignKey("diagnosticosPresuntivos.id"))
-    resultado_id = Column(Integer, ForeignKey("resultados.id"))
+    presupuesto = Column(Integer)
+    resultado_id = Column(Integer, ForeignKey("resultados.id"), nullable=True)
     resultado = relationship("Resultado")
-    extraccion_id = Column(Integer, ForeignKey("extracciones.id"))
+    extraccion_id = Column(Integer, ForeignKey("extracciones.id"), nullable=True)
     extraccion = relationship("Extraccion")
-    estadoActual = nroAfiliado = Column(String(30), nullable=True)
-
-
-"""
-Estados
-
-"""
+    estadoActual = Column(Integer, nullable=True)
+    estados = relationship("Estado")
 
 
 def __init__(
     self,
-    first_name=None,
-    last_name=None,
-    dni=None,
-    email=None,
-    password=None,
-    rol=None,
+    tipoEstudio=None,
+    medicoDerivante=None,
+    paciente=None,
+    empleado=None,
+    diagnosticoPresuntivo=None,
+    presupuesto=None,
 ):
-    self.first_name = first_name
-    self.last_name = last_name
-    self.dni = dni
-    self.email = email
-    self.password = password
-    self.borrado = False
-    self.rol = rol
-    # presupuesto= tipoEstudio.precioEstudio
+    self.tipoEstudio = tipoEstudio
+    self.medicoDerivante = medicoDerivante
+    self.paciente = paciente
+    self.empleado = empleado
+    self.diagnosticoPresuntivo = diagnosticoPresuntivo
+    self.presupuesto = presupuesto
+    self.fecha = Date.today()
+    self.retrasado = False
+    self.anulado = False
+    self.estadoActual = 1
+
+    estado1 = Estado(1, empleado, self)
+    self.estados = [estado1]

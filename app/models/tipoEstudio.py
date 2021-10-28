@@ -9,8 +9,6 @@ class TipoEstudio(db.Model):
     id = Column(Integer, primary_key=True, autoincrement=True)
     nombre = Column(String(50), unique=True)
     consentimientoInformado = Column(String(300))
-    precioEstudio = Column(Integer)
-    precioExtraccion = Column(Integer)
     estudios = relationship("Estudio")
 
     def __init__(
