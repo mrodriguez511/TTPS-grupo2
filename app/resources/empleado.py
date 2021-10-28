@@ -40,34 +40,26 @@ def new_paciente():
 
 
 def create_paciente():
+
     """función para alta de paciente"""
 
-    """if not authenticated(session):
+    if not authenticated(session):
         abort(401)
-    if not check_permission(session["id"], "user_create"):
+    """if not check_permission(session["id"], "user_create"):
         abort(401)"""
 
-    # con los asteriscos convierto los parametros del diccionario, a parametros separados que requiere mi constructor
     params = request.form
+    paciente = Paciente.query.filter(
+        Paciente.dni == params["dni"] or Paciente.email == params["email"]
+    ).first()
+    if paciente:
+        flash("Ya existe un paciente con el DNI o email ingresado")
+        return redirect(url_for("paciente_new"))
 
-    """ chequear datos que no se pueden repetir
-    user = User.query.filter(User.email == params["email"]).first()
-    if user:
-        flash("El Email ingresado ya existe")
-        return redirect(url_for("user_new"))"""
+    new_paciente = Paciente(**request.form)
 
-    """ consulta para agregar a la base
-    new_user = User(
-        first_name=params["first_name"],
-        last_name=params["last_name"],
-        dni=params["dni"],
-        email=params["email"],
-        password=params["password"],
-        rol=2,
-    )
-
-    db.session.add(new_user)
-    db.session.commit()"""
+    db.session.add(new_paciente)
+    db.session.commit()
 
     return redirect(url_for("estudio_new"))
 
