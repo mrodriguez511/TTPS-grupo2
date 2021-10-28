@@ -203,7 +203,7 @@ class Estudio(db.Model):
         self.anulado = False
         self.estadoActual = 1
 
-        estado1 = Estado(1, empleado, self)
+        estado1 = Estado(1, empleado, self.id)
         self.estados = [estado1]
 
 
