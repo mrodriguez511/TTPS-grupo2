@@ -1,7 +1,7 @@
 from app.models.estado import Estado
 from app.models.rol import Rol
 from app.models.permiso import Permiso
-from sqlalchemy import Column, Integer, String, Boolean, Date, ForeignKey
+from sqlalchemy import Column, Integer, String, Boolean, Date, ForeignKey, DateTime
 from datetime import datetime
 from app.db import db
 from sqlalchemy.orm import relationship
@@ -21,10 +21,19 @@ class Estudio(db.Model):
     presupuesto = Column(Integer)
     resultado_id = Column(Integer, ForeignKey("resultados.id"), nullable=True)
     resultado = relationship("Resultado")
-    extraccion_id = Column(Integer, ForeignKey("extracciones.id"), nullable=True)
-    extraccion = relationship("Extraccion")
     estadoActual = Column(Integer, nullable=True)
     estados = relationship("Estado")
+    factura = Column(String(100), nullable=True)
+    comprobanteFactura = Column(String(100), nullable=True)
+    consentimientoFirmado = Column(String(100), nullable=True)
+    empleadoMuestra = Column(String(100), nullable=True)
+    urlResultado = Column(String(100), nullable=True)
+    turno = Column(DateTime, nullable=True)
+    muestra_ml = Column(Integer, nullable=True)
+    muestra_freezer = Column(Integer, nullable=True)
+    resultadoEnviado = Column(Boolean, nullable=True)
+    extraccionAbonada = Column(Boolean, nullable=True)
+    lote=Column(Integer, ForeignKey("lotes.id"))
 
 
 def __init__(

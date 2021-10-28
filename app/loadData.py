@@ -205,24 +205,22 @@ def cargarPermisos(rol1, rol2):
 
 def cargarTiposDeEstudio():
     tiposDeEstudio = [
-        TipoEstudio("Exoma", "Este es el consentimiento del estudio Exoma", 2000, 200),
+        TipoEstudio("Exoma", "Este es el consentimiento del estudio Exoma"),
         TipoEstudio(
             "Genoma mitocondrial completo",
             "Este es el consentimiento del estudio Genoma mitocondrial completo",
-            3000,
-            300,
         ),
         TipoEstudio(
             "Carrier de enfermedades monogénicas recesivas",
             "Este es el consentimiento del estudio Carrier de enfermedades monogénicas recesivas",
-            4000,
-            400,
         ),
         TipoEstudio(
-            "Cariotipo", "Este es el consentimiento del estudio Cariotipo", 5000, 500
+            "Cariotipo",
+            "Este es el consentimiento del estudio Cariotipo",
         ),
         TipoEstudio(
-            "Array CGH", "Este es el consentimiento del estudio Array CGH", 6000, 600
+            "Array CGH",
+            "Este es el consentimiento del estudio Array CGH",
         ),
     ]
 
@@ -316,7 +314,7 @@ def cargarPuntosDeEncuentro():
 
 
 def cargarDiagonosticos():
-    with open("F:/FACU/Taller/ttps/archivos/Patologias.csv") as data_set:
+    with open("archivos/Patologias.csv") as data_set:
         reader = csv.reader(data_set)
         encabezado = next(reader)
         for fila in reader:

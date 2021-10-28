@@ -15,10 +15,6 @@ class TipoEstudio(db.Model):
         self,
         nombre=None,
         consentimientoInformado=None,
-        precioEstudio=None,
-        precioExtraccion=None,
     ):
         self.nombre = nombre
         self.consentimientoInformado = consentimientoInformado
-        self.precioEstudio = precioEstudio
-        self.precioExtraccion = precioExtraccion
