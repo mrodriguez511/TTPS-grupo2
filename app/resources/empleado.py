@@ -2,11 +2,14 @@ from flask import redirect, render_template, request, url_for, session, abort, f
 from app.helpers.archivos import generar_factura
 from app.models.user import User
 from app.models.rol import Rol
+
+from app.models.punto_encuentro import Paciente, MedicoDerivante
 from app.helpers.auth import authenticated
 from app.db import db
 from app.helpers.check import check_permission
 from datetime import datetime
-#import pdfkit
+
+# import pdfkit
 
 # Protected resources
 def index():
@@ -28,7 +31,10 @@ def new_estudio():
     """if not check_permission(session["id"], "user_new"):
         abort(401)"""
 
-    return render_template("estudio/alta.html")
+    pacientes = Paciente.query.all()
+    medicos = MedicoDerivante.query.all()
+
+    return render_template("estudio/alta.html", pacientes=pacientes,medicos=medicos)
 
 
 def new_paciente():
@@ -109,6 +115,7 @@ def create_estudio():
     config = pdfkit.configuration(wkhtmltopdf=path_wkthmltopdf)
 
     pdfkit.from_string(html, "archivos/SOF.pdf", configuration=config)"""
+
     generar_factura("asdasd")
     # pdfkit.from_string("Hello!", "archivos/out.pdf", configuration=config)
 

@@ -1,6 +1,7 @@
 # from flask import session
 import datetime
 from app.db import db
+import csv
 
 # from app.models.medicoDerivante import MedicoDerivante
 from app.models.punto_encuentro import (
@@ -8,6 +9,7 @@ from app.models.punto_encuentro import (
     TipoEstudio,
     ObraSocial,
     MedicoDerivante,
+    DiagnosticoPresuntivo,
 )
 
 
@@ -98,6 +100,7 @@ def carga():
     cargarPermisos(rol1, rol2)
     cargarPuntosDeEncuentro()
     cargarTiposDeEstudio()
+    cargarDiagonosticos()
 
     db.session.commit()
 
@@ -310,3 +313,11 @@ def cargarPuntosDeEncuentro():
     db.session.add(punto_encuentro7)
     db.session.add(punto_encuentro7)
     db.session.add(punto_encuentro9)
+
+
+def cargarDiagonosticos():
+    with open("F:/FACU/Taller/ttps/archivos/Patologias.csv") as data_set:
+        reader = csv.reader(data_set)
+        encabezado = next(reader)
+        for fila in reader:
+            db.session.add(DiagnosticoPresuntivo(nombre=fila))
