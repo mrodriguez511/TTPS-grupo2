@@ -1,6 +1,9 @@
 import pdfkit
 import os
 from flask import render_template, current_app, request, url_for, session, abort, flash
+from app.models.punto_encuentro import TipoEstudio
+from app.models.punto_encuentro import Paciente
+from app.models.estudio import Estudio
 
 
 def generar_factura(estudio):
@@ -8,13 +11,19 @@ def generar_factura(estudio):
     path_wkthmltopdf = "C:/Program Files/wkhtmltopdf/bin/wkhtmltopdf.exe"
     config = pdfkit.configuration(wkhtmltopdf=path_wkthmltopdf)
 
-    html = render_template("pdfs/presupuesto.html", estudio="asdasdas")
-    # html = render_template("pdfs/presupuesto.html", estudio=estudio)
+    tipoEstudio = TipoEstudio.query.filter(
+        TipoEstudio.id == estudio.tipoEstudio
+    ).first()
+    paciente = Paciente.query.filter(Paciente.id == estudio.paciente).first()
+    html = render_template(
+        "pdfs/presupuesto.html", estudio=estudio, tipo=tipoEstudio, receptor=paciente
+    )
     ruta = current_app.config["UPLOADED_FACTURAS_DEST"]
-    ruta_archivo = os.path.join(ruta, "factura_" + "555" + ".pdf")
-    # ruta_archivo = "archivos/facturas/factura_" + estudio.id + ".pdf"
+    ruta_archivo = os.path.join(ruta, "presupuesto_" + str(estudio.id) + ".pdf")
 
     pdfkit.from_string(html, ruta_archivo, configuration=config)
+
+    return ruta_archivo
 
 
 # https://stackoverflow.com/questions/52721272/python-3-flask-install-wkhtmltopdf-on-heroku

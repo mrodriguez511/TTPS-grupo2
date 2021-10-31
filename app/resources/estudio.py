@@ -1,8 +1,18 @@
-from flask import redirect, render_template, request, url_for, session, abort, flash
+from flask import (
+    redirect,
+    render_template,
+    request,
+    url_for,
+    session,
+    abort,
+    flash,
+    current_app,
+)
 from app.helpers.archivos import generar_factura
 from app.models.estudio import Estudio
 from app.models.user import User
 from app.models.rol import Rol
+import os
 
 from app.models.punto_encuentro import (
     Paciente,
@@ -70,20 +80,10 @@ def create_estudio():
         diagnosticoPresuntivo=params["diagnostico"],
         presupuesto=params["presupuesto"],
     )
-
+    new_estudio.archivoPresupuesto = generar_factura(new_estudio)
+   
     db.session.add(new_estudio)
     db.session.commit()
-
-    """html = render_template("pdfs/presupuesto.html", estudio="ssdfsdfsd")
-    nombre_archivo = "archivos/factura_"+ params.estudio.id;
-    path_wkthmltopdf = "C:/Program Files/wkhtmltopdf/bin/wkhtmltopdf.exe"
-
-    config = pdfkit.configuration(wkhtmltopdf=path_wkthmltopdf)
-
-    pdfkit.from_string(html, "archivos/SOF.pdf", configuration=config)"""
-
-    generar_factura(new_estudio)
-    # pdfkit.from_string("Hello!", "archivos/out.pdf", configuration=config)
 
     return redirect(url_for("estudio_estado1"))
 
@@ -96,6 +96,8 @@ def estudio_estado1():
         abort(401)"""
     estudio = "555"
 
+    ruta = current_app.config["UPLOADED_FACTURAS_DEST"]
+    ruta_archivo = os.path.join(ruta, "factura_" + str(estudio.id) + ".pdf")
     # factura = os.path.join(current_app.root_path, app.config["UPLOAD_FOLDER"])
     factura = "archivos/facturas/factura_" + "555" + ".pdf"
     return render_template("estudio/estado1.html", estudio=estudio, factura=factura)
