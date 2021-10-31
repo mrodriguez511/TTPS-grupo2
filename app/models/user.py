@@ -1,5 +1,4 @@
 from app.models.rol import Rol
-from app.models.permiso import Permiso
 from sqlalchemy import Column, Integer, String, Boolean, DateTime, and_, ForeignKey
 from datetime import datetime
 from app.db import db
@@ -33,17 +32,3 @@ class User(db.Model):
         self.password = password
         self.borrado = False
         self.rol = rol
-
-    @classmethod
-    def has_permission(cls, user_id, permission):
-
-        permiso = (
-            db.session.query(User, Rol, Permiso)
-            .join(User)
-            .join(Rol.permisos)
-            .filter(and_(User.id == user_id, Permiso.name == permission))
-            .first()
-        )
-        if not permiso:
-            return False
-        return True

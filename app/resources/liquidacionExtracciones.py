@@ -10,8 +10,8 @@ def index():
     if not authenticated(session):
         abort(401)
 
-    """if not check_permission(session["id"], "liquidacionExtracciones_index"):
-        abort(401)"""
+    if not (session["rol"] == 2):
+        abort(401)
 
     estudios = Estudio.query.filter(
         Estudio.extraccionAbonada == False, Estudio.muestra_ml == null

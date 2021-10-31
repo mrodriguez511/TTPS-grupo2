@@ -56,7 +56,6 @@ def carga():
     cargarObrasSociales()
     cargarPacientes()
     cargarMedicosDerivantes()
-    cargarPermisos(rol1, rol2)
     cargarPuntosDeEncuentro()
     cargarTiposDeEstudio()
     cargarDiagonosticos()
@@ -128,38 +127,6 @@ def cargarPacientes():
 
     for paciente in pacientes:
         db.session.add(paciente)
-
-
-def cargarPermisos(rol1, rol2):
-    from app.models.permiso import Permiso
-
-    permisos_empleado = [
-        Permiso(name="paciente_create"),
-        Permiso(name="paciente_new"),
-        Permiso(name="paciente_update"),
-        Permiso(name="paciente_edit"),
-        Permiso(name="paciente_delete"),
-        Permiso(name="estudio_create"),
-        Permiso(name="estudio_new"),
-        Permiso(name="estudio_update"),
-        Permiso(name="estudio_edit"),
-        Permiso(name="estudio_delete"),
-    ]
-    permisos_admin = [
-        Permiso(name="user_create"),
-        Permiso(name="user_new"),
-        Permiso(name="user_update"),
-        Permiso(name="user_edit"),
-        Permiso(name="user_delete"),
-    ]
-
-    for per in permisos_admin:
-        db.session.add(per)
-    for per in permisos_empleado:
-        db.session.add(per)
-
-    rol1.permisos = permisos_admin
-    rol2.permisos = permisos_empleado
 
 
 def cargarTiposDeEstudio():

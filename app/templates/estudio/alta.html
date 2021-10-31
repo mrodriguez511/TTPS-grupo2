@@ -19,7 +19,7 @@
             aria-placeholder="seleccionar paciente">
             <option selected>Seleccionar</option>
             {% for paciente in pacientes %}
-            <option value={{paciente.id}} data-subtext="{{paciente.dni}}"> {{paciente.nombre}} </option>
+            <option value={{paciente.id}}> {{paciente.nombre}} </option>
             {% endfor %}
         </select>
     </div>
@@ -67,7 +67,7 @@
     </div>
 </form>
 
-<a href="{{ url_for('empleado_index') }}" class="btn btn-outline-secondary mt-5">Volver</a>
+<a href="{{ url_for('estudio_index') }}" class="btn btn-outline-secondary mt-5">Volver</a>
 
 
 
