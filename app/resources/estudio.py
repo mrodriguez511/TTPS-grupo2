@@ -66,9 +66,9 @@ def create_estudio():
         tipoEstudio=params["tipoEstudio"],
         medicoDerivante=params["medicoDerivante"],
         paciente=params["paciente"],
+        empleado=session["id"],
         diagnosticoPresuntivo=params["diagnostico"],
         presupuesto=params["presupuesto"],
-        empleado=session["id"],
     )
 
     db.session.add(new_estudio)
