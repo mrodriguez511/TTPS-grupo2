@@ -22,15 +22,16 @@
             estudio ~ ".pdf" }}>Descargar
             factura </a>
     </div>
-    <div class="col-12 mb-3">
-        <label for="formFile" class="form-label">Default file input example</label>
-        <input class="form-control" type="file" id="formFile">
+    <div class="col-md-8">
+        <label for="formFile" class="form-label">Cargar comprobante de pago del paciente</label>
+        <input class="form-control" type="file" id="formFile" placeholder="Seleccione un archivo"
+            onchange="archivoCargado()">
     </div>
 
 
 
     <div class="col-12">
-        <button type="submit" class="btn btn-primary">Generar presupuesto</button>
+        <button id="btn-enviar" type="submit" class="btn btn-primary" disabled>Siguiente</button>
     </div>
 </form>
 
@@ -45,15 +46,16 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.3/js/bootstrap-select.min.js"></script>
 
-{#
 <script type="text/javascript">
-    $(window).on('load', function () {
-
-        $('.selectpicker').selectpicker({
-            'selectedText': 'cat'
-        });
-
+    var files = document.getElementById('formFile');
+    var submit = document.getElementById('btn-enviar');
+    files.addEventListener("change", function () {
+        if (files.files.length) {
+            submit.disabled = false;
+            return;
+        }
+        submit.disabled = true;
     });
-</script>#}
+</script>
 
 {% endblock %}
