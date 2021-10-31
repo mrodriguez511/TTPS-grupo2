@@ -26,11 +26,9 @@ def carga():
 
     rol1 = Rol(name="administrador")
     rol2 = Rol(name="empleado")
-    rol3 = Rol(name="medicoInformante")
 
     db.session.add(rol1)
     db.session.add(rol2)
-    db.session.add(rol3)
 
     db.session.commit()
 
@@ -52,47 +50,8 @@ def carga():
         rol=2,
     )
 
-    usuario3 = User(
-        first_name="medicoInformante",
-        last_name="uno",
-        dni=11111111,
-        email="medicoInformante1@gmail.com",
-        password="123",
-        rol=3,
-    )
-
-    usuario4 = User(
-        first_name="medicoInformante",
-        last_name="dos",
-        dni=11111112,
-        email="medicoInformante2@gmail.com",
-        password="123",
-        rol=3,
-    )
-
-    usuario5 = User(
-        first_name="medicoInformante",
-        last_name="tres",
-        dni=11111113,
-        email="medicoInformante3@gmail.com",
-        password="123",
-        rol=3,
-    )
-    usuario6 = User(
-        first_name="medicoInformante",
-        last_name="cuatro",
-        dni=11111114,
-        email="medicoInformante4@gmail.com",
-        password="123",
-        rol=3,
-    )
-
     db.session.add(usuario1)
     db.session.add(usuario2)
-    db.session.add(usuario3)
-    db.session.add(usuario4)
-    db.session.add(usuario5)
-    db.session.add(usuario6)
     cargarConfig()
     cargarObrasSociales()
     cargarPacientes()
