@@ -3,16 +3,11 @@ from flask import Flask, render_template, g, Blueprint
 from flask_session import Session
 from config import config
 from app import db
-from app.resources import user
-from app.resources import empleado
+from app.resources import empleado, estudio, paciente
 from app.resources import auth
 from app.resources import configuracion
-from app.resources import punto_encuentro
-
-# from app.resources.api.issue import issue_api
 from app.helpers import handler
 from app.helpers import auth as helper_auth
-from app.helpers import check as helper_check
 from app.helpers import config as helper_config
 import logging
 
@@ -38,7 +33,6 @@ def create_app(environment="development"):
 
     # Funciones que se exportan al contexto de Jinja2
     app.jinja_env.globals.update(is_authenticated=helper_auth.authenticated)
-    app.jinja_env.globals.update(has_permission=helper_check.check_permission)
     app.jinja_env.globals.update(global_settings=helper_config.check_config)
 
     # Autenticación
@@ -48,72 +42,44 @@ def create_app(environment="development"):
         "/autenticacion", "auth_authenticate", auth.authenticate, methods=["POST"]
     )
 
-    # Rutas de Usuarios
-    app.add_url_rule("/admin", "user_index", user.index)
-    app.add_url_rule("/admin", "user_create", user.create, methods=["POST"])
-    app.add_url_rule("/admin/nuevo", "user_new", user.new)
-    app.add_url_rule("/admin/update", "user_update", user.update, methods=["POST"])
-    app.add_url_rule("/admin/edit", "user_edit", user.edit)
-    app.add_url_rule("/admin/delete", "user_delete", user.delete, methods=["GET"])
+    # Rutas de Admin
+    app.add_url_rule("/admin", "empleado_index", empleado.index)
+    app.add_url_rule("/admin", "empleado_create", empleado.create, methods=["POST"])
+    app.add_url_rule("/admin/nuevo", "empleado_new", empleado.new)
+    app.add_url_rule(
+        "/admin/update", "empleado_update", empleado.update, methods=["POST"]
+    )
+    app.add_url_rule("/admin/edit", "empleado_edit", empleado.edit)
+    app.add_url_rule(
+        "/admin/delete", "empleado_delete", empleado.delete, methods=["GET"]
+    )
 
     # Rutas de Empleado
-    app.add_url_rule("/empleado", "empleado_index", empleado.index)
+    app.add_url_rule("/empleado", "estudio_index", estudio.index)
 
     # estudio estado 0
-    app.add_url_rule("/empleado/nuevo_estudio", "estudio_new", empleado.new_estudio)
+    app.add_url_rule("/empleado/nuevo_estudio", "estudio_new", estudio.new_estudio)
     app.add_url_rule(
         "/empleado/nuevo_estudio",
         "estudio_create",
-        empleado.create_estudio,
+        estudio.create_estudio,
         methods=["POST"],
     )
-    app.add_url_rule("/empleado/nuevo_paciente", "paciente_new", empleado.new_paciente)
+    app.add_url_rule("/empleado/nuevo_paciente", "paciente_new", paciente.new_paciente)
     app.add_url_rule(
         "/empleado/nuevo_paciente",
         "paciente_create",
-        empleado.create_paciente,
+        paciente.create_paciente,
         methods=["POST"],
     )
 
     # estudio estado 1
-    app.add_url_rule("/empleado/estudio1", "estudio_estado1", empleado.estudio_estado1)
+    app.add_url_rule("/empleado/estudio1", "estudio_estado1", estudio.estudio_estado1)
     app.add_url_rule(
         "/empleado/estudio1",
         "estudio_estado1_carga",
-        empleado.estudio_estado1_carga,
+        estudio.estudio_estado1_carga,
         methods=["POST"],
-    )
-
-    # Rutas Puntos de encuentro
-    app.add_url_rule("/puntoencuentro", "punto_encuentro_index", punto_encuentro.index)
-    app.add_url_rule(
-        "/puntoencuentro",
-        "punto_encuentro_create",
-        punto_encuentro.create,
-        methods=["POST"],
-    )
-    app.add_url_rule(
-        "/puntoencuentro/nuevo", "punto_encuentro_new", punto_encuentro.new
-    )
-    app.add_url_rule(
-        "/puntoencuentro/update",
-        "punto_encuentro_update",
-        punto_encuentro.update,
-        methods=["POST"],
-    )
-    app.add_url_rule(
-        "/puntoencuentro/edit", "punto_encuentro_edit", punto_encuentro.edit
-    )
-    app.add_url_rule(
-        "/puntoencuentro/delete",
-        "punto_encuentro_destroy",
-        punto_encuentro.destroy,
-        methods=["GET"],
-    )
-    app.add_url_rule(
-        "/puntoencuentro/state",
-        "punto_encuentro_swichtstate",
-        punto_encuentro.swichtstate,
     )
 
     # Rutas de configuracion
