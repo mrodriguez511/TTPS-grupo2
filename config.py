@@ -31,7 +31,7 @@ class ProductionConfig(Config):
 
 class DevelopmentConfig(Config):
     """Development configuration."""
-
+    UPLOAD_FOLDER = '/tmp'
     DB_HOST = environ.get("DB_HOST", "localhost")
     DB_USER = environ.get("DB_USER", "MY_DB_USER")
     DB_PASS = environ.get("DB_PASS", "MY_DB_PASS")

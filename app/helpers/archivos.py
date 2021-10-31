@@ -1,5 +1,6 @@
 import pdfkit
-from flask import render_template, request, url_for, session, abort, flash
+import os
+from flask import render_template, current_app, request, url_for, session, abort, flash
 
 
 def generar_factura(estudio):
@@ -9,8 +10,8 @@ def generar_factura(estudio):
 
     html = render_template("pdfs/presupuesto.html", estudio="asdasdas")
     # html = render_template("pdfs/presupuesto.html", estudio=estudio)
-
-    ruta_archivo = "app/static/archivos/facturas/factura_" + "555" + ".pdf"
+    ruta = current_app.config["UPLOADED_FACTURAS_DEST"]
+    ruta_archivo = os.path.join(ruta, "factura_" + "555" + ".pdf")
     # ruta_archivo = "archivos/facturas/factura_" + estudio.id + ".pdf"
 
     pdfkit.from_string(html, ruta_archivo, configuration=config)
