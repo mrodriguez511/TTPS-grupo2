@@ -1,6 +1,6 @@
-import datetime
+from datetime import datetime
 from app.models.estado import Estado
-from sqlalchemy import Column, Integer, String, Boolean, ForeignKey
+from sqlalchemy import Column, Integer, String, Boolean, DateTime, ForeignKey
 from app.db import db
 from sqlalchemy.orm import relationship
 
@@ -8,7 +8,7 @@ from sqlalchemy.orm import relationship
 class Estudio(db.Model):
     __tablename__ = "estudios"
     id = Column(Integer, primary_key=True, autoincrement=True)
-    fecha = Column(datetime, unique=False)
+    fecha = Column(DateTime, unique=False)
     retrasado = Column(Boolean)
     anulado = Column(Boolean)
     tipoEstudio = Column(Integer, ForeignKey("tiposEstudios.id"))
@@ -26,7 +26,7 @@ class Estudio(db.Model):
     consentimientoFirmado = Column(String(100), nullable=True)
     empleadoMuestra = Column(String(100), nullable=True)
     urlResultado = Column(String(100), nullable=True)
-    turno = Column(datetime, nullable=True)
+    turno = Column(DateTime, nullable=True)
     muestra_ml = Column(Integer, nullable=True)
     muestra_freezer = Column(Integer, nullable=True)
     resultadoEnviado = Column(Boolean, nullable=True)
