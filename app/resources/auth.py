@@ -30,9 +30,9 @@ def authenticate():
     flash("La sesión se inició correctamente.")
 
     if user.rol == 1:
-        return redirect(url_for("user_index"))
+        return redirect(url_for("empleado_index"))
 
-    return redirect(url_for("empleado_index"))
+    return redirect(url_for("estudio_index"))
 
 
 def logout():

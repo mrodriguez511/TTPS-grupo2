@@ -26,11 +26,9 @@ def carga():
 
     rol1 = Rol(name="administrador")
     rol2 = Rol(name="empleado")
-    rol3 = Rol(name="medicoInformante")
 
     db.session.add(rol1)
     db.session.add(rol2)
-    db.session.add(rol3)
 
     db.session.commit()
 
@@ -52,52 +50,12 @@ def carga():
         rol=2,
     )
 
-    usuario3 = User(
-        first_name="medicoInformante",
-        last_name="uno",
-        dni=11111111,
-        email="medicoInformante1@gmail.com",
-        password="123",
-        rol=3,
-    )
-
-    usuario4 = User(
-        first_name="medicoInformante",
-        last_name="dos",
-        dni=11111112,
-        email="medicoInformante2@gmail.com",
-        password="123",
-        rol=3,
-    )
-
-    usuario5 = User(
-        first_name="medicoInformante",
-        last_name="tres",
-        dni=11111113,
-        email="medicoInformante3@gmail.com",
-        password="123",
-        rol=3,
-    )
-    usuario6 = User(
-        first_name="medicoInformante",
-        last_name="cuatro",
-        dni=11111114,
-        email="medicoInformante4@gmail.com",
-        password="123",
-        rol=3,
-    )
-
     db.session.add(usuario1)
     db.session.add(usuario2)
-    db.session.add(usuario3)
-    db.session.add(usuario4)
-    db.session.add(usuario5)
-    db.session.add(usuario6)
     cargarConfig()
     cargarObrasSociales()
     cargarPacientes()
     cargarMedicosDerivantes()
-    cargarPermisos(rol1, rol2)
     cargarPuntosDeEncuentro()
     cargarTiposDeEstudio()
     cargarDiagonosticos()
@@ -171,58 +129,24 @@ def cargarPacientes():
         db.session.add(paciente)
 
 
-def cargarPermisos(rol1, rol2):
-    from app.models.permiso import Permiso
-
-    permisos_empleado = [
-        Permiso(name="paciente_create"),
-        Permiso(name="paciente_new"),
-        Permiso(name="paciente_update"),
-        Permiso(name="paciente_edit"),
-        Permiso(name="paciente_delete"),
-        Permiso(name="estudio_create"),
-        Permiso(name="estudio_new"),
-        Permiso(name="estudio_update"),
-        Permiso(name="estudio_edit"),
-        Permiso(name="estudio_delete"),
-    ]
-    permisos_admin = [
-        Permiso(name="user_create"),
-        Permiso(name="user_new"),
-        Permiso(name="user_update"),
-        Permiso(name="user_edit"),
-        Permiso(name="user_delete"),
-    ]
-
-    for per in permisos_admin:
-        db.session.add(per)
-    for per in permisos_empleado:
-        db.session.add(per)
-
-    rol1.permisos = permisos_admin
-    rol2.permisos = permisos_empleado
-
-
 def cargarTiposDeEstudio():
     tiposDeEstudio = [
-        TipoEstudio("Exoma", "Este es el consentimiento del estudio Exoma", 2000, 200),
+        TipoEstudio("Exoma", "Este es el consentimiento del estudio Exoma"),
         TipoEstudio(
             "Genoma mitocondrial completo",
             "Este es el consentimiento del estudio Genoma mitocondrial completo",
-            3000,
-            300,
         ),
         TipoEstudio(
             "Carrier de enfermedades monogénicas recesivas",
             "Este es el consentimiento del estudio Carrier de enfermedades monogénicas recesivas",
-            4000,
-            400,
         ),
         TipoEstudio(
-            "Cariotipo", "Este es el consentimiento del estudio Cariotipo", 5000, 500
+            "Cariotipo",
+            "Este es el consentimiento del estudio Cariotipo",
         ),
         TipoEstudio(
-            "Array CGH", "Este es el consentimiento del estudio Array CGH", 6000, 600
+            "Array CGH",
+            "Este es el consentimiento del estudio Array CGH",
         ),
     ]
 
@@ -316,7 +240,7 @@ def cargarPuntosDeEncuentro():
 
 
 def cargarDiagonosticos():
-    with open("F:/FACU/Taller/ttps/archivos/Patologias.csv") as data_set:
+    with open("archivos/Patologias.csv") as data_set:
         reader = csv.reader(data_set)
         encabezado = next(reader)
         for fila in reader:

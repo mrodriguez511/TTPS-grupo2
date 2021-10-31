@@ -1,62 +1,50 @@
 from flask import redirect, render_template, request, url_for, session, abort, flash
-from app.helpers.archivos import generar_factura
 from app.models.user import User
 from app.models.rol import Rol
-
-from app.models.punto_encuentro import (
-    Paciente,
-    MedicoDerivante,
-    DiagnosticoPresuntivo,
-    TipoEstudio,
-)
 from app.helpers.auth import authenticated
 from app.db import db
-from app.helpers.check import check_permission
 from datetime import datetime
-
-# import pdfkit
 
 # Protected resources
 def index():
-    """listado de estudios"""
+    """lista los usuarios del sistema"""
 
     if not authenticated(session):
         abort(401)
 
-    """if not check_permission(session["id"], "user_index"):
-        abort(401)"""
+    if not (session["rol"] == 1):  # rol admin
+        abort(401)
 
-    return render_template("empleados/index.html")
+    users = User.query.filter(User.borrado != True, User.id != session["id"]).all()
+    return render_template("admin/empleado_index.html", users=users)
 
 
-def new_paciente():
+def new():
     """permite acceder al formulario para alta de usuario"""
     if not authenticated(session):
         abort(401)
-    """if not check_permission(session["id"], "user_new"):
-        abort(401)"""
-
-    return render_template("estudio/alta_paciente.html")
-
-
-def create_paciente():
-    """función para alta de paciente"""
-
-    """if not authenticated(session):
+    if not (session["rol"] == 1):
         abort(401)
-    if not check_permission(session["id"], "user_create"):
-        abort(401)"""
+
+    return render_template("admin/empleado_new.html")
+
+
+def create():
+    """función para alta de usuario"""
+
+    if not authenticated(session):
+        abort(401)
+    if not (session["rol"] == 1):
+        abort(401)
 
     # con los asteriscos convierto los parametros del diccionario, a parametros separados que requiere mi constructor
     params = request.form
 
-    """ chequear datos que no se pueden repetir
     user = User.query.filter(User.email == params["email"]).first()
     if user:
         flash("El Email ingresado ya existe")
-        return redirect(url_for("user_new"))"""
+        return redirect(url_for("empleado_new"))
 
-    """ consulta para agregar a la base
     new_user = User(
         first_name=params["first_name"],
         last_name=params["last_name"],
@@ -67,92 +55,82 @@ def create_paciente():
     )
 
     db.session.add(new_user)
-    db.session.commit()"""
+    db.session.commit()
 
-    return redirect(url_for("estudio_new"))
+    return redirect(url_for("empleado_index"))
 
 
-def new_estudio():
-    """permite acceder al formulario para alta de usuario"""
+def edit():
+    """permite acceder al formulario para editar usuario"""
     if not authenticated(session):
         abort(401)
-    """if not check_permission(session["id"], "user_new"):
-        abort(401)"""
-
-    pacientes = Paciente.query.all()
-    medicos = MedicoDerivante.query.all()
-    diagnoticos = DiagnosticoPresuntivo.query.all()
-    tipos = TipoEstudio.query.all()
-
-    return render_template(
-        "estudio/alta.html",
-        pacientes=pacientes,
-        medicos=medicos,
-        diagnosticos=diagnoticos,
-        tipos=tipos,
-    )
-
-
-def create_estudio():
-    """función para alta de estudio"""
-
-    """if not authenticated(session):
+    if not (session["rol"] == 1):
         abort(401)
-    if not check_permission(session["id"], "user_create"):
-        abort(401)"""
 
-    # con los asteriscos convierto los parametros del diccionario, a parametros separados que requiere mi constructor
+    roles = Rol.query.all()
+    user_id = request.args.get("id")
+    user = db.session.query(User).filter(User.id == user_id).one()
+
+    return render_template("admin/empleado_edit.html", user=user, roles=roles)
+
+
+def update():
+    """formulario para editar usuario"""
+    if not authenticated(session):
+        abort(401)
+    if not (session["rol"] == 1):
+        abort(401)
+
     params = request.form
+    user_id_editar = request.args.get("id")
+    user = User.query.filter_by(id=user_id_editar).first()
+    user.first_name = params["first_name"]
+    user.last_name = params["last_name"]
+    user.password = params["password"]
+    user.updated_at = datetime.now()
 
-    """user = User.query.filter(User.email == params["email"]).first()
-    if user:
-        flash("El Email ingresado ya existe")
-        return redirect(url_for("user_new"))
+    db.session.commit()
 
-    new_user = User(
-        first_name=params["first_name"],
-        last_name=params["last_name"],
-        dni=params["dni"],
-        email=params["email"],
-        password=params["password"],
-        rol=2,
+    return redirect(url_for("empleado_index"))
+
+
+def delete():
+    """función para eliminar usuario"""
+    if not authenticated(session):
+        abort(401)
+    if not (session["rol"] == 1):
+        abort(401)
+    if request.args.get("id") == session["id"]:
+        flash("Operación NO permitida")
+    user_id_eliminar = request.args.get("id")
+    user_eliminar = db.session.query(User).filter(User.id == user_id_eliminar).one()
+    user_eliminar.borrado = True
+    db.session.commit()
+
+    return redirect(url_for("empleado_index"))
+
+
+def swichtstate():
+    """funcion para cambiar el estado de un usuario de activo a bloqueado y viceversa"""
+    if not authenticated(session):
+        abort(401)
+    if not (session["rol"] == 1):
+        abort(401)
+
+    if request.args.get("activo") == "True":
+        user_estado = False
+    else:
+        user_estado = True
+
+    if request.args.get("id") == session["id"]:
+        flash("Operación NO permitida")
+
+    # user_estado = not request.args.get("activo")
+    user_id = request.args.get("id")
+
+    User.query.filter_by(id=user_id).update(
+        dict(activo=user_estado, updated_at=datetime.now())
     )
+    db.session.commit()  # Guardamos los cambios con commit
 
-    db.session.add(new_user)
-    db.session.commit()"""
-
-    """html = render_template("pdfs/presupuesto.html", estudio="ssdfsdfsd")
-    nombre_archivo = "archivos/factura_"+ params.estudio.id;
-    path_wkthmltopdf = "C:/Program Files/wkhtmltopdf/bin/wkhtmltopdf.exe"
-
-    config = pdfkit.configuration(wkhtmltopdf=path_wkthmltopdf)
-
-    pdfkit.from_string(html, "archivos/SOF.pdf", configuration=config)"""
-
-    generar_factura("asdasd")
-    # pdfkit.from_string("Hello!", "archivos/out.pdf", configuration=config)
-
-    return redirect(url_for("estudio_estado1"))
-
-
-def estudio_estado1():
-    """permite acceder al formulario para alta de usuario"""
-    if not authenticated(session):
-        abort(401)
-    """if not check_permission(session["id"], "user_new"):
-        abort(401)"""
-    estudio = "555"
-
-    # factura = os.path.join(current_app.root_path, app.config["UPLOAD_FOLDER"])
-    factura = "archivos/facturas/factura_" + "555" + ".pdf"
-    return render_template("estudio/estado1.html", estudio=estudio, factura=factura)
-
-
-def estudio_estado1_carga():
-    """permite acceder al formulario para alta de usuario"""
-    if not authenticated(session):
-        abort(401)
-    """if not check_permission(session["id"], "user_new"):
-        abort(401)"""
-
-    return render_template("estudio/estado_1.html")
+    return redirect(url_for("empleado_index"))
