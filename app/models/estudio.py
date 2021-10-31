@@ -1,8 +1,6 @@
+import datetime
 from app.models.estado import Estado
-from app.models.rol import Rol
-from app.models.permiso import Permiso
-from sqlalchemy import Column, Integer, String, Boolean, Date, ForeignKey, DateTime
-from datetime import datetime
+from sqlalchemy import Column, Integer, String, Boolean, ForeignKey
 from app.db import db
 from sqlalchemy.orm import relationship
 
@@ -10,7 +8,7 @@ from sqlalchemy.orm import relationship
 class Estudio(db.Model):
     __tablename__ = "estudios"
     id = Column(Integer, primary_key=True, autoincrement=True)
-    fecha = Column(Date, unique=False)
+    fecha = Column(datetime, unique=False)
     retrasado = Column(Boolean)
     anulado = Column(Boolean)
     tipoEstudio = Column(Integer, ForeignKey("tiposEstudios.id"))
@@ -21,19 +19,19 @@ class Estudio(db.Model):
     presupuesto = Column(Integer)
     resultado_id = Column(Integer, ForeignKey("resultados.id"), nullable=True)
     resultado = relationship("Resultado")
-    estadoActual = Column(Integer, nullable=True)
+    estadoActual = Column(Integer)
     estados = relationship("Estado")
     factura = Column(String(100), nullable=True)
     comprobanteFactura = Column(String(100), nullable=True)
     consentimientoFirmado = Column(String(100), nullable=True)
     empleadoMuestra = Column(String(100), nullable=True)
     urlResultado = Column(String(100), nullable=True)
-    turno = Column(DateTime, nullable=True)
+    turno = Column(datetime, nullable=True)
     muestra_ml = Column(Integer, nullable=True)
     muestra_freezer = Column(Integer, nullable=True)
     resultadoEnviado = Column(Boolean, nullable=True)
     extraccionAbonada = Column(Boolean, nullable=True)
-    lote=Column(Integer, ForeignKey("lotes.id"))
+    lote = Column(Integer, ForeignKey("lotes.id"), nullable=True)
 
 
 def __init__(
@@ -51,7 +49,7 @@ def __init__(
     self.empleado = empleado
     self.diagnosticoPresuntivo = diagnosticoPresuntivo
     self.presupuesto = presupuesto
-    self.fecha = Date.today()
+    self.fecha = datetime.now()
     self.retrasado = False
     self.anulado = False
     self.estadoActual = 1

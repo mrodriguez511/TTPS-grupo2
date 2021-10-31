@@ -1,5 +1,6 @@
 from flask import redirect, render_template, request, url_for, session, abort, flash
 from app.helpers.archivos import generar_factura
+from app.models.estudio import Estudio
 from app.models.user import User
 from app.models.rol import Rol
 
@@ -25,7 +26,9 @@ def index():
     if not (session["rol"] == 2):
         abort(401)
 
-    return render_template("empleados/index.html")
+    estudios = Estudio.query.all()  # ver consulta
+
+    return render_template("empleados/index.html", estudios=estudios)
 
 
 def new_estudio():
@@ -52,30 +55,24 @@ def new_estudio():
 def create_estudio():
     """función para alta de estudio"""
 
-    """if not authenticated(session):
+    if not authenticated(session):
         abort(401)
-    if not check_permission(session["id"], "user_create"):
-        abort(401)"""
+    if not (session["rol"] == 2):
+        abort(401)
 
-    # con los asteriscos convierto los parametros del diccionario, a parametros separados que requiere mi constructor
     params = request.form
 
-    """user = User.query.filter(User.email == params["email"]).first()
-    if user:
-        flash("El Email ingresado ya existe")
-        return redirect(url_for("user_new"))
-
-    new_user = User(
-        first_name=params["first_name"],
-        last_name=params["last_name"],
-        dni=params["dni"],
-        email=params["email"],
-        password=params["password"],
-        rol=2,
+    new_estudio = Estudio(
+        tipoEstudio=params["tipoEstudio"],
+        medicoDerivante=params["medicoDerivante"],
+        paciente=params["paciente"],
+        diagnosticoPresuntivo=params["diagnostico"],
+        presupuesto=params["presupuesto"],
+        empleado=session["id"],
     )
 
-    db.session.add(new_user)
-    db.session.commit()"""
+    db.session.add(new_estudio)
+    db.session.commit()
 
     """html = render_template("pdfs/presupuesto.html", estudio="ssdfsdfsd")
     nombre_archivo = "archivos/factura_"+ params.estudio.id;
@@ -85,7 +82,7 @@ def create_estudio():
 
     pdfkit.from_string(html, "archivos/SOF.pdf", configuration=config)"""
 
-    generar_factura("asdasd")
+    generar_factura(new_estudio)
     # pdfkit.from_string("Hello!", "archivos/out.pdf", configuration=config)
 
     return redirect(url_for("estudio_estado1"))
