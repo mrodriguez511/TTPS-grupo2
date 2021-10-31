@@ -1,4 +1,6 @@
+import os
 from os import path, environ
+from os.path import abspath, dirname, join
 from flask import Flask, render_template, g, Blueprint
 from flask_session import Session
 from config import config
@@ -32,6 +34,25 @@ def create_app(environment="development"):
     # Server Side session
     app.config["SESSION_TYPE"] = "filesystem"  # para guardar la sesion
     Session(app)
+
+    # Define the application directory
+    APP_ROOT = os.path.dirname(os.path.abspath(__file__))
+    # APP_FILES = os.makedirs(os.path.join(APP_ROOT, "archivos"), exist_ok=True)
+    APP_FILES = os.path.join(APP_ROOT, "archivos")
+    APP_FACTURAS = os.path.join(APP_FILES, "facturas")
+    app.config["UPLOADED_FILES_DEST"] = APP_FILES
+    app.config["UPLOADED_FACTURAS_DEST"] = APP_FACTURAS
+
+    os.makedirs(APP_FILES, exist_ok=True)
+    os.makedirs(APP_FACTURAS, exist_ok=True)
+
+    """app.config["UPLOADED_FACTURAS_DEST"] = os.makedirs(
+        os.path.join(app_files, "facturas"), exist_ok=True
+    )"""
+
+    # BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    # Media dir
+    # os.makedirs(os.path.join(app.instance_path, "archi"), exist_ok=True)
 
     # Configure db
     db.init_app(app)
