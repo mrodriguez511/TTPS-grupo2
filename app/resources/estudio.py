@@ -92,8 +92,8 @@ def estudio_estado1():
     """permite acceder al formulario para alta de usuario"""
     if not authenticated(session):
         abort(401)
-    """if not check_permission(session["id"], "user_new"):
-        abort(401)"""
+    if not (session["rol"] == 2):
+        abort(401)
     estudio = "555"
 
     # factura = os.path.join(current_app.root_path, app.config["UPLOAD_FOLDER"])
