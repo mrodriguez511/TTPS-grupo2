@@ -41,7 +41,7 @@
     </div>
     <div class="col-md-4">
         <label for="inputState" class="form-label">Obra Social</label>
-        <select id="inputState" class="form-select">
+        <select name="obraSocial" class="selectpicker" data-show-subtext="true" data-live-search="true">
             <option selected>Seleccionar</option>
             {% for obra in obrasSociales %}
             <option value={{obra.id}}> {{obra.nombre}} </option>
@@ -50,7 +50,7 @@
     </div>
     <div class="col-md-4">
         <label for="inputEmail4" class="form-label">Numero de afiliado</label>
-        <input type="number" name="dni" class="form-control">
+        <input type="number" name="nroAfiliado" class="form-control">
     </div>
     <div class="col-12">
         <button type="submit" class="btn btn-primary">Alta de paciente</button>

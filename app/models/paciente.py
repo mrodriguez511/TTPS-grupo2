@@ -23,9 +23,9 @@ class Paciente(db.Model):
     telefono = Column(String(30), unique=True)
     resumenHC = Column(String(300), unique=True)
     password = Column(String(30), unique=False)
-    nroAfiliado = Column(String(30), unique=True, nullable=True)
+    nroAfiliado = Column(Integer, unique=True, nullable=True)
     obraSocial = Column(Integer, ForeignKey("obrasSociales.id"), nullable=True)
-    estudios = relationship("Estudio")
+    estudios = relationship("Estudio", backref="paciente")
 
     def __init__(
         self,
