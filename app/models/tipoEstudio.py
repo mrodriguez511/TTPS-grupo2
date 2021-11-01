@@ -9,7 +9,7 @@ class TipoEstudio(db.Model):
     id = Column(Integer, primary_key=True, autoincrement=True)
     nombre = Column(String(50), unique=True)
     consentimientoInformado = Column(String(300))
-    estudios = relationship("Estudio")
+    estudios = relationship("Estudio", backref="tipoEstudio")
 
     def __init__(
         self,

@@ -1,6 +1,6 @@
 from app.db import db
 from flask import redirect, render_template, request, url_for, session, abort, flash
-from app.models.punto_encuentro import Paciente
+from app.models.punto_encuentro import ObraSocial, Paciente
 from app.helpers.auth import authenticated
 
 
@@ -11,7 +11,9 @@ def new_paciente():
     """if not check_permission(session["id"], "user_new"):
         abort(401)"""
 
-    return render_template("estudio/alta_paciente.html")
+    obrasSociales = ObraSocial.query.all()
+
+    return render_template("estudio/alta_paciente.html", obrasSociales=obrasSociales)
 
 
 def create_paciente():

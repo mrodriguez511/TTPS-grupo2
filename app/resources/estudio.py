@@ -1,3 +1,4 @@
+from operator import and_
 from flask import redirect, render_template, request, url_for, session, abort, flash
 from app.helpers.archivos import generar_factura
 from app.models.estudio import Estudio
@@ -26,9 +27,40 @@ def index():
     if not (session["rol"] == 2):
         abort(401)
 
-    estudios = Estudio.query.all()  # ver consulta
+    est = Estudio.query.all()
 
-    return render_template("empleados/index.html", estudios=estudios)
+    estudios = (
+        db.session.query(Estudio, Paciente).join(
+            Estudio, Paciente.id == Estudio.paciente
+        )
+    ).all()
+
+    flash(type(estudios))
+    for estudio in estudios:
+        flash(type(estudio[0]))
+        flash(type(estudio[1]))
+
+    return render_template("estudio/index.html", estudios=est)
+
+
+def listar():
+    if not authenticated(session):
+        abort(401)
+
+    if not (session["rol"] == 2):
+        abort(401)
+
+    return render_template("empleados/index.html")
+
+
+def ver():
+    if not authenticated(session):
+        abort(401)
+
+    if not (session["rol"] == 2):
+        abort(401)
+
+    return render_template("empleados/index.html")
 
 
 def new_estudio():
@@ -92,8 +124,8 @@ def estudio_estado1():
     """permite acceder al formulario para alta de usuario"""
     if not authenticated(session):
         abort(401)
-    """if not check_permission(session["id"], "user_new"):
-        abort(401)"""
+    if not (session["rol"] == 2):
+        abort(401)
     estudio = "555"
 
     # factura = os.path.join(current_app.root_path, app.config["UPLOAD_FOLDER"])
@@ -108,4 +140,4 @@ def estudio_estado1_carga():
     """if not check_permission(session["id"], "user_new"):
         abort(401)"""
 
-    return render_template("estudio/estado_1.html")
+    return render_template("estudio/estado_1.html")  # redirect

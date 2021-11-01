@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+{% block title %}Estudios{% endblock %}
+{% block head %}
+{{ super() }}
+{% endblock %}
+{% block content %}
+<h1>Estudios</h1>
+
+
+<div class="container py-5">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Tipo de Estudio</th>
+                <th scope="col">Fecha</th>
+                <th scope="col">Paciente</th>
+                <th scope="col">Situación</th>
+                <th scope="col">Estado Actual</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for estudio in estudios %}
+
+            <tr>
+                <td scope="row">{{ estudio.id }}</td>
+                <td>{{ estudio.tipoEstudio }}</td>
+                <td>{{ estudio.fecha }}</td>
+                <td>{{ estudio.paciente }}</td>
+                {% if not (estudio.retrasado) %}
+                <td>{{ "Correcta" }}</td>
+                {% else %}
+                <td>{{ "Retrasado" }}</td>
+                {% endif %}
+                <td>{{ estudio.estadoActual }}</td>
+                <td>
+                    <a href="{{ url_for('estudio_ver', id=estudio.id )}}" class="btn btn-primary btn-sm">Ver</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<a href="{{ url_for('empleado_home') }}" class="btn btn-outline-success">Volver</a>
+{% endblock %}
