@@ -19,7 +19,7 @@
             ~ estudio ~ ".pdf" }}>Descargar factura </a>#}
         <a class="btn btn-outline-secondary"
             href="{{ url_for('static', filename='archivos/facturas/factura_555.pdf' ) }}" download={{ "factura_" ~
-            estudio ~ ".pdf" }}>Descargar
+            estudio.id ~ ".pdf" }}>Descargar
             factura </a>
     </div>
     <div class="col-md-8">
