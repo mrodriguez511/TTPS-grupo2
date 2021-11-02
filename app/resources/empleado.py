@@ -40,9 +40,11 @@ def create():
     # con los asteriscos convierto los parametros del diccionario, a parametros separados que requiere mi constructor
     params = request.form
 
-    user = User.query.filter(User.email == params["email"]).first()
+    user = User.query.filter(
+        User.email == params["email"] or User.dni == params["dni"]
+    ).first()
     if user:
-        flash("El Email ingresado ya existe")
+        flash("El Email o DNI ingresados ya existe")
         return redirect(url_for("empleado_new"))
 
     new_user = User(

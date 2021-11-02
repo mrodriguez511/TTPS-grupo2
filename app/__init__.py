@@ -95,6 +95,7 @@ def create_app(environment="development"):
         paciente.create_paciente,
         methods=["POST"],
     )
+    app.add_url_rule("/empleado/pacientes", "paciente_index", paciente.index)
 
     # estudio estado 1
     app.add_url_rule("/empleado/estudio1", "estudio_estado1", estudio.estudio_estado1)

@@ -13,26 +13,47 @@
             <tr>
                 <th scope="col">#</th>
                 <th scope="col">Tipo de Estudio</th>
-                <th scope="col">Fecha</th>
+                <th scope="col">Fecha Inicio</th>
                 <th scope="col">Paciente</th>
-                <th scope="col">Situación</th>
-                <th scope="col">Estado Actual</th>
+                <th scope="col">Retrasado</th>
+                <th scope="col">Esperando..</th>
+                <th scope="col">Acciones</th>
             </tr>
         </thead>
         <tbody>
-            {% for estudio in estudios %}
+            {% for estudio,paciente,tipoEstudio in estudios %}
 
             <tr>
                 <td scope="row">{{ estudio.id }}</td>
-                <td>{{ estudio.tipoEstudio }}</td>
+                <td>{{ tipoEstudio.nombre }}</td>
                 <td>{{ estudio.fecha }}</td>
-                <td>{{ estudio.paciente }}</td>
+                <td>{{ paciente.nombre }} {{ paciente.apellido }}</td>
                 {% if not (estudio.retrasado) %}
-                <td>{{ "Correcta" }}</td>
+                <td>{{ "No" }}</td>
                 {% else %}
-                <td>{{ "Retrasado" }}</td>
+                <td>{{ "Sí" }}</td>
                 {% endif %}
-                <td>{{ estudio.estadoActual }}</td>
+                {% if estudio.estadoActual == 1 %}
+                <td>{{ "Comprobante de pago" }}</td>
+                {% elif estudio.estadoActual == 2 %}
+                <td>{{ "Consentimiento firmado" }}</td>
+                {% elif estudio.estadoActual == 3 %}
+                <td>{{ "Selección de turno" }}</td>
+                {% elif estudio.estadoActual == 4 %}
+                <td>{{ "Toma de muestra" }}</td>
+                {% elif estudio.estadoActual == 5 %}
+                <td>{{ "Retiro de muestra" }}</td>
+                {% elif estudio.estadoActual == 6 %}
+                <td>{{ "Formar lote" }}</td>
+                {% elif estudio.estadoActual == 7 %}
+                <td>{{ "Resultado biotecnológico" }}</td>
+                {% elif estudio.estadoActual == 8 %}
+                <td>{{ "Interpretación de resultado" }}</td>
+                {% elif estudio.estadoActual == 9 %}
+                <td>{{ "Entrega de resultado" }}</td>
+                {% elif estudio.estadoActual == 10 %}
+                <td>{{ "Resultado entregado" }}</td>
+                {% endif %}
                 <td>
                     <a href="{{ url_for('estudio_ver', id=estudio.id )}}" class="btn btn-primary btn-sm">Ver</a>
                 </td>
