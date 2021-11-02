@@ -80,12 +80,12 @@ def create_estudio():
         diagnosticoPresuntivo=params["diagnostico"],
         presupuesto=params["presupuesto"],
     )
-    new_estudio.archivoPresupuesto = generar_factura(new_estudio)
-   
     db.session.add(new_estudio)
+    archivo = generar_factura(new_estudio)
+    new_estudio.archivoPresupuesto = archivo
     db.session.commit()
 
-    return redirect(url_for("estudio_estado1"))
+    return redirect(url_for("estudio_estado1", estudio=new_estudio.id))
 
 
 def estudio_estado1():
@@ -94,13 +94,16 @@ def estudio_estado1():
         abort(401)
     if not (session["rol"] == 2):
         abort(401)
-    estudio = "555"
+
+    estudio_id = request.args.get("estudio")
+    estudio = Estudio.query.filter(Estudio.id == estudio_id).first()
 
     ruta = current_app.config["UPLOADED_FACTURAS_DEST"]
-    ruta_archivo = os.path.join(ruta, "factura_" + str(estudio.id) + ".pdf")
-    # factura = os.path.join(current_app.root_path, app.config["UPLOAD_FOLDER"])
-    factura = "archivos/facturas/factura_" + "555" + ".pdf"
-    return render_template("estudio/estado1.html", estudio=estudio, factura=factura)
+    ruta_archivo = os.path.join(ruta, estudio.archivoPresupuesto)
+    # ruta_archivo = "sdfsdf"
+    return render_template(
+        "estudio/estado1.html", estudio=estudio, ruta_archivo=ruta_archivo
+    )
 
 
 def estudio_estado1_carga():
