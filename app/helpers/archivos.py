@@ -19,11 +19,20 @@ def generar_factura(estudio):
         "pdfs/presupuesto.html", estudio=estudio, tipo=tipoEstudio, receptor=paciente
     )
     ruta = current_app.config["UPLOADED_FACTURAS_DEST"]
+<<<<<<< HEAD
     ruta_archivo = os.path.join(ruta, "presupuesto_" + str(estudio.id) + ".pdf")
 
     pdfkit.from_string(html, ruta_archivo, configuration=config)
 
     return ruta_archivo
+=======
+    nombre_archivo = "presupuesto_" + str(estudio.id) + ".pdf"
+    ruta_archivo = os.path.join(ruta, nombre_archivo)
+
+    pdfkit.from_string(html, ruta_archivo, configuration=config)
+
+    return nombre_archivo
+>>>>>>> 01bc97ccbbef426e8e717da2284ab24da387a332
 
 
 # https://stackoverflow.com/questions/52721272/python-3-flask-install-wkhtmltopdf-on-heroku
