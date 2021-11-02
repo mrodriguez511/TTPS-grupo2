@@ -1,8 +1,5 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
 from operator import and_
 from flask import redirect, render_template, request, url_for, session, abort, flash
-=======
 from flask import (
     redirect,
     render_template,
@@ -13,20 +10,6 @@ from flask import (
     flash,
     current_app,
 )
->>>>>>> 77d63878a85e74645cf4387dcfe2dbf083eda3cd
-=======
-from flask import (
-    redirect,
-    render_template,
-    request,
-    url_for,
-    session,
-    abort,
-    flash,
-    current_app,
-)
-from operator import and_
->>>>>>> 01bc97ccbbef426e8e717da2284ab24da387a332
 from app.helpers.archivos import generar_factura
 from app.models.estudio import Estudio
 from app.models.user import User
@@ -130,21 +113,12 @@ def create_estudio():
         diagnosticoPresuntivo=params["diagnostico"],
         presupuesto=params["presupuesto"],
     )
-<<<<<<< HEAD
     new_estudio.archivoPresupuesto = generar_factura(new_estudio)
-   
-=======
->>>>>>> 01bc97ccbbef426e8e717da2284ab24da387a332
+
     db.session.add(new_estudio)
-    archivo = generar_factura(new_estudio)
-    new_estudio.archivoPresupuesto = archivo
     db.session.commit()
 
-<<<<<<< HEAD
     return redirect(url_for("estudio_estado1"))
-=======
-    return redirect(url_for("estudio_estado1", estudio=new_estudio.id))
->>>>>>> 01bc97ccbbef426e8e717da2284ab24da387a332
 
 
 def estudio_estado1():
@@ -153,24 +127,13 @@ def estudio_estado1():
         abort(401)
     if not (session["rol"] == 2):
         abort(401)
+    estudio = "555"
 
-<<<<<<< HEAD
     ruta = current_app.config["UPLOADED_FACTURAS_DEST"]
     ruta_archivo = os.path.join(ruta, "factura_" + str(estudio.id) + ".pdf")
     # factura = os.path.join(current_app.root_path, app.config["UPLOAD_FOLDER"])
     factura = "archivos/facturas/factura_" + "555" + ".pdf"
     return render_template("estudio/estado1.html", estudio=estudio, factura=factura)
-=======
-    estudio_id = request.args.get("estudio")
-    estudio = Estudio.query.filter(Estudio.id == estudio_id).first()
-
-    ruta = current_app.config["UPLOADED_FACTURAS_DEST"]
-    ruta_archivo = os.path.join(ruta, estudio.archivoPresupuesto)
-    # ruta_archivo = "sdfsdf"
-    return render_template(
-        "estudio/estado1.html", estudio=estudio, ruta_archivo=ruta_archivo
-    )
->>>>>>> 01bc97ccbbef426e8e717da2284ab24da387a332
 
 
 def estudio_estado1_carga():
