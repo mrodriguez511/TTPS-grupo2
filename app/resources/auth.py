@@ -27,7 +27,7 @@ def authenticate():
         u.intentos += 1
         db.session.commit()
         if u.intentos <= 2:
-            flash("Clave incorrecta")
+            flash("Usuario o clave incorrecto.")
             return redirect(url_for("auth_login"))
         else:
             u.activo = False
@@ -41,6 +41,8 @@ def authenticate():
 
     session["rol"] = user.rol
     session["id"] = user.id
+    user.intentos = 0
+    db.session.commit()
     flash("La sesión se inició correctamente.")
 
     if user.rol == 1:
