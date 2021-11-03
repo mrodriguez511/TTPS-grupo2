@@ -4,6 +4,7 @@ from app.models.rol import Rol
 from app.helpers.auth import authenticated
 from app.db import db
 from datetime import datetime
+from operator import or_
 
 # Protected resources
 def index():
@@ -15,7 +16,7 @@ def index():
     if not (session["rol"] == 1):  # rol admin
         abort(401)
 
-    users = User.query.filter(User.borrado != True, User.id != session["id"]).all()
+    users = User.query.filter(User.rol == 2).all()
     return render_template("admin/empleado_index.html", users=users)
 
 
@@ -41,7 +42,7 @@ def create():
     params = request.form
 
     user = User.query.filter(
-        User.email == params["email"] or User.dni == params["dni"]
+        or_(User.email == params["email"], User.dni == params["dni"])
     ).first()
     if user:
         flash("El Email o DNI ingresados ya existe")
@@ -96,22 +97,6 @@ def update():
     return redirect(url_for("empleado_index"))
 
 
-def delete():
-    """función para eliminar usuario"""
-    if not authenticated(session):
-        abort(401)
-    if not (session["rol"] == 1):
-        abort(401)
-    if request.args.get("id") == session["id"]:
-        flash("Operación NO permitida")
-    user_id_eliminar = request.args.get("id")
-    user_eliminar = db.session.query(User).filter(User.id == user_id_eliminar).one()
-    user_eliminar.borrado = True
-    db.session.commit()
-
-    return redirect(url_for("empleado_index"))
-
-
 def swichtstate():
     """funcion para cambiar el estado de un usuario de activo a bloqueado y viceversa"""
     if not authenticated(session):
@@ -121,18 +106,16 @@ def swichtstate():
 
     if request.args.get("activo") == "True":
         user_estado = False
+        intentos = 3
     else:
         user_estado = True
+        intentos = 0
 
-    if request.args.get("id") == session["id"]:
-        flash("Operación NO permitida")
-
-    # user_estado = not request.args.get("activo")
     user_id = request.args.get("id")
 
-    User.query.filter_by(id=user_id).update(
-        dict(activo=user_estado, updated_at=datetime.now())
-    )
-    db.session.commit()  # Guardamos los cambios con commit
+    u = User.query.filter_by(id=user_id).first()
+    u.activo = user_estado
+    u.intentos = intentos
+    db.session.commit()
 
     return redirect(url_for("empleado_index"))

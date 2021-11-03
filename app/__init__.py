@@ -71,9 +71,8 @@ def create_app(environment="development"):
         "/admin/update", "empleado_update", empleado.update, methods=["POST"]
     )
     app.add_url_rule("/admin/edit", "empleado_edit", empleado.edit)
-    app.add_url_rule(
-        "/admin/delete", "empleado_delete", empleado.delete, methods=["GET"]
-    )
+
+    app.add_url_rule("/admin/switchstate", "empleado_swichtstate", empleado.swichtstate)
 
     # Rutas de Empleado
     app.add_url_rule("/empleado", "empleado_home", estudio.listar)
