@@ -9,6 +9,8 @@ from flask import (
     current_app,
 )
 from operator import and_
+
+from werkzeug.utils import send_from_directory
 from app.helpers.archivos import generar_factura
 from app.models.estudio import Estudio
 from app.models.user import User
@@ -134,7 +136,7 @@ def estudio_estado1():
     ruta_archivo = os.path.join(ruta, estudio.archivoPresupuesto)
     # ruta_archivo = "sdfsdf"
     return render_template(
-        "estudio/estado1.html", estudio=estudio, ruta_archivo=ruta_archivo
+        "estudio/estado1.html", estudio=estudio, ruta_archivo=estudio.archivoPresupuesto
     )
 
 
@@ -144,5 +146,19 @@ def estudio_estado1_carga():
         abort(401)
     """if not check_permission(session["id"], "user_new"):
         abort(401)"""
+    archivo = request.form["comprobante"]
+    id_estudio = request.args.get("estudio")
 
-    return render_template("estudio/estado_1.html")  # redirect
+    estudio = Estudio.query.filter(Estudio.id == id_estudio).first()
+    estudio.comprobanteDePago = archivo
+
+    db.session.commit()
+    #FALTA GUARDAR EL ARCHIVO Y AGREGAR EL BOTON DE DESCARGAR EL COMPROBANTE EXISTENTE
+    return render_template("empleados/index.html")  # redirect
+
+
+def download():
+    filename = request.args.get("filename")
+    ruta = current_app.config["UPLOADED_FACTURAS_DEST"]
+    return send_from_directory(ruta, filename, environ=request.environ)
+

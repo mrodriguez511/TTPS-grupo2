@@ -106,6 +106,7 @@ def create_app(environment="development"):
     )
 
     # Rutas de configuracion
+    app.add_url_rule("/descarga", "download", estudio.download)
     app.add_url_rule("/configuracion", "settings_edit", configuracion.edit)
     app.add_url_rule(
         "/configuracion", "settings_update", configuracion.update, methods=["POST"]
@@ -131,3 +132,8 @@ def create_app(environment="development"):
 
     # Retornar la instancia de app configurada
     return app
+
+
+
+
+
