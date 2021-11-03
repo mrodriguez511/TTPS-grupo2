@@ -71,9 +71,8 @@ def create_app(environment="development"):
         "/admin/update", "empleado_update", empleado.update, methods=["POST"]
     )
     app.add_url_rule("/admin/edit", "empleado_edit", empleado.edit)
-    app.add_url_rule(
-        "/admin/delete", "empleado_delete", empleado.delete, methods=["GET"]
-    )
+
+    app.add_url_rule("/admin/switchstate", "empleado_swichtstate", empleado.swichtstate)
 
     # Rutas de Empleado
     app.add_url_rule("/empleado", "empleado_home", estudio.listar)
@@ -95,6 +94,7 @@ def create_app(environment="development"):
         paciente.create_paciente,
         methods=["POST"],
     )
+    app.add_url_rule("/empleado/pacientes", "paciente_index", paciente.index)
 
     # estudio estado 1
     app.add_url_rule("/empleado/estudio1", "estudio_estado1", estudio.estudio_estado1)

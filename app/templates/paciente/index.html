@@ -1,0 +1,50 @@
+{% extends "layout.html" %}
+{% block title %}Pacientes{% endblock %}
+{% block head %}
+{{ super() }}
+{% endblock %}
+{% block content %}
+<h1>Pacientes</h1>
+
+
+<div class="container py-5">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nombre y apellido</th>
+                <th scope="col">DNI</th>
+                <th scope="col">Teléfono</th>
+                <th scope="col">Obra Social</th>
+                <th scope="col">Nro afiliado</th>
+                <th scope="col">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for paciente in pacientes %}
+
+
+            <tr>
+                <td scope="row">{{ paciente[0] }}</td>
+                <td>{{ paciente[1] }} {{ paciente[2] }}</td>
+                <td>{{ paciente[3] }}</td>
+                <td>{{ paciente[4] }}</td>
+                {% if paciente[5]==None %}
+                <td>{{ "-" }}</td>
+                <td>{{ "-" }}</td>
+                {% else %}
+                <td>{{ paciente[5] }}</td>
+                <td>{{ paciente[6] }}</td>
+                {% endif %}
+                <td>
+                    <a href="{{ url_for('estudio_ver', id=paciente.id )}}" class="btn btn-primary btn-sm">Ver</a>
+                </td>
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+    </table>
+</div>
+<a href="{{ url_for('empleado_home') }}" class="btn btn-outline-success">Volver</a>
+{% endblock %}

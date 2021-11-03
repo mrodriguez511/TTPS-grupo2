@@ -39,20 +39,14 @@ def index():
     if not (session["rol"] == 2):
         abort(401)
 
-    est = Estudio.query.all()
-
     estudios = (
-        db.session.query(Estudio, Paciente).join(
-            Estudio, Paciente.id == Estudio.paciente
-        )
-    ).all()
+        db.session.query(Estudio, Paciente, TipoEstudio)
+        .filter(Estudio.paciente == Paciente.id)
+        .filter(Estudio.tipoEstudio == TipoEstudio.id)
+        .all()
+    )
 
-    flash(type(estudios))
-    for estudio in estudios:
-        flash(type(estudio[0]))
-        flash(type(estudio[1]))
-
-    return render_template("estudio/index.html", estudios=est)
+    return render_template("estudio/index.html", estudios=estudios)
 
 
 def listar():
