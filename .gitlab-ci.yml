@@ -1,0 +1,21 @@
+test:
+  services:
+  - postgres:alpine
+  script:
+  - export DATABASE_URL=mysql+pymysql://ttpsgrupo2:123@localhost:3306/ttpsgrupo2
+  - apt-get update -qy
+  - apt-get install -y python-dev python-pip
+  - pip install -r requirements.txt
+  - python manage.py test
+
+
+
+production:
+  type: deploy
+  script:
+  - apt-get update -qy
+  - apt-get install -y ruby-dev
+  - gem install dpl
+  - dpl --provider=heroku --app=$HEROKU_PRODUCTION_APP --api-key=$HEROKU_PRODUCTION_API_KEY --skip-cleanup
+  only:
+  - tags
