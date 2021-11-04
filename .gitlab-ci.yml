@@ -1,4 +1,5 @@
 test:
+
   
   script:
   - apt-get update -qy
@@ -7,11 +8,6 @@ test:
   - python manage.py test
 
 
-
-production:
-  type: deploy
-  script:
-  - apt-get update -qy
   - apt-get install -y ruby-dev
   - gem install dpl
   - dpl --provider=heroku --app=$HEROKU_PRODUCTION_APP --api-key=$HEROKU_PRODUCTION_API_KEY --skip-cleanup
