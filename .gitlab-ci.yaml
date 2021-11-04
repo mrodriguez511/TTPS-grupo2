@@ -1,33 +1,16 @@
-stages:
-  - test
-  - deploy
+app:
+script:
+        — apt-get update -qy
+        — apt-get install -y python3-dev python3-pip
+        — pip install -r requirements.txt
 
-services:
-  - mysql:10
 
-variables:
-  MYSQL_DATABASE: root
-  MYSQL_ROOT_PASSWORD: 123
-
-image: openjdk:13
-
-all-tests:
-  stage: test
-  script:
-    - ./mvnw clean verify -Dspring.profiles.active=pre
-  only:
-    - develop
-
-pages:
-  stage: deploy
-  script:
-    - ./mvnw generate-resources
-    - mkdir .public
-    - cp -r target/generated-docs/index.html .public
-    - mv .public public
-  artifacts:
-    paths:
-      - public
-  only:
-    - master
-
+production:
+    type: deploy
+    script:
+        — apt-get update -qy
+        — apt-get install -y ruby-dev
+        — gem install dpl
+        — dpl — provider=heroku — app=laboratoriottps-grupo2 — api-key=$HEROKU_API_KEY
+    only:
+        — main
