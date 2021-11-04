@@ -11,6 +11,6 @@ production:
         — apt-get update -qy
         — apt-get install -y ruby-dev
         — gem install dpl
-        — dpl — provider=heroku — app=laboratoriottps-grupo2 — api-key=$HEROKU_API_KEY
+        — dpl — provider=heroku — app=laboratoriottps-grupo2 — api-key=$HEROKU_SECRET_KEY
     only:
         — main
