@@ -1,4 +1,4 @@
-run:
+app:
 script:
         — apt-get update -qy
         — apt-get install -y python-dev python-pip
@@ -10,6 +10,6 @@ production:
         — apt-get update -qy
         — apt-get install -y ruby-dev
         — gem install dpl
-        — dpl — provider=heroku — app=[Heroku App Name] — api-key=$HEROKU_API_KEY
+        — dpl — provider=heroku — app=[laboratoriottps-grupo2] — api-key=$HEROKU_API_KEY
     only:
-        — master
+        — main
