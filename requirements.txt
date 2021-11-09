@@ -5,6 +5,11 @@ black==21.9b0
 python-dotenv==0.19.0
 SQLAlchemy==1.4.25
 Flask-SQLAlchemy==2.5.1
+<<<<<<< HEAD
 
 wkhtmltopdf-pack-ng==0.12.3.0
 pdfkit==0.6.0
+=======
+psycopg2==2.5.4
+gunicorn==20.1.0
+>>>>>>> 57890562a4fce5c662b571a90758f55eabe89b14
