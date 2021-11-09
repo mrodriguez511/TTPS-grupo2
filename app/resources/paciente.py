@@ -1,7 +1,26 @@
+import sqlalchemy
+from sqlalchemy.sql.elements import Null
+from operator import or_, and_
+
+from sqlalchemy.sql.expression import null
 from app.db import db
 from flask import redirect, render_template, request, url_for, session, abort, flash
 from app.models.punto_encuentro import ObraSocial, Paciente
 from app.helpers.auth import authenticated
+
+
+def index():
+    if not authenticated(session):
+        abort(401)
+    if not (session["rol"] == 2):
+        abort(401)
+
+    consulta = "select p.id, p.nombre, p.apellido, p.dni, p.telefono , o.nombre , p.nroAfiliado from pacientes as p left join obrassociales as o on p.obraSocial = o.id"
+    pacientes = db.session.execute(consulta)
+
+    p = pacientes.fetchall()
+
+    return render_template("paciente/index.html", pacientes=p)
 
 
 def new_paciente():

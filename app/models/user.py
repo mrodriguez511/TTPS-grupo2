@@ -13,7 +13,8 @@ class User(db.Model):
     dni = Column(Integer, primary_key=True, unique=True)
     email = Column(String(30), unique=True)
     password = Column(String(30), unique=False)
-    borrado = Column(Boolean)
+    activo = Column(Boolean)
+    intentos = Column(Integer)
     rol = Column(Integer, ForeignKey("roles.id"))
 
     def __init__(
@@ -30,5 +31,6 @@ class User(db.Model):
         self.dni = dni
         self.email = email
         self.password = password
-        self.borrado = False
+        self.activo = True
         self.rol = rol
+        self.intentos = 0

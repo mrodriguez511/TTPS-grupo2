@@ -21,12 +21,28 @@ def authenticate():
         flash("Usuario o clave incorrecto.")
         return redirect(url_for("auth_login"))
 
-    if user.borrado:
+    u = User.query.filter(User.email == params["email"]).first()
+
+    if u and u.password != params["password"]:
+        u.intentos += 1
+        db.session.commit()
+        if u.intentos <= 2:
+            flash("Usuario o clave incorrecto.")
+            return redirect(url_for("auth_login"))
+        else:
+            u.activo = False
+            db.session.commit()
+            flash("Usuario Bloqueado")
+            return redirect(url_for("auth_login"))
+
+    if not user.activo:
         flash("Usuario bloqueado.")
         return redirect(url_for("auth_login"))
 
     session["rol"] = user.rol
     session["id"] = user.id
+    user.intentos = 0
+    db.session.commit()
     flash("La sesión se inició correctamente.")
 
     if user.rol == 1:
