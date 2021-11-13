@@ -134,6 +134,4 @@ def create_app(environment="development"):
     return app
 
 
-
-
-
+app = create_app()
