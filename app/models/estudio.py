@@ -26,7 +26,6 @@ class Estudio(db.Model):
     comprobanteDePago = Column(String(100), nullable=True)
     consentimientoFirmado = Column(String(100), nullable=True)
     empleadoMuestra = Column(String(100), nullable=True)
-    urlResultado = Column(String(100), nullable=True)
     turno = Column(DateTime, nullable=True)
     muestra_ml = Column(Integer, nullable=True)
     muestra_freezer = Column(Integer, nullable=True)
