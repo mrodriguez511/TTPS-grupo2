@@ -2,49 +2,113 @@
 {% block title %}Pacientes{% endblock %}
 {% block head %}
 {{ super() }}
+<!-- DataTables -->
+<link rel="stylesheet" href="/static/assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+<link rel="stylesheet" href="/static/assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+<link rel="stylesheet" href="/static/assets/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+<!-- Theme style -->
+<link rel="stylesheet" href="/static/assets/css/adminlte.min.css">
 {% endblock %}
+{% block body_class %} sidebar-mini sidebar-collapse{% endblock body_class %}
 {% block content %}
-<h1>Pacientes</h1>
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <h1>Pacientes</h1>
+    </div>
+    <section class="">
+        <div class="">
+            <div class="row">
+                <div class="col-11">
+                    <div class="card">
+                        <div class="card-header">
 
 
-<div class="container py-5">
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Nombre y apellido</th>
-                <th scope="col">DNI</th>
-                <th scope="col">Teléfono</th>
-                <th scope="col">Obra Social</th>
-                <th scope="col">Nro afiliado</th>
-                <th scope="col">Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for paciente in pacientes %}
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <table id="table2" class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Nombre y apellido</th>
+                                        <th scope="col">DNI</th>
+                                        <th scope="col">Teléfono</th>
+                                        <th scope="col">Obra Social</th>
+                                        <th scope="col">Nro afiliado</th>
+                                        <th scope="col">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for paciente in pacientes %}
 
 
-            <tr>
-                <td scope="row">{{ paciente[0] }}</td>
-                <td>{{ paciente[1] }} {{ paciente[2] }}</td>
-                <td>{{ paciente[3] }}</td>
-                <td>{{ paciente[4] }}</td>
-                {% if paciente[5]==None %}
-                <td>{{ "-" }}</td>
-                <td>{{ "-" }}</td>
-                {% else %}
-                <td>{{ paciente[5] }}</td>
-                <td>{{ paciente[6] }}</td>
-                {% endif %}
-                <td>
-                    <a href="{{ url_for('estudio_ver', id=paciente.id )}}" class="btn btn-primary btn-sm">Ver</a>
-                </td>
-            </tr>
-
-            {% endfor %}
-
-        </tbody>
-    </table>
+                                    <tr>
+                                        <td scope="row">{{ paciente[0] }}</td>
+                                        <td>{{ paciente[1] }} {{ paciente[2] }}</td>
+                                        <td>{{ paciente[3] }}</td>
+                                        <td>{{ paciente[4] }}</td>
+                                        {% if paciente[5]==None %}
+                                        <td>{{ "-" }}</td>
+                                        <td>{{ "-" }}</td>
+                                        {% else %}
+                                        <td>{{ paciente[5] }}</td>
+                                        <td>{{ paciente[6] }}</td>
+                                        {% endif %}
+                                        <td>
+                                            <a href="{{ url_for('estudio_ver', id=paciente.id )}}"
+                                                class="btn btn-primary btn-sm">Ver</a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <a href="{{ url_for('empleado_home') }}" class="btn btn-outline-success">Volver</a>
+        </div>
+    </section>
 </div>
-<a href="{{ url_for('empleado_home') }}" class="btn btn-outline-success">Volver</a>
+{% endblock %}
+
+{% block scripts %}
+
+
+<!-- DataTables  & Plugins -->
+<script src="/static/assets/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="/static/assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="/static/assets/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="/static/assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+<script src="/static/assets/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+<script src="/static/assets/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+<script src="/static/assets/plugins/jszip/jszip.min.js"></script>
+<script src="/static/assets/plugins/pdfmake/pdfmake.min.js"></script>
+<script src="/static/assets/plugins/pdfmake/vfs_fonts.js"></script>
+<script src="/static/assets/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+<script src="/static/assets/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+<script src="/static/assets/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+<!-- Page specific script -->
+<script>
+    $(function () {
+        $("#tabla").DataTable({
+            "responsive": true, "lengthChange": false, "autoWidth": false,
+            "buttons": ["copy", "pdf"]
+        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+        $('#table2').DataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
+            },
+            "paging": true,
+            "lengthChange": false,
+            "searching": true,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false,
+            "responsive": true,
+        });
+    });
+
+</script>
 {% endblock %}

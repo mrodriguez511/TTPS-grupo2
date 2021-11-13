@@ -106,15 +106,17 @@ def create_app(environment="development"):
     )
 
     # Rutas de configuracion
+    app.add_url_rule("/descarga", "download", estudio.download)
     app.add_url_rule("/configuracion", "settings_edit", configuracion.edit)
     app.add_url_rule(
         "/configuracion", "settings_update", configuracion.update, methods=["POST"]
     )
 
     # Ruta para el Home (usando decorator)
-    @app.route("/")
+    app.add_url_rule("/", "home", auth.home)
+    """@app.route("/")
     def home():
-        return render_template("home.html")
+        return render_template("home.html")"""
 
     # Rutas de API-REST (usando Blueprints)
     """api = Blueprint("api", __name__, url_prefix="/api")

@@ -7,47 +7,144 @@
 {% endblock %}
 {% block content %}
 
-<h3>Esperando comprobante de pago</h3>
-<form class="row g-3 align-items-end" action="{{ url_for('estudio_estado1_carga') }}" method="POST">
-    {# El empleado carga los datos nombre del paciente, obra social del paciente, dnimédico derivante, empleado que
-    genera el alta, diagnóstico presuntivo, fecha de alta del estudio, tipo de estudio, estado actual y
-    presupuesto. #}
-
-
-    <div class="col-md-8">
-        {#<a class="btn btn-outline-secondary" href="/archivos/facturas/factura_{{estudio}}.pdf" download={{ "factura_"
-            ~ estudio ~ ".pdf" }}>Descargar factura </a>#}
-        <a class="btn btn-outline-secondary"
-            href="{{ url_for('static', filename='archivos/facturas/factura_555.pdf' ) }}" download={{ "factura_" ~
-            estudio ~ ".pdf" }}>Descargar
-            factura </a>
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <h3>Estudio #{{estudio.id}}</h3>
     </div>
-    <div class="col-md-8">
-        <label for="formFile" class="form-label">Cargar comprobante de pago del paciente</label>
-        <input class="form-control" type="file" id="formFile" placeholder="Seleccione un archivo"
-            onchange="archivoCargado()">
+    <div class="row">
+        <div class="col-10">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Esperando comprobante de pago</h3>
+                </div>
+                <div class="card-body">
+                    <form class="row g-3 align-items-end"
+                        action="{{ url_for('estudio_estado1_carga' , estudio=estudio.id) }}" method="POST">
+
+                        <div class="col-md-8">
+                            {#<a class="btn btn-outline-secondary" href="/archivos/facturas/factura_{{estudio}}.pdf"
+                                download={{ "factura_" ~ estudio ~ ".pdf" }}>Descargar factura </a>#}
+                            <a class="btn btn-outline-secondary btn-sm" target="_blank"
+                                href="{{ url_for('download', filename=ruta_archivo) }}">Descargar
+                                presupuesto </a>
+                        </div>
+                        {#<div class="col-md-8">
+                            <label for="formFile" class="form-label">Cargar comprobante de pago del paciente</label>
+                            <input class="form-control" name="comprobante" type="file" id="formFile"
+                                placeholder="Seleccione un archivo" onchange="archivoCargado()">
+                        </div>#}
+                        <div class="col-md-8 mt-5">
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" name="comprobante" id="customFile"
+                                    data-buttonText="Your label here.">
+                                <label class="custom-file-label" for="customFile">Cargar comprobante de pago enviado por
+                                    el
+                                    paciente...</label>
+                            </div>
+                        </div>
+
+
+
+
+                        <div class="col-12">
+                            <button id="btn-enviar" type="submit" class="btn btn-primary mt-5"
+                                disabled>Siguiente</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
     </div>
-
-
-
-    <div class="col-12">
-        <button id="btn-enviar" type="submit" class="btn btn-primary" disabled>Siguiente</button>
+    <div class="steps d-flex flex-wrap flex-sm-nowrap justify-content-between pt-5 pb-2">
+        <div class="step completed">
+            <div class="step-icon-wrap">
+                <div class="step-icon"><i class="fa fa-check"></i></div>
+            </div>
+            <h4 class="step-title">Comprobante de pago</h4>
+        </div>
+        <div class="step completed">
+            <div class="step-icon-wrap">
+                <div class="step-icon"><i class="fa fa-check"></i></div>
+            </div>
+            <h4 class="step-title">Consentimiento firmado</h4>
+        </div>
+        <div class="step">
+            <div class="step-icon-wrap">
+                <div class="step-icon"><i class="fa fa-check"></i></div>
+            </div>
+            <h4 class="step-title">Selección de turno</h4>
+        </div>
+        <div class="step">
+            <div class="step-icon-wrap">
+                <div class="step-icon"><i class="fa fa-check"></i></div>
+            </div>
+            <h4 class="step-title">Toma de muestra</h4>
+        </div>
+        <div class="step">
+            <div class="step-icon-wrap">
+                <div class="step-icon"><i class="fa fa-check"></i></div>
+            </div>
+            <h4 class="step-title">Retiro de muestra</h4>
+        </div>
+        <div class="step">
+            <div class="step-icon-wrap">
+                <div class="step-icon"><i class="fa fa-check"></i></div>
+            </div>
+            <h4 class="step-title">Formar lote</h4>
+        </div>
+        <div class="step">
+            <div class="step-icon-wrap">
+                <div class="step-icon"><i class="fa fa-check"></i></div>
+            </div>
+            <h4 class="step-title">Resultado biotecnologico</h4>
+        </div>
+        <div class="step">
+            <div class="step-icon-wrap">
+                <div class="step-icon"><i class="fa fa-check"></i></div>
+            </div>
+            <h4 class="step-title">Interpretación de resultado</h4>
+        </div>
+        <div class="step">
+            <div class="step-icon-wrap">
+                <div class="step-icon"><i class="fa fa-check"></i></div>
+            </div>
+            <h4 class="step-title">Entrega de resultado</h4>
+        </div>
+        <div class="step">
+            <div class="step-icon-wrap">
+                <div class="step-icon"><i class="fa fa-check"></i></div>
+            </div>
+            <h4 class="step-title">Resultado entregado</h4>
+        </div>
     </div>
-</form>
+    <a href="{{ url_for('empleado_home') }}" class="btn btn-outline-secondary mt-5">Volver a home</a>
+</div>
 
-<a href="{{ url_for('empleado_home') }}" class="btn btn-outline-secondary mt-5">Volver</a>
+
+
+
 
 
 
 
 {% endblock %}
 {% block scripts %}
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.3/js/bootstrap-select.min.js"></script>
+<!-- jQuery -->
+<script src="/static/assets/plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="/static/assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- bs-custom-file-input -->
+<script src="/static/assets/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
+<!-- AdminLTE App -->
+<script src="/static/assets/dist/js/adminlte.min.js"></script>
+
 
 <script type="text/javascript">
-    var files = document.getElementById('formFile');
+
+
+    var files = document.getElementById('customFile');
     var submit = document.getElementById('btn-enviar');
     files.addEventListener("change", function () {
         if (files.files.length) {
@@ -56,6 +153,8 @@
         }
         submit.disabled = true;
     });
+
+
 </script>
 
 {% endblock %}
