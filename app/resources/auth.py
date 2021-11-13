@@ -1,4 +1,5 @@
 from flask import redirect, render_template, request, url_for, abort, session, flash
+from app.helpers.auth import authenticated
 from app.models.user import User
 from app.models.rol import Rol
 from app.db import db
@@ -7,6 +8,16 @@ from app.db import db
 def login():
 
     return render_template("auth/login.html")
+
+
+def home():
+    if not authenticated(session):
+        return render_template("home.html")
+
+    if session["rol"] == 1:
+        return redirect(url_for("empleado_index"))
+
+    return redirect(url_for("empleado_home"))
 
 
 def authenticate():
@@ -40,6 +51,7 @@ def authenticate():
         return redirect(url_for("auth_login"))
 
     session["rol"] = user.rol
+    session["email"] = user.email
     session["id"] = user.id
     user.intentos = 0
     db.session.commit()

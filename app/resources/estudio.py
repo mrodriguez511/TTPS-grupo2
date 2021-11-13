@@ -109,7 +109,8 @@ def create_estudio():
         presupuesto=params["presupuesto"],
     )
     db.session.add(new_estudio)
-    archivo = generar_factura(new_estudio)
+
+    archivo = generar_factura(new_estudio) #genero el estudio
     new_estudio.archivoPresupuesto = archivo
     db.session.commit()
 
@@ -147,7 +148,7 @@ def estudio_estado1_carga():
     estudio.comprobanteDePago = archivo
 
     db.session.commit()
-    #FALTA GUARDAR EL ARCHIVO Y AGREGAR EL BOTON DE DESCARGAR EL COMPROBANTE EXISTENTE
+    # FALTA GUARDAR EL ARCHIVO Y AGREGAR EL BOTON DE DESCARGAR EL COMPROBANTE EXISTENTE
     return render_template("empleados/index.html")  # redirect
 
 
@@ -155,4 +156,3 @@ def download():
     filename = request.args.get("filename")
     ruta = current_app.config["UPLOADED_FACTURAS_DEST"]
     return send_from_directory(ruta, filename, environ=request.environ)
-

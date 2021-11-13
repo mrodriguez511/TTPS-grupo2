@@ -21,7 +21,7 @@ def generar_factura(estudio):
     ruta = current_app.config["UPLOADED_FACTURAS_DEST"]
     nombre_archivo = "presupuesto_" + str(estudio.id) + ".pdf"
     ruta_archivo = os.path.join(ruta, nombre_archivo)
-
+    
     pdfkit.from_string(html, ruta_archivo, configuration=config)
 
     return nombre_archivo
