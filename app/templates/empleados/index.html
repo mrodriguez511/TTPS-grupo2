@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+{% block title %}Usuarios{% endblock %}
+{% block head %}
+{{ super() }}
+{% endblock %}
+{% block body_class %} {{super}}{% endblock body_class %}
+{% block content %}
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <h1>Home de empleado </h1>
+    </div>
+    {#<a href="{{ url_for('home') }}" class="btn btn-outline-secondary">Volver</a>
+    % if (session["rol"] == 2) %#}
+    <a href="{{ url_for('estudio_new') }}" class="btn btn-outline-success">Alta de estudio</a>
+    <a href="{{ url_for('estudio_index') }}" class="btn btn-outline-success">Listado de Estudios</a>
+    <a href="{{ url_for('paciente_index') }}" class="btn btn-outline-success">Listado de Pacientes</a>
+    {#% endif %#}
+</div>
+{% endblock %}
+
+
+{#https://developer.snapappointments.com/bootstrap-select/ selector con busqueda#}

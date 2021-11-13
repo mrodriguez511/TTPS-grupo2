@@ -1,0 +1,173 @@
+{% extends "layout.html" %}
+{% block title %}Usuarios{% endblock %}
+{% block head %}
+{{ super() }}
+<!-- DataTables -->
+<link rel="stylesheet" href="/static/assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+<link rel="stylesheet" href="/static/assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+<link rel="stylesheet" href="/static/assets/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+<!-- Theme style -->
+<link rel="stylesheet" href="/static/assets/css/adminlte.min.css">
+{% endblock %}
+
+
+{% block body_class %} sidebar-mini sidebar-collapse{% endblock body_class %}
+{% block content %}
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <div class="content-header">
+    <h1>Administrador</h1>
+  </div>
+  <section class="">
+    <div class="">
+      <div class="row">
+        <div class="col-11">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Empleados en el sistema</h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+              <table id="table2" class="table table-bordered table-striped">
+                <thead>
+                  <tr>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>DNI</th>
+                    <th>Email</th>
+                    <th>Activo</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+
+                  {% for user in users %}
+
+                  <tr>
+                    <td scope="row">{{ user.first_name }}</td>
+                    <td>{{ user.last_name }}</td>
+                    <td>{{ user.dni }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>
+                      <div class="modal fade" id="activo{{user.id}}">
+                        <div class="modal-dialog">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h4 class="modal-title"></h4>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                            <div class="modal-body">
+                              <p>¿Desea cambiar el estado del empleado {{ user.first_name }}
+                                {{ user.last_name }}?</p>
+                            </div>
+                            <div class="modal-footer justify-content-between">
+                              <a type="button" class="btn btn-primary"
+                                href="{{ url_for('empleado_swichtstate', id=user.id, activo=user.activo ) }}">Cambiar</a>
+                              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>
+                          </div>
+                          <!-- /.modal-content -->
+                        </div>
+                        <!-- /.modal-dialog -->
+                      </div>
+                      <!-- /.modal -->
+                      <div class="form-group">
+                        <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
+                          <input type="checkbox" class="custom-control-input" id="customSwitch3" data-toggle="modal"
+                            data-target="#activo{{user.id}}" {% if user.activo %} checked {% endif %}>
+                          <label class="custom-control-label" for="customSwitch3"></label>
+                        </div>
+
+                      </div> {#
+                      <div class="form-check form-switch">
+
+                        <input data-bs-toggle="modal" data-bs-target="#activo{{user.id}}" class="form-check-input"
+                          type="checkbox" role="switch" value="" {%if user.activo %} checked {% endif %}
+                          id="flexSwitchCheckDefault">
+
+                      </div>
+                      #}
+
+                    </td>
+                    <td>
+                      <a href="{{ url_for('empleado_edit', id=user.id )}}" class="btn btn-primary btn-sm">Editar</a>
+                    </td>
+
+                  </tr>
+
+                  {% endfor %}
+
+                </tbody>
+              </table>
+            </div>
+            <!-- /.card-body -->
+          </div>
+          <!-- /.card -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+      {% if (session["id"]==1) %}
+      <a href="{{ url_for('empleado_new') }}" class="btn btn-outline-success">Nuevo</a>
+      {% endif %}
+    </div>
+    <!-- /.container-fluid -->
+  </section>
+</div>
+<!-- /.content -->
+
+
+
+{% endblock %}
+
+{% block scripts %}
+
+
+
+<!-- SweetAlert2 -->
+<script src="/static/assets/plugins/sweetalert2/sweetalert2.min.js"></script>
+<!-- Toastr -->
+<script src="/static/assets/plugins/toastr/toastr.min.js"></script>
+
+<!-- AdminLTE for demo purposes -->
+<script src="/static/assets/dist/js/demo.js"></script>
+
+<!-- DataTables  & Plugins -->
+<script src="/static/assets/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="/static/assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="/static/assets/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="/static/assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+<script src="/static/assets/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+<script src="/static/assets/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+<script src="/static/assets/plugins/jszip/jszip.min.js"></script>
+<script src="/static/assets/plugins/pdfmake/pdfmake.min.js"></script>
+<script src="/static/assets/plugins/pdfmake/vfs_fonts.js"></script>
+<script src="/static/assets/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+<script src="/static/assets/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+<script src="/static/assets/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+<!-- Page specific script -->
+<script>
+ $(function () {
+        $("#tabla").DataTable({
+            "responsive": true, "lengthChange": false, "autoWidth": false,
+            "buttons": ["copy", "pdf"]
+        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+        $('#table2').DataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
+            },
+            "paging": true,
+            "lengthChange": false,
+            "searching": true,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false,
+            "responsive": true,
+        });
+    });
+</script>
+{% endblock %}

@@ -1,9 +1,21 @@
 # from flask import session
+import datetime
 from app.db import db
+import csv
+
+# from app.models.medicoDerivante import MedicoDerivante
+from app.models.punto_encuentro import (
+    Paciente,
+    TipoEstudio,
+    ObraSocial,
+    MedicoDerivante,
+    DiagnosticoPresuntivo,
+)
 
 
 def cargarDatos():
     from app.models.user import User
+
     if not db.session.query(User).first():
         carga()
 
@@ -13,54 +25,40 @@ def carga():
     from app.models.rol import Rol
 
     rol1 = Rol(name="administrador")
-    rol2 = Rol(name="operador")
-
-    usuario1 = User(
-        first_name="Mariana",
-        last_name="Rodriguez",
-        email="mari_r@gmail.com",
-        password="123",
-        username="mari_r",
-    )
-
-    usuario2 = User(
-        first_name="Iona",
-        last_name="Arregui",
-        email="iona@gmail.com",
-        password="123",
-        username="iona",
-    )
-
-    usuario3 = User(
-        first_name="Mariana",
-        last_name="Jobse",
-        email="mari_j@gmail.com",
-        password="123",
-        username="mari_j",
-    )
-    usuario4 = User(
-        first_name="Damian ",
-        last_name="Candia",
-        email="damian@gmail.com",
-        password="123",
-        username="damian",
-    )
+    rol2 = Rol(name="empleado")
 
     db.session.add(rol1)
     db.session.add(rol2)
 
-    usuario1.roles = [rol1]
-    usuario2.roles = [rol2]
-    usuario3.roles = [rol2]
-    usuario4.roles = [rol2]
+    db.session.commit()
+
+    usuario1 = User(
+        first_name="admin",
+        last_name="admin1",
+        dni=123456789,
+        email="admin@gmail.com",
+        password="123",
+        rol=1,
+    )
+
+    usuario2 = User(
+        first_name="empleado1",
+        last_name="uno",
+        dni=987654321,
+        email="emp1@gmail.com",
+        password="123",
+        rol=2,
+    )
 
     db.session.add(usuario1)
     db.session.add(usuario2)
-    db.session.add(usuario3)
-    db.session.add(usuario4)
     cargarConfig()
-    cargarPermisos(rol1, rol2)
+    cargarObrasSociales()
+    cargarPacientes()
+    cargarMedicosDerivantes()
     cargarPuntosDeEncuentro()
+    cargarTiposDeEstudio()
+    cargarDiagonosticos()
 
     db.session.commit()
 
@@ -74,40 +72,86 @@ def cargarConfig():
     db.session.add(config)
 
 
-def cargarPermisos(rol1, rol2):
-    from app.models.permiso import Permiso
-
-    permisos_ambos = [
-        Permiso(name="user_index"),
-        Permiso(name="punto_encuentro_index"),
-        Permiso(name="punto_encuentro_create"),
-        Permiso(name="punto_encuentro_new"),
-        Permiso(name="punto_encuentro_edit"),
-        Permiso(name="punto_encuentro_update"),
-        Permiso(name="punto_encuentro_show"),
-    ]
-    permisos_admin = [
-        Permiso(name="user_create"),
-        Permiso(name="user_new"),
-        Permiso(name="user_update"),
-        Permiso(name="user_edit"),
-        Permiso(name="user_delete"),
-        Permiso(name="user_swichtstate"),
-        Permiso(name="rol_asignar"),
-        Permiso(name="configuracion_edit"),
-        Permiso(name="configuracion_update"),
-        Permiso(name="punto_encuentro_destroy"),
+def cargarMedicosDerivantes():
+    medicosDerivantes = [
+        MedicoDerivante("medicoDerivante1", "uno", 1234, "medicoDerivante1@gmail.com"),
+        MedicoDerivante("medicoDerivante2", "dos", 2345, "medicoDerivante2@gmail.com"),
+        MedicoDerivante("medicoDerivante3", "tres", 3456, "medicoDerivante3@gmail.com"),
+        MedicoDerivante(
+            "medicoDerivante4", "cuatro", 4567, "medicoDerivante4@gmail.com"
+        ),
     ]
 
-    for per in permisos_ambos:
-        db.session.add(per)
-    for per in permisos_admin:
-        db.session.add(per)
+    for medico in medicosDerivantes:
+        db.session.add(medico)
 
-    rol1.permisos = permisos_admin
-    for per in permisos_ambos:
-        rol1.permisos.append(per)
-    rol2.permisos = permisos_ambos
+
+def cargarObrasSociales():
+    obrasSociales = [
+        ObraSocial("IOMA"),
+        ObraSocial("OSPE"),
+        ObraSocial("Swiss Medical"),
+        ObraSocial("OSDE"),
+    ]
+
+    for obraSocial in obrasSociales:
+        db.session.add(obraSocial)
+
+
+def cargarPacientes():
+    fecha1 = datetime.date(2000, 5, 17)
+    fecha2 = datetime.date(2005, 6, 10)
+
+    pacientes = [
+        Paciente(
+            "Paciente1",
+            "uno",
+            4444,
+            fecha1,
+            "paciente1@gmail.com",
+            1111,
+            "El paciente presenta multiples fracturas desde niño",
+            12345,
+            1,
+        ),
+        Paciente(
+            "Paciente2",
+            "dos",
+            2222,
+            fecha2,
+            "paciente2@gmail.com",
+            54321,
+            "El paciente presenta alteraciones detectadas en su primer año de vida",
+        ),
+    ]
+
+    for paciente in pacientes:
+        db.session.add(paciente)
+
+
+def cargarTiposDeEstudio():
+    tiposDeEstudio = [
+        TipoEstudio("Exoma", "Este es el consentimiento del estudio Exoma"),
+        TipoEstudio(
+            "Genoma mitocondrial completo",
+            "Este es el consentimiento del estudio Genoma mitocondrial completo",
+        ),
+        TipoEstudio(
+            "Carrier de enfermedades monogénicas recesivas",
+            "Este es el consentimiento del estudio Carrier de enfermedades monogénicas recesivas",
+        ),
+        TipoEstudio(
+            "Cariotipo",
+            "Este es el consentimiento del estudio Cariotipo",
+        ),
+        TipoEstudio(
+            "Array CGH",
+            "Este es el consentimiento del estudio Array CGH",
+        ),
+    ]
+
+    for tipoEstudio in tiposDeEstudio:
+        db.session.add(tipoEstudio)
 
 
 def cargarPuntosDeEncuentro():
@@ -193,3 +237,11 @@ def cargarPuntosDeEncuentro():
     db.session.add(punto_encuentro7)
     db.session.add(punto_encuentro7)
     db.session.add(punto_encuentro9)
+
+
+def cargarDiagonosticos():
+    with open("archivos/Patologias.csv") as data_set:
+        reader = csv.reader(data_set)
+        encabezado = next(reader)
+        for fila in reader:
+            db.session.add(DiagnosticoPresuntivo(nombre=fila))

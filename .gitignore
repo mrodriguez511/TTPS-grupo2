@@ -111,3 +111,9 @@ flask_session
 .vim
 coc-settings.json
 .vscode
+
+
+env
+migrations
+app.db
+app/archivos/facturas

@@ -1,11 +1,10 @@
 from app.db import db
 from flask import redirect, render_template, request, url_for, session, abort, flash
 from app.helpers.auth import authenticated
-from app.helpers.check import check_permission
 from app.models.punto_encuentro import Punto_encuentro
 
 
-def index():
+"""def index():
 
     if not authenticated(session):
         abort(401)
@@ -131,7 +130,7 @@ def destroy():
 
 
 def swichtstate():
-    """funcion para cambiar el estado de un punto de encuentro de publicado a despublicado y viceversa"""
+    funcion para cambiar el estado de un punto de encuentro de publicado a despublicado y viceversa
     if not authenticated(session):
         abort(401)
 
@@ -148,3 +147,4 @@ def swichtstate():
     db.session.commit()
 
     return redirect(url_for("punto_encuentro_index"))
+"""
