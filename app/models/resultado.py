@@ -9,7 +9,7 @@ class Resultado(db.Model):
     id = Column(Integer, primary_key=True, autoincrement=True)
     valor = Column(Boolean)
     detalle = Column(String(200), unique=False)
-    #estudio = relationship("Estudio", uselist=False, backref="resultado")
+    estudio = relationship("Estudio", uselist=False, backref="resultado")
    
 
     def __init__(self, valor=None, detalle=None):
