@@ -12,6 +12,12 @@ def init_app(app):  # liga nstra app con la bd
         from app.models.diagnosticoPresuntivo import diagnosticoPresuntivo
         from app.models.resultado import Resultado
         from app.models.medicoDerivante import MedicoDerivante
+        from app.models.estado import Estado
+        from app.models.lote import Lote
+        from app.models.obraSocial import ObraSocial
+        from app.models.Paciente import Paciente
+        from app.models.tipoEstudio import TipoEstudio
+        from app.models.estudio import Estudio
     config_db(app)
 
 
