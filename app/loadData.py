@@ -18,14 +18,8 @@ from app.models.estudio import Estudio
 
 
 def cargarDatos():
-    try:
-        a=db.session.query(User).one()
-    except:
+    if not db.session.query(User).first():
         carga()
-    """from app.models.user import User
-
-    if not db.session.query(User).one():
-        carga()"""
 
     
     
