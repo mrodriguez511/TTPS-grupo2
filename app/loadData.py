@@ -169,7 +169,6 @@ def cargarTiposDeEstudio():
 def cargarDiagonosticos():
     with open("archivos/Patologias.csv") as data_set:
         reader = csv.reader(data_set)
-        #encabezado = next(reader)
         for fila in reader:
             db.session.add(DiagnosticoPresuntivo(nombre=fila))
-    db.session.commit()
+            db.session.commit()
