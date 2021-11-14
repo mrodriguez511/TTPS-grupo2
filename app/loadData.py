@@ -99,6 +99,7 @@ def cargarObrasSociales():
 
     for obraSocial in obrasSociales:
         db.session.add(obraSocial)
+    db.session.commit()
 
 
 def cargarPacientes():
