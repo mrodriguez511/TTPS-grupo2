@@ -9,6 +9,9 @@ def init_app(app):  # liga nstra app con la bd
     with app.app_context():
         from app.models.user import User
         from app.models.rol import Rol
+        from app.models.diagnosticoPresuntivo import diagnosticoPresuntivo
+        from app.models.resultados import Resultado
+        from app.models.medicoDerivante import MedicoDerivante
     config_db(app)
 
 
