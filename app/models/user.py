@@ -7,7 +7,7 @@ from sqlalchemy.orm import relationship
 
 class User(db.Model):
     __tablename__ = "users"
-    id = Column(Integer, primary_key=True, autoincrement=True)
+    id = Column(Integer, primary_key=True, autoincrement=True, unique=True)
     first_name = Column(String(30), unique=False)
     last_name = Column(String(30), unique=False)
     dni = Column(Integer, primary_key=True, unique=True)
