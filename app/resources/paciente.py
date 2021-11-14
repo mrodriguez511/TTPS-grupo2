@@ -5,7 +5,8 @@ from operator import or_, and_
 from sqlalchemy.sql.expression import null
 from app.db import db
 from flask import redirect, render_template, request, url_for, session, abort, flash
-from app.models.punto_encuentro import ObraSocial, Paciente
+from app.models.obraSocial import ObraSocial
+from app.models.paciente import Paciente
 from app.helpers.auth import authenticated
 
 
