@@ -31,7 +31,7 @@ class Estudio(db.Model):
     muestra_freezer = Column(Integer, nullable=True)
     resultadoEnviado = Column(Boolean, nullable=True)
     extraccionAbonada = Column(Boolean, nullable=True)
-    lote = Column(Integer, ForeignKey("lotes.id"), nullable=True)
+    #lote = Column(Integer, ForeignKey("lotes.id"), nullable=True)
 
     def __init__(
         self,
