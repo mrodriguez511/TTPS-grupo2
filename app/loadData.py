@@ -170,5 +170,5 @@ def cargarDiagonosticos():
     with open("archivos/Patologias.csv") as data_set:
         reader = csv.reader(data_set)
         for fila in reader:
-            db.session.add(DiagnosticoPresuntivo(nombre=fila))
+            db.session.add(diagnosticoPresuntivo(nombre=fila))
             db.session.commit()
