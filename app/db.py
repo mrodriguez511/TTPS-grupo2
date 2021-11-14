@@ -7,8 +7,6 @@ db = SQLAlchemy()
 def init_app(app):  # liga nstra app con la bd
     db.init_app(app)
     with app.app_context():
-        from app.models.user import User
-        from app.models.rol import Rol
         from app.models.diagnosticoPresuntivo import diagnosticoPresuntivo
         from app.models.resultado import Resultado
         from app.models.medicoDerivante import MedicoDerivante
@@ -17,6 +15,8 @@ def init_app(app):  # liga nstra app con la bd
         from app.models.obraSocial import ObraSocial
         from app.models.paciente import Paciente
         from app.models.tipoEstudio import TipoEstudio
+        from app.models.user import User
+        from app.models.rol import Rol
         from app.models.estudio import Estudio
     config_db(app)
 
