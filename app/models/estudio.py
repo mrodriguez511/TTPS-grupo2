@@ -20,7 +20,7 @@ class Estudio(db.Model):
     diagnosticoPresuntivo = Column(Integer, ForeignKey("diagnosticosPresuntivos.id"))
     presupuesto = Column(Integer)
     resultado = relationship(Resultado,secondary="resultados")
-    #resultado_id = Column(Integer, ForeignKey("resultados.id"))
+    resultado_id = Column(Integer, ForeignKey("resultados.id"))
     estadoActual = Column(Integer)
     estados = relationship("Estado")
     archivoPresupuesto = Column(String(100), nullable=True)
