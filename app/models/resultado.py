@@ -1,4 +1,4 @@
-"""from sqlalchemy import Column, Integer, String, Boolean
+from sqlalchemy import Column, Integer, String, Boolean
 from app.db import db
 from sqlalchemy.orm import relationship
 
@@ -13,4 +13,4 @@ class Resultado(db.Model):
 
     def __init__(self, valor=None, detalle=None):
         self.valor = valor
-        self.detalle = detalle"""
+        self.detalle = detalle
