@@ -73,6 +73,7 @@ def cargarConfig():
         paginado=10, paleta_AppPublica=1, paleta_AppPrivada=1, ordenacion=True
     )
     db.session.add(config)
+    db.session.commit()
 
 
 def cargarMedicosDerivantes():
@@ -87,6 +88,7 @@ def cargarMedicosDerivantes():
 
     for medico in medicosDerivantes:
         db.session.add(medico)
+    db.session.commit()
 
 
 def cargarObrasSociales():
@@ -131,6 +133,8 @@ def cargarPacientes():
 
     for paciente in pacientes:
         db.session.add(paciente)
+    db.session.commit()
+       
 
 
 def cargarTiposDeEstudio():
@@ -156,6 +160,7 @@ def cargarTiposDeEstudio():
 
     for tipoEstudio in tiposDeEstudio:
         db.session.add(tipoEstudio)
+    db.session.commit()
 
 
 
@@ -167,3 +172,4 @@ def cargarDiagonosticos():
         #encabezado = next(reader)
         for fila in reader:
             db.session.add(DiagnosticoPresuntivo(nombre=fila))
+    db.session.commit()
