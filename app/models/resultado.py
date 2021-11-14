@@ -9,6 +9,7 @@ class Resultado(db.Model):
     id = Column(Integer, primary_key=True, autoincrement=True)
     valor = Column(Boolean)
     detalle = Column(String(200), unique=False)
+    estudio = relationship("estudios", back_populates="resultado")
     # permisos = relationship("Permiso", secondary=roles_permisos, back_populates="roles")
 
     def __init__(self, valor=None, detalle=None):
