@@ -17,15 +17,16 @@ from app.models.rol import Rol
 from app.models.estudio import Estudio
 
 
-"""def cargarDatos():
-    from app.models.user import User
+def cargarDatos():
+    try:
+        a=db.session.query(User).one()
+    except:
+        carga()
+    """from app.models.user import User
 
     if not db.session.query(User).one():
         carga()"""
-try:
-    a=db.session.query(User).one()
-except:
-    carga()
+
     
     
 def carga():
