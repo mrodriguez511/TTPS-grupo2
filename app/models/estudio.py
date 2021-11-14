@@ -1,5 +1,6 @@
 from datetime import datetime
 from app.models.estado import Estado
+from app.models.resultado import Resultado
 from sqlalchemy import Column, Integer, String, Boolean, DateTime, ForeignKey
 from app.db import db
 from sqlalchemy.orm import relationship
