@@ -1,4 +1,4 @@
-"""from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String
 from app.db import db
 from sqlalchemy.orm import relationship
 
@@ -11,4 +11,4 @@ class diagnosticoPresuntivo(db.Model):
     # permisos = relationship("Permiso", secondary=roles_permisos, back_populates="roles")
 
     def __init__(self, nombre=None):
-        self.nombre = nombre"""
+        self.nombre = nombre
