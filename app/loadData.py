@@ -61,7 +61,7 @@ def carga():
     cargarPacientes()
     cargarMedicosDerivantes()
     cargarTiposDeEstudio()
-    #cargarDiagonosticos()
+    cargarDiagonosticos()
 
     db.session.commit()
 
@@ -161,9 +161,9 @@ def cargarTiposDeEstudio():
 
 
 
-"""def cargarDiagonosticos():
+def cargarDiagonosticos():
     with open("archivos/Patologias.csv") as data_set:
         reader = csv.reader(data_set)
-        encabezado = next(reader)
+        #encabezado = next(reader)
         for fila in reader:
-            db.session.add(DiagnosticoPresuntivo(nombre=fila))"""
+            db.session.add(DiagnosticoPresuntivo(nombre=fila))
