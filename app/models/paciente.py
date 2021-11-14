@@ -1,5 +1,4 @@
 from app.models.rol import Rol
-from app.models.permiso import Permiso
 from sqlalchemy import (
     Column,
     Integer,
