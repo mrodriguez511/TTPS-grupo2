@@ -9,7 +9,7 @@ class Lote(db.Model):
     __tablename__ = "lotes"
     id = Column(Integer, primary_key=True, autoincrement=True)
     url = Column(String, nullable=True)
-    estudios = relationship("Estudio")
+    #estudios = relationship("Estudio")
 
 
 def __init__(self, estudios=None):
