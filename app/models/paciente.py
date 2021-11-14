@@ -1,4 +1,4 @@
-"""from app.models.rol import Rol
+from app.models.rol import Rol
 from app.models.permiso import Permiso
 from sqlalchemy import (
     Column,
@@ -48,4 +48,4 @@ class Paciente(db.Model):
         self.resumenHC = resumenHC
         self.password = dni
         self.nroAfiliado = nroAfiliado
-        self.obraSocial = obraSocial"""
+        self.obraSocial = obraSocial
