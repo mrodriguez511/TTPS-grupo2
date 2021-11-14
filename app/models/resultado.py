@@ -5,7 +5,7 @@ from sqlalchemy.orm import relationship
 
 class Resultado(db.Model):
 
-    __tablename__ = "resultados",db.Model.metadata
+    __tablename__ = "resultados"
     id = Column(Integer, primary_key=True, autoincrement=True)
     valor = Column(Boolean)
     detalle = Column(String(200), unique=False)
