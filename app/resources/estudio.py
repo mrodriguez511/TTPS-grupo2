@@ -78,7 +78,7 @@ def new_estudio():
 
     pacientes = Paciente.query.all()
     medicos = MedicoDerivante.query.all()
-    diagnoticos = DiagnosticoPresuntivo.query.all()
+    diagnoticos = diagnosticoPresuntivo.query.all()
     tipos = TipoEstudio.query.all()
 
     return render_template(
