@@ -3,14 +3,18 @@ import datetime
 from app.db import db
 import csv
 
-# from app.models.medicoDerivante import MedicoDerivante
-from app.models.punto_encuentro import (
-    Paciente,
-    TipoEstudio,
-    ObraSocial,
-    MedicoDerivante,
-    DiagnosticoPresuntivo,
-)
+
+from app.models.diagnosticoPresuntivo import diagnosticoPresuntivo
+from app.models.resultado import Resultado
+from app.models.medicoDerivante import MedicoDerivante
+from app.models.estado import Estado
+from app.models.lote import Lote
+from app.models.obraSocial import ObraSocial
+from app.models.paciente import Paciente
+from app.models.tipoEstudio import TipoEstudio
+from app.models.user import User
+from app.models.rol import Rol
+from app.models.estudio import Estudio
 
 
 def cargarDatos():
@@ -29,6 +33,9 @@ def carga():
 
     db.session.add(rol1)
     db.session.add(rol2)
+    
+    res=Resultado(10,"probando")
+    db.session.add(res)
 
     db.session.commit()
 
