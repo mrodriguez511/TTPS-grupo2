@@ -2,7 +2,7 @@ from datetime import datetime
 from app.models.estado import Estado
 from sqlalchemy import Column, Integer, String, Boolean, DateTime, ForeignKey
 from app.db import db
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship,backref
 from flask import session
 
 
