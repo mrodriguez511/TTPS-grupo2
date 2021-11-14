@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Boolean
+"""from sqlalchemy import Column, Integer, String, Boolean
 from app.db import db
 from sqlalchemy.orm import relationship
 
@@ -17,4 +17,4 @@ class TipoEstudio(db.Model):
         consentimientoInformado=None,
     ):
         self.nombre = nombre
-        self.consentimientoInformado = consentimientoInformado
+        self.consentimientoInformado = consentimientoInformado"""
