@@ -20,7 +20,7 @@ from app.models.estudio import Estudio
 def cargarDatos():
     from app.models.user import User
 
-    if not db.session.query(User).first():
+    if not db.session.query(User).one():
         carga()
 
 
