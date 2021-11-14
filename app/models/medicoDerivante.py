@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String
+"""from sqlalchemy import Column, Integer, String
 from app.db import db
 from sqlalchemy.orm import relationship
 
@@ -18,4 +18,4 @@ class MedicoDerivante(db.Model):
         self.nombre = nombre
         self.apellido = apellido
         self.matricula = matricula
-        self.mail = mail
+        self.mail = mail"""
