@@ -3,6 +3,9 @@ from sqlalchemy.sql.expression import null
 from sqlalchemy.sql.operators import and_
 
 from app.models.estudio import Estudio
+from app.models.paciente import Paciente
+from app.models.tipoEstudio import TipoEstudio
+
 
 from app.helpers.auth import authenticated
 from app.db import db
@@ -16,6 +19,12 @@ def index():
     if not (session["rol"] == 2):
         abort(401)
 
-    estudios = Estudio.query.filter(Estudio.estadoActual == 6).all()
+    estudios = (
+        db.session.query(Estudio, Paciente, TipoEstudio)
+        .filter(Estudio.paciente == Paciente.id)
+        .filter(Estudio.tipoEstudio == TipoEstudio.id)
+        .filter(Estudio.estadoActual == 6)
+        .all()
+    )
 
     return render_template("estudiosParaCrearLote/index.html", estudios=estudios)

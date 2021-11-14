@@ -5,7 +5,14 @@ from flask import Flask, render_template, g, Blueprint
 from flask_session import Session
 from config import config
 from app import db
-from app.resources import empleado, estudio, paciente
+from app.resources import (
+    empleado,
+    estudio,
+    estudiosParaCrearLote,
+    liquidacionExtracciones,
+    paciente,
+    reportes,
+)
 from app.resources import auth
 from app.resources import configuracion
 from app.helpers import handler
@@ -95,6 +102,26 @@ def create_app(environment="development"):
         methods=["POST"],
     )
     app.add_url_rule("/empleado/pacientes", "paciente_index", paciente.index)
+
+    # estudios para crear Lote
+    app.add_url_rule(
+        "/estudios_Lote",
+        "estudiosParaCrearLote_index",
+        estudiosParaCrearLote.index,
+    )
+
+    # liquidacion de extracciones
+    app.add_url_rule(
+        "/liquidacion_Extracciones",
+        "liquidacionExtracciones_index",
+        liquidacionExtracciones.index,
+    )
+
+    # reportes
+    app.add_url_rule("/reportes", "reportes_index", reportes.index)
+    app.add_url_rule(
+        "/reporte_cant_estudios_tipo", "reportes1", reportes.cant_estudios_tipo
+    )
 
     # estudio estado 1
     app.add_url_rule("/empleado/estudio1", "estudio_estado1", estudio.estudio_estado1)

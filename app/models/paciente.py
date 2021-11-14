@@ -25,8 +25,8 @@ class Paciente(db.Model):
     password = Column(String(30), unique=False)
     nroAfiliado = Column(Integer, unique=True, nullable=True)
     obraSocial = Column(Integer, ForeignKey("obrasSociales.id"), nullable=True)
-    estudios = relationship("Estudio")
-    # estudios = relationship("Estudio", backref="paciente")
+    # estudios = relationship("Estudio")
+    estudios = relationship("Estudio", backref="paciente_")
 
     def __init__(
         self,

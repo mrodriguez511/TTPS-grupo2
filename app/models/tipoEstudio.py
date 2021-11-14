@@ -9,8 +9,8 @@ class TipoEstudio(db.Model):
     id = Column(Integer, primary_key=True, autoincrement=True)
     nombre = Column(String(50), unique=True)
     consentimientoInformado = Column(String(300))
-    # estudios = relationship("Estudio", backref="tipoEstudio")
-    estudios = relationship("Estudio")
+    estudios = relationship("Estudio", backref="tipoEstudio_")
+    # estudios = relationship("Estudio")
 
     def __init__(
         self,

@@ -3,6 +3,8 @@ from sqlalchemy.sql.expression import null
 from sqlalchemy.sql.operators import and_
 
 from app.models.estudio import Estudio
+from app.models.paciente import Paciente
+from app.models.tipoEstudio import TipoEstudio
 
 from app.helpers.auth import authenticated
 from app.db import db
@@ -19,12 +21,15 @@ def index():
     if not (session["rol"] == 2):
         abort(401)
 
-    """estudios = Estudio.query.filter(
-        and_(Estudio.extraccionAbonada == False, Estudio.muestra_ml != null)
-    ).all()"""
-
-    estudios = Estudio.query.filter(
-        and_(Estudio.extraccionAbonada == False, Estudio.estadoActual == 5)
-    ).all()
-
+    estudios = (
+        db.session.query(
+            Estudio,
+            Paciente,
+            TipoEstudio,
+        )
+        .filter(Estudio.paciente == Paciente.id)
+        .filter(Estudio.tipoEstudio == TipoEstudio.id)
+        .filter(and_(Estudio.estadoActual > 4, Estudio.extraccionAbonada == False))
+        .all()
+    )
     return render_template("liquidacionExtracciones/index.html", estudios=estudios)

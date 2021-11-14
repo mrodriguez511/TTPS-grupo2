@@ -1,4 +1,3 @@
-from operator import and_
 from flask import redirect, render_template, request, url_for, session, abort, flash
 from flask import (
     redirect,
@@ -10,7 +9,7 @@ from flask import (
     flash,
     current_app,
 )
-from operator import and_
+
 
 from werkzeug.utils import send_from_directory
 from app.helpers.archivos import generar_factura
@@ -129,10 +128,14 @@ def estudio_estado1():
         abort(401)
     if not (session["rol"] == 2):
         abort(401)
+
     estudio = "555"
+    estudio_id = estudio.__getattribute__  # cambio para que tome el id
 
     ruta = current_app.config["UPLOADED_FACTURAS_DEST"]
-    ruta_archivo = os.path.join(ruta, "factura_" + str(estudio.id) + ".pdf")
+    # ruta_archivo = os.path.join(ruta, "factura_" + str(estudio.id) + ".pdf")
+    ruta_archivo = os.path.join(ruta, "factura_" + str(estudio_id) + ".pdf")
+
     # factura = os.path.join(current_app.root_path, app.config["UPLOAD_FOLDER"])
     factura = "archivos/facturas/factura_" + "555" + ".pdf"
     return render_template("estudio/estado1.html", estudio=estudio, factura=factura)
@@ -164,3 +167,7 @@ def download():
     filename = request.args.get("filename")
     ruta = current_app.config["UPLOADED_FACTURAS_DEST"]
     return send_from_directory(ruta, filename, environ=request.environ)
+
+    db.session.commit()
+    # FALTA GUARDAR EL ARCHIVO Y AGREGAR EL BOTON DE DESCARGAR EL COMPROBANTE EXISTENTE
+    return render_template("empleados/index.html")  # redirect
