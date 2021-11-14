@@ -62,7 +62,7 @@ def carga():
     cargarPacientes()
     cargarMedicosDerivantes()
     cargarTiposDeEstudio()
-    cargarDiagonosticos()
+    #cargarDiagonosticos()
 
     db.session.commit()
 
