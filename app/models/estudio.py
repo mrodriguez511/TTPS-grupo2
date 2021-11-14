@@ -2,7 +2,7 @@ from datetime import datetime
 from app.models.estado import Estado
 from sqlalchemy import Column, Integer, String, Boolean, DateTime, ForeignKey
 from app.db import db
-from sqlalchemy.orm import relationship,backref
+from sqlalchemy.orm import relationship
 from flask import session
 
 
@@ -18,8 +18,8 @@ class Estudio(db.Model):
     empleado = Column(Integer, ForeignKey("users.id"))
     diagnosticoPresuntivo = Column(Integer, ForeignKey("diagnosticosPresuntivos.id"))
     presupuesto = Column(Integer)
-    #resultado_id = Column(Integer, ForeignKey("resultados.id"), nullable=True)
-    #resultado = relationship("Resultado", backref=backref("estudio", uselist=False))
+    resultado_id = Column(Integer, ForeignKey("resultados.id"), nullable=True)
+    resultado = relationship("Resultado",foreign_keys=[resultado_id])
     estadoActual = Column(Integer)
     estados = relationship("Estado")
     archivoPresupuesto = Column(String(100), nullable=True)
