@@ -17,12 +17,12 @@ from app.models.user import User
 from app.models.rol import Rol
 import os
 
-from app.models.punto_encuentro import (
-    Paciente,
-    MedicoDerivante,
-    DiagnosticoPresuntivo,
-    TipoEstudio,
-)
+
+
+from app.models.paciente import Paciente
+from app.models.medicoDerivante import MedicoDerivante
+from app.models.diagnosticoPresuntivo import DiagnosticoPresuntivo
+from app.models.tipoEstudio import TipoEstudio
 from app.helpers.auth import authenticated
 from app.db import db
 from datetime import datetime
