@@ -16,6 +16,7 @@ class User(db.Model):
     activo = Column(Boolean)
     intentos = Column(Integer)
     rol = Column(Integer, ForeignKey("roles.id"))
+    estudios = relationship("Estudio")
 
     def __init__(
         self,
