@@ -21,7 +21,7 @@ import os
 
 from app.models.paciente import Paciente
 from app.models.medicoDerivante import MedicoDerivante
-from app.models.diagnosticoPresuntivo import DiagnosticoPresuntivo
+from app.models.diagnosticoPresuntivo import diagnosticoPresuntivo
 from app.models.tipoEstudio import TipoEstudio
 from app.helpers.auth import authenticated
 from app.db import db
