@@ -1,10 +1,10 @@
-from app.db import db
+"""from app.db import db
 from flask import redirect, render_template, request, url_for, session, abort, flash
 from app.helpers.auth import authenticated
 from app.models.punto_encuentro import Punto_encuentro
 
 
-"""def index():
+def index():
 
     if not authenticated(session):
         abort(401)
