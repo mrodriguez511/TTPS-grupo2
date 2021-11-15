@@ -5,7 +5,14 @@ from flask import Flask, render_template, g, Blueprint
 from flask_session import Session
 from config import config
 from app import db
-from app.resources import empleado, estudio, paciente
+from app.resources import (
+    empleado,
+    estudio,
+    estudiosParaCrearLote,
+    liquidacionExtracciones,
+    paciente,
+    reportes,
+)
 from app.resources import auth
 from app.resources import configuracion
 from app.helpers import handler
@@ -96,6 +103,26 @@ def create_app(environment="development"):
     )
     app.add_url_rule("/empleado/pacientes", "paciente_index", paciente.index)
 
+    # estudios para crear Lote
+    app.add_url_rule(
+        "/estudios_Lote",
+        "estudiosParaCrearLote_index",
+        estudiosParaCrearLote.index,
+    )
+
+    # liquidacion de extracciones
+    app.add_url_rule(
+        "/liquidacion_Extracciones",
+        "liquidacionExtracciones_index",
+        liquidacionExtracciones.index,
+    )
+
+    # reportes
+    app.add_url_rule("/reportes", "reportes_index", reportes.index)
+    app.add_url_rule(
+        "/reporte_cant_estudios_tipo", "reportes1", reportes.cant_estudios_tipo
+    )
+
     # estudio estado 1
     app.add_url_rule("/empleado/estudio1", "estudio_estado1", estudio.estudio_estado1)
     app.add_url_rule(
@@ -104,6 +131,40 @@ def create_app(environment="development"):
         estudio.estudio_estado1_carga,
         methods=["POST"],
     )
+    app.add_url_rule("/empleado/estudio2", "estudio_estado2", estudio.estudio_estado2)
+    app.add_url_rule(
+        "/empleado/estudio2",
+        "estudio_estado2_carga",
+        estudio.estudio_estado2_carga,
+        methods=["POST"],
+    )
+    app.add_url_rule("/empleado/estudio3", "estudio_estado3", estudio.estudio_estado3)
+    app.add_url_rule(
+        "/empleado/estudio3",
+        "estudio_estado3_carga",
+        estudio.estudio_estado3_carga,
+        methods=["POST"],
+    )
+    app.add_url_rule("/empleado/estudio4", "estudio_estado4", estudio.estudio_estado4)
+    app.add_url_rule(
+        "/empleado/cancelarturno", "cancelar_turno", estudio.cancelar_turno
+    )
+    app.add_url_rule(
+        "/empleado/estudio4",
+        "estudio_estado4_carga",
+        estudio.estudio_estado4_carga,
+        methods=["POST"],
+    )
+
+    app.add_url_rule("/empleado/estudio5", "estudio_estado5", estudio.estudio_estado5)
+    app.add_url_rule(
+        "/empleado/estudio5",
+        "estudio_estado5_carga",
+        estudio.estudio_estado5_carga,
+        methods=["POST"],
+    )
+    app.add_url_rule("/empleado/estudio6", "estudio_estado6", estudio.estudio_estado6)
+    app.add_url_rule("/empleado/estudio7", "estudio_estado7", estudio.estudio_estado7)
 
     # Rutas de configuracion
     app.add_url_rule("/descarga", "download", estudio.download)

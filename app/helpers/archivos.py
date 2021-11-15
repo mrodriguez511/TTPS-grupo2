@@ -1,8 +1,9 @@
 import pdfkit
 import os
 from flask import render_template, current_app, request, url_for, session, abort, flash
-from app.models.punto_encuentro import TipoEstudio
-from app.models.punto_encuentro import Paciente
+from app.models.paciente import Paciente
+from app.models.tipoEstudio import TipoEstudio
+
 from app.models.estudio import Estudio
 
 
@@ -25,6 +26,7 @@ def generar_factura(estudio):
     pdfkit.from_string(html, ruta_archivo, configuration=config)
 
     return nombre_archivo
+
 
 
 # https://stackoverflow.com/questions/52721272/python-3-flask-install-wkhtmltopdf-on-heroku
