@@ -8,7 +8,7 @@ from sqlalchemy.orm import relationship
 class Lote(db.Model):
     __tablename__ = "lotes"
     id = Column(Integer, primary_key=True, autoincrement=True)
-    url = Column(String, nullable=True)
+    url = Column(String(300), nullable=True)
     estudios = relationship("Estudio")
 
 

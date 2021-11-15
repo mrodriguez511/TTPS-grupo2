@@ -23,7 +23,7 @@ def index():
 
     prueba = (
         db.session.query(Paciente, ObraSocial)
-        .filter(or_(Paciente.obraSocial == ObraSocial.id, Paciente.obraSocial == None))
+        .filter(Paciente.obraSocial == ObraSocial.id)
         .all()
     )
 
