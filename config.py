@@ -43,7 +43,7 @@ class DevelopmentConfig(Config):
     DB_PORT = environ.get("DB_PORT", "3306")
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_DATABASE_URI = (
-        f"postgresql+psycopg2://{DB_USER}:{DB_PASS}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
+        f"mysql+pymysql://{DB_USER}:{DB_PASS}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
     )
     # sqlalchemy no usa por defecto pymysql, agregando estas sentencias, yo le digo que se conecte a mi base de datos
 
