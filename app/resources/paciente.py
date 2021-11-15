@@ -21,13 +21,17 @@ def index():
 
     p = pacientes.fetchall()"""
 
-    prueba = (
+    pacientes1 = (
         db.session.query(Paciente, ObraSocial)
         .filter(Paciente.obraSocial == ObraSocial.id)
         .all()
     )
 
-    return render_template("paciente/index.html", pacientes=prueba)
+    pacientes2 = Paciente.query.filter(Paciente.obraSocial == None).all()
+
+    return render_template(
+        "paciente/index.html", pacientes1=pacientes1, pacientes2=pacientes2
+    )
 
 
 def new_paciente():
@@ -59,7 +63,18 @@ def create_paciente():
         flash("Ya existe un paciente con el DNI o email ingresado")
         return redirect(url_for("paciente_new"))
 
-    new_paciente = Paciente(**request.form)
+    new_paciente = Paciente(
+        params["nombre"],
+        params["apellido"],
+        params["dni"],
+        params["fechaNacimiento"],
+        params["email"],
+        params["telefono"],
+        params["resumenHC"],
+    )
+    if params["obraSocial"] != "Seleccionar":
+        new_paciente.obraSocial = params["obraSocial"]
+        new_paciente.nroAfiliado = params["nroAfiliado"]
 
     db.session.add(new_paciente)
     db.session.commit()

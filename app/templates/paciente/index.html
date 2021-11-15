@@ -40,21 +40,30 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {% for paciente in pacientes %}
+                                    {% for paciente,obraSocial in pacientes1 %}
 
 
                                     <tr>
-                                        <td scope="row">{{ paciente[0] }}</td>
-                                        <td>{{ paciente[1] }} {{ paciente[2] }}</td>
-                                        <td>{{ paciente[3] }}</td>
-                                        <td>{{ paciente[4] }}</td>
-                                        {% if paciente[5]==None %}
+                                        <td scope="row">{{ paciente.id }}</td>
+                                        <td>{{ paciente.nombre }} {{ paciente.apellido }}</td>
+                                        <td>{{ paciente.dni }}</td>
+                                        <td>{{ paciente.telefono }}</td>
+                                        <td>{{ obraSocial.nombre }}</td>
+                                        <td>{{ paciente.nroAfiliado }}</td>
+                                        <td>
+                                            <a href="{{ url_for('estudio_ver', id=paciente.id )}}"
+                                                class="btn btn-primary btn-sm">Ver</a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                    {% for paciente in pacientes2 %}
+                                    <tr>
+                                        <td scope="row">{{ paciente.id }}</td>
+                                        <td>{{ paciente.nombre }} {{ paciente.apellido }}</td>
+                                        <td>{{ paciente.dni }}</td>
+                                        <td>{{ paciente.telefono }}</td>
                                         <td>{{ "-" }}</td>
                                         <td>{{ "-" }}</td>
-                                        {% else %}
-                                        <td>{{ paciente[5] }}</td>
-                                        <td>{{ paciente[6] }}</td>
-                                        {% endif %}
                                         <td>
                                             <a href="{{ url_for('estudio_ver', id=paciente.id )}}"
                                                 class="btn btn-primary btn-sm">Ver</a>
