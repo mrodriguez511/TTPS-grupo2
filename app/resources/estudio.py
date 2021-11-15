@@ -1,3 +1,4 @@
+from flask import redirect, render_template, request, url_for, session, abort, flash
 from flask import (
     redirect,
     render_template,
@@ -8,9 +9,6 @@ from flask import (
     flash,
     current_app,
 )
-from operator import and_
-from sqlalchemy.sql.elements import Null
-
 from werkzeug.utils import send_from_directory
 from app.helpers.archivos import generar_factura
 from app.models.estudio import Estudio
@@ -21,12 +19,17 @@ import csv
 from datetime import datetime
 
 
-from app.models.punto_encuentro import (
+"""from app.models.punto_encuentro import (
     Paciente,
     MedicoDerivante,
     DiagnosticoPresuntivo,
     TipoEstudio,
-)
+)"""
+from app.models.diagnosticoPresuntivo import DiagnosticoPresuntivo
+from app.models.paciente import Paciente
+from app.models.tipoEstudio import TipoEstudio
+from app.models.medicoDerivante import MedicoDerivante
+
 from app.helpers.auth import authenticated
 from app.db import db
 from datetime import datetime
@@ -112,13 +115,14 @@ def create_estudio():
         diagnosticoPresuntivo=params["diagnostico"],
         presupuesto=params["presupuesto"],
     )
-    db.session.add(new_estudio)
+    new_estudio.archivoPresupuesto = generar_factura(new_estudio)
 
+    db.session.add(new_estudio)
     archivo = generar_factura(new_estudio)  # genero el estudio
     new_estudio.archivoPresupuesto = archivo
     db.session.commit()
 
-    return redirect(url_for("estudio_estado1", estudio=new_estudio.id))
+    return redirect(url_for("estudio_estado1"))
 
 
 def estudio_estado1():
@@ -330,7 +334,6 @@ def estudio_estado5_carga():
     estudio.empleadoMuestra = empleado
     estudio.estadoActual += 1
     db.session.commit()
-
     return redirect(url_for("estudio_estado6", estudio=estudio.id))
 
 
@@ -346,6 +349,7 @@ def estudio_estado6():
 
     return render_template("estudio/estado6.html", estudio=estudio)
 
+
 def estudio_estado7():
     """esperando formar lote"""
     if not authenticated(session):
@@ -357,6 +361,8 @@ def estudio_estado7():
     estudio = Estudio.query.filter(Estudio.id == estudio_id).first()
 
     return render_template("estudio/estado7.html", estudio=estudio)
+
+    # return render_template("empleados/index.html")  # redirect
 
 
 def download():

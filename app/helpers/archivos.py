@@ -1,8 +1,9 @@
 import pdfkit
 import os
 from flask import render_template, current_app, request, url_for, session, abort, flash
-from app.models.punto_encuentro import TipoEstudio
-from app.models.punto_encuentro import Paciente
+from app.models.paciente import Paciente
+from app.models.tipoEstudio import TipoEstudio
+
 from app.models.estudio import Estudio
 
 
