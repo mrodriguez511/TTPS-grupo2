@@ -1,5 +1,5 @@
 import pdfkit
-import os
+import os,sys, subprocess, platform
 from flask import render_template, current_app, request, url_for, session, abort, flash
 from app.models.tipoEstudio import TipoEstudio
 from app.models.paciente import Paciente
@@ -9,7 +9,7 @@ from app.models.estudio import Estudio
 def generar_factura(estudio):
 
     path_wkthmltopdf = "C:/Program Files/wkhtmltopdf/bin/wkhtmltopdf.exe"
-    config = pdfkit.configuration(wkhtmltopdf=path_wkthmltopdf)
+    #config = pdfkit.configuration(wkhtmltopdf=path_wkthmltopdf)
 
     tipoEstudio = TipoEstudio.query.filter(
         TipoEstudio.id == estudio.tipoEstudio
@@ -21,6 +21,14 @@ def generar_factura(estudio):
     ruta = current_app.config["UPLOADED_FACTURAS_DEST"]
     nombre_archivo = "presupuesto_" + str(estudio.id) + ".pdf"
     ruta_archivo = os.path.join(ruta, nombre_archivo)
+    
+    if platform.system() == "Windows":
+        config = pdfkit.configuration(wkhtmltopdf=os.environ.get('WKHTMLTOPDF_BINARY', 'C:\\Program Files\\wkhtmltopdf\\bin\\wkhtmltopdf.exe'))
+    else:
+        os.environ['PATH'] += os.pathsep + os.path.dirname(sys.executable) 
+        WKHTMLTOPDF_CMD = subprocess.Popen(['which', os.environ.get('WKHTMLTOPDF_BINARY', 'wkhtmltopdf')], 
+            stdout=subprocess.PIPE).communicate()[0].strip()
+        config = pdfkit.configuration(wkhtmltopdf=WKHTMLTOPDF_CMD)
     
     pdfkit.from_string(html, ruta_archivo, configuration=config)
 
