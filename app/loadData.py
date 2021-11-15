@@ -3,8 +3,7 @@ import datetime
 from app.db import db
 import csv
 
-
-from app.models.diagnosticoPresuntivo import diagnosticoPresuntivo
+from app.models.diagnosticoPresuntivo import DiagnosticoPresuntivo
 from app.models.resultado import Resultado
 from app.models.medicoDerivante import MedicoDerivante
 from app.models.estado import Estado
@@ -21,8 +20,7 @@ def cargarDatos():
     if not db.session.query(User).first():
         carga()
 
-    
-    
+
 def carga():
     from app.models.user import User
     from app.models.rol import Rol
@@ -32,9 +30,6 @@ def carga():
 
     db.session.add(rol1)
     db.session.add(rol2)
-    
-    
-
 
     usuario1 = User(
         first_name="admin",
@@ -62,6 +57,7 @@ def carga():
     cargarMedicosDerivantes()
     cargarTiposDeEstudio()
     cargarDiagonosticos()
+    cargarEstudios()
 
     db.session.commit()
 
@@ -134,7 +130,6 @@ def cargarPacientes():
     for paciente in pacientes:
         db.session.add(paciente)
     db.session.commit()
-       
 
 
 def cargarTiposDeEstudio():
@@ -163,12 +158,87 @@ def cargarTiposDeEstudio():
     db.session.commit()
 
 
-
-
-
 def cargarDiagonosticos():
     with open("archivos/Patologias.csv") as data_set:
         reader = csv.reader(data_set)
         for fila in reader:
-            db.session.add(diagnosticoPresuntivo(nombre=fila[0]))
+            db.session.add(DiagnosticoPresuntivo(nombre=fila[0]))
             db.session.commit()
+
+
+def cargarEstudios():
+    estudio1 = Estudio(
+        1,  # tipoEstudio hay 5
+        2,  # medicoDerivante hay 4
+        2,  # paciente hay 2
+        2,  # empleado hay 1
+        3,  # diagnostico hay muchos 300 y pico
+        300000,  # presupuesto
+    )
+
+    estudio2 = Estudio(
+        1,  # tipoEstudio hay 5
+        3,  # medicoDerivante hay 4
+        1,  # paciente hay 2
+        1,  # empleado hay 1
+        10,  # diagnostico hay muchos 300 y pico
+        900000,  # presupuesto
+    )
+    estudio3 = Estudio(
+        5,  # tipoEstudio hay 5
+        4,  # medicoDerivante hay 4
+        1,  # paciente hay 2
+        1,  # empleado hay 1
+        300,  # diagnostico hay muchos 300 y pico
+        10000,  # presupuesto
+    )
+    estudio4 = Estudio(
+        5,  # tipoEstudio hay 5
+        4,  # medicoDerivante hay 4
+        1,  # paciente hay 2
+        1,  # empleado hay 1
+        300,  # diagnostico hay muchos 300 y pico
+        10000,  # presupuesto
+    )
+    estudioEnero = Estudio(
+        5,  # tipoEstudio hay 5
+        4,  # medicoDerivante hay 4
+        1,  # paciente hay 2
+        1,  # empleado hay 1
+        300,  # diagnostico hay muchos 300 y pico
+        10000,  # presupuesto
+    )
+    estudioFebrero = Estudio(
+        5,  # tipoEstudio hay 5
+        4,  # medicoDerivante hay 4
+        1,  # paciente hay 2
+        1,  # empleado hay 1
+        300,  # diagnostico hay muchos 300 y pico
+        10000,  # presupuesto
+    )
+    estudioMarzo = Estudio(
+        5,  # tipoEstudio hay 5
+        4,  # medicoDerivante hay 4
+        1,  # paciente hay 2
+        1,  # empleado hay 1
+        300,  # diagnostico hay muchos 300 y pico
+        10000,  # presupuesto
+    )
+    estudio1.estadoActual = 6
+    estudio2.estadoActual = 6
+    estudio3.estadoActual = 6
+    estudio4.estadoActual = 4
+    estudioEnero.fecha = "2021-01-01"
+    estudioFebrero.fecha = "2021-02-01"
+    estudioMarzo.fecha = "2021-03-01"
+    estudio1.extraccionAbonada = False
+    estudio2.extraccionAbonada = False
+    estudio3.extraccionAbonada = False
+    estudio4.extraccionAbonada = False
+    db.session.add(estudio1)
+    db.session.add(estudio2)
+    db.session.add(estudio3)
+    db.session.add(estudio4)
+    db.session.add(estudioEnero)
+    db.session.add(estudioFebrero)
+    db.session.add(estudioMarzo)

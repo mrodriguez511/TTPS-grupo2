@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+{% block title %}Estudios{% endblock %}
+{% block head %}
+{{ super() }}
+{% endblock %}
+{% block content %}
+<h1>Liquidación de extracciones no abonadas</h1>
+
+<div class="container py-5">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Paciente</th>
+                <th scope="col">Tipo de Estudio</th>
+                <th scope="col">Fecha de toma de muestra</th>
+                <th scope="col">Seleccionar</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for estadoActual,paciente,tipoEstudio in estudios %}
+            <tr>
+                <td>{{ paciente.nombre }} {{ paciente.apellido }}</td>
+                <td>{{ tipoEstudio.nombre }}</td>
+                <td>{{ estadoActual.fecha}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<a href="{{ url_for('empleado_home') }}" class="btn btn-outline-success">Volver</a>
+{% endblock %}

@@ -1,20 +1,28 @@
 import pdfkit
-import os,sys, subprocess, platform
+import os, sys, subprocess, platform
 from flask import render_template, current_app, request, url_for, session, abort, flash
-from app.models.tipoEstudio import TipoEstudio
 from app.models.paciente import Paciente
+from app.models.tipoEstudio import TipoEstudio
 from app.models.estudio import Estudio
 
 
 def generar_factura(estudio):
-    
-    if 'DYNO' in os.environ:
-        print ('loading wkhtmltopdf path on heroku')
-        path_wkthmltopdf = subprocess.Popen(
-            ['which', os.environ.get('WKHTMLTOPDF_BINARY', 'wkhtmltopdf-pack')], # Note we default to 'wkhtmltopdf' as the binary name
-            stdout=subprocess.PIPE).communicate()[0].strip()
+
+    if "DYNO" in os.environ:
+        print("loading wkhtmltopdf path on heroku")
+        path_wkthmltopdf = (
+            subprocess.Popen(
+                [
+                    "which",
+                    os.environ.get("WKHTMLTOPDF_BINARY", "wkhtmltopdf-pack"),
+                ],  # Note we default to 'wkhtmltopdf' as the binary name
+                stdout=subprocess.PIPE,
+            )
+            .communicate()[0]
+            .strip()
+        )
     else:
-        path_wkthmltopdf= "C:/Program Files/wkhtmltopdf/bin/wkhtmltopdf.exe"
+        path_wkthmltopdf = "C:/Program Files/wkhtmltopdf/bin/wkhtmltopdf.exe"
     config = pdfkit.configuration(wkhtmltopdf=path_wkthmltopdf)
 
     tipoEstudio = TipoEstudio.query.filter(
@@ -27,10 +35,7 @@ def generar_factura(estudio):
     ruta = current_app.config["UPLOADED_FACTURAS_DEST"]
     nombre_archivo = "presupuesto_" + str(estudio.id) + ".pdf"
     ruta_archivo = os.path.join(ruta, nombre_archivo)
-    
-    
-    
-    
+
     pdfkit.from_string(html, ruta_archivo, configuration=config)
 
     return nombre_archivo
