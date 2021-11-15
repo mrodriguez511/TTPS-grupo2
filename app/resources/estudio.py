@@ -237,8 +237,8 @@ def estudio_estado3_carga():
     if not (session["rol"] == 2):
         abort(401)
 
-    fecha = request.form["fecha"] 
-    hora = request.form["hora"] 
+    fecha = request.form["fecha"]
+    hora = request.form["hora"]
 
     id_estudio = request.args.get("estudio")
     estudio = Estudio.query.filter(Estudio.id == id_estudio).first()
@@ -246,7 +246,7 @@ def estudio_estado3_carga():
     turno = fecha.replace("-", "/") + "-" + hora
     estudio.turno = datetime.strptime(turno, "%Y/%m/%d-%H:%M")
     estudio.estadoActual += 1
-    #falta chekear turno disponible
+    # falta chekear turno disponible
 
     db.session.commit()
 
@@ -290,19 +290,73 @@ def estudio_estado4_carga():
     if not (session["rol"] == 2):
         abort(401)
 
-    archivo = request.form["consentimiento"]
+    freezer = request.form["freezer"]
+    muestra = request.form["muestra"]
     id_estudio = request.args.get("estudio")
     estudio = Estudio.query.filter(Estudio.id == id_estudio).first()
-    estudio.consentimientoFirmado = archivo
+
+    estudio.muestra_ml = muestra
+    estudio.muestra_freezer = freezer
+
     estudio.estadoActual += 1
-
-    # archivo = generar_factura(new_estudio) #genero el estudio
-    # new_estudio.archivoPresupuesto = archivo
-    # db.session.commit()
-
     db.session.commit()
-    # FALTA GUARDAR EL ARCHIVO Y AGREGAR EL BOTON DE DESCARGAR EL COMPROBANTE EXISTENTE
-    return redirect(url_for("estudio_estado3", estudio=estudio.id))
+
+    return redirect(url_for("estudio_estado5", estudio=estudio.id))
+
+
+def estudio_estado5():
+    """retiro de muestra"""
+    if not authenticated(session):
+        abort(401)
+    if not (session["rol"] == 2):
+        abort(401)
+
+    estudio_id = request.args.get("estudio")
+    estudio = Estudio.query.filter(Estudio.id == estudio_id).first()
+
+    return render_template("estudio/estado5.html", estudio=estudio)
+
+
+def estudio_estado5_carga():
+    if not authenticated(session):
+        abort(401)
+    if not (session["rol"] == 2):
+        abort(401)
+
+    empleado = request.form["empleado"]
+    id_estudio = request.args.get("estudio")
+    estudio = Estudio.query.filter(Estudio.id == id_estudio).first()
+
+    estudio.empleadoMuestra = empleado
+    estudio.estadoActual += 1
+    db.session.commit()
+
+    return redirect(url_for("estudio_estado6", estudio=estudio.id))
+
+
+def estudio_estado6():
+    """esperando formar lote"""
+    if not authenticated(session):
+        abort(401)
+    if not (session["rol"] == 2):
+        abort(401)
+
+    estudio_id = request.args.get("estudio")
+    estudio = Estudio.query.filter(Estudio.id == estudio_id).first()
+
+    return render_template("estudio/estado6.html", estudio=estudio)
+
+def estudio_estado7():
+    """esperando formar lote"""
+    if not authenticated(session):
+        abort(401)
+    if not (session["rol"] == 2):
+        abort(401)
+
+    estudio_id = request.args.get("estudio")
+    estudio = Estudio.query.filter(Estudio.id == estudio_id).first()
+
+    return render_template("estudio/estado7.html", estudio=estudio)
 
 
 def download():
