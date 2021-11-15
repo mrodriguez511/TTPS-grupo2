@@ -27,6 +27,7 @@ def generar_factura(estudio):
     return nombre_archivo
 
 
+
 # https://stackoverflow.com/questions/52721272/python-3-flask-install-wkhtmltopdf-on-heroku
 
 

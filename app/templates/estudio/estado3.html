@@ -1,0 +1,348 @@
+{% extends "layout.html" %}
+{% block title %}Usuarios{% endblock %}
+{% block head %}
+{{ super() }}
+<!-- fullCalendar -->
+<link rel="stylesheet" href="/static/assets/plugins/fullcalendar/main.css">
+<link rel="stylesheet" href="/static/assets/fullcalendar.css">
+
+{% endblock %}
+{% block content %}
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <h3>Estudio #{{estudio.id}}</h3>
+    </div>
+    <div class="row">
+        <div class="col-10">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Saleccion de turno</h3>
+                </div>
+                <div class="card-body">
+                    <form class="row g-3 align-items-start justify-content-around" id="formulario"
+                        action="{{ url_for('estudio_estado3_carga' , estudio=estudio.id) }}" method="POST">
+                        <div class="col-4 form-group">
+                            <label>Asignar turno:</label>
+                            <div class="row ml-1">
+                                <input type="date" id="fecha" name="fecha" value=""
+                                    min="{ (datetime.datetime.today().date()-object.date_due).days }">
+                                <input type="time" id="hora" name="hora" list="horas" step="900">
+                                <datalist class="d-none" id="horas">
+                                    {% for hora in range(4) %}
+                                    <option value='{% if hora == 0 %}0{% endif %}{{hora + 9}}:00'></option>
+                                    <option value='{% if hora == 0 %}0{% endif %}{{hora + 9}}:15'></option>
+                                    <option value='{% if hora == 0 %}0{% endif %}{{hora + 9}}:30'></option>
+                                    <option value='{% if hora == 0 %}0{% endif %}{{hora + 9}}:45'></option>
+                                    {% endfor %}
+                                </datalist>
+                            </div>
+
+
+                            <div class="col-12">
+                                <button id="btn-enviar" type="submit" on-click='sendForm()' class="btn btn-primary mt-5"
+                                    disabled>Guardar turno</button>
+                            </div>
+                        </div>
+
+                        <div class="col-md-8">
+                            <div class="col-md-12">
+                                <div class="card card-primary">
+                                    <div class="card-body p-0">
+                                        <!-- THE CALENDAR -->
+                                        <div id="calendar"></div>
+                                    </div>
+                                    <!-- /.card-body -->
+                                </div>
+                                <!-- /.card -->
+                            </div>
+                        </div>
+
+
+
+
+
+
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    {% include 'includes/workflow.html' %}
+    <a href="{{ url_for('empleado_home') }}" class="btn btn-outline-secondary mt-5">Volver a home</a>
+</div>
+
+
+
+{% endblock %}
+{% block scripts %}
+{#
+<!-- jQuery -->
+<script src="/static/assets/plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="/static/assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- AdminLTE App -->
+<script src="/static/assets/dist/js/adminlte.min.js"></script>
+<!-- fullCalendar 2.2.5 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.2.5/fullcalendar.min.css"></script>
+#}
+
+<script src="/static/assets/plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap -->
+<script src="/static/assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- jQuery UI -->
+<script src="/static/assets/plugins/jquery-ui/jquery-ui.min.js"></script>
+<!-- fullCalendar 2.2.5 -->
+
+
+
+
+<script src="/static/assets/plugins/moment/moment.min.js"></script>
+<script src="/static/assets/plugins/fullcalendar/main.js"></script>
+<script src='/static/assets/plugins/fullcalendar/locales/es.js'></script>
+
+
+<script type="text/javascript">
+
+    let hoy = (new Date).toISOString().substring(0, 10);
+
+    var fecha = document.getElementById('fecha');
+    fecha.setAttribute('min', hoy)
+
+    var hora = document.getElementById('hora');
+    var submit = document.getElementById('btn-enviar');
+
+    fecha.addEventListener('change', function () {
+        submit.disabled = (fecha.value && hora.value) ? false : true
+    });
+
+    hora.addEventListener('change', function () {
+        submit.disabled = (fecha.value && hora.value) ? false : true
+    });
+
+
+
+
+</script>
+
+<script>
+    $(function () {
+
+        /* initialize the external events
+         -----------------------------------------------------------------*/
+        function ini_events(ele) {
+            ele.each(function () {
+
+                // create an Event Object (https://fullcalendar.io/docs/event-object)
+                // it doesn't need to have a start or end
+                var eventObject = {
+                    title: $.trim($(this).text()) // use the element's text as the event title
+                }
+
+                // store the Event Object in the DOM element so we can get to it later
+                $(this).data('eventObject', eventObject)
+
+                // make the event draggable using jQuery UI
+                $(this).draggable({
+                    zIndex: 1070,
+                    revert: true, // will cause the event to go back to its
+                    revertDuration: 0  //  original position after the drag
+                })
+
+            })
+        }
+
+        ini_events($('#external-events div.external-event'))
+
+        /* initialize the calendar
+         -----------------------------------------------------------------*/
+        //Date for the calendar events (dummy data)
+        var date = new Date()
+        var d = date.getDate(),
+            m = date.getMonth(),
+            y = date.getFullYear()
+
+        var Calendar = FullCalendar.Calendar;
+
+        var containerEl = document.getElementById('external-events');
+        var checkbox = document.getElementById('drop-remove');
+        var calendarEl = document.getElementById('calendar');
+
+        // initialize the external events
+        // -----------------------------------------------------------------
+        let eventos = ['18/11/2021-10:30', '16/11/2021-14:30']
+
+        //CAAAAAAMBIARRRR
+
+
+        eventos = eventos.map((e) => {
+            let split = e.split('-')
+            let fecha = split[0].split('/')
+            return new Date(fecha[2] + '/' + fecha[1] + '/' + fecha[0] + '-' + split[1])
+        })
+
+        var calendar = new Calendar(calendarEl, {
+            headerToolbar: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'dayGridMonth,timeGridWeek,timeGridDay'
+            },
+            themeSystem: 'bootstrap',
+            //Random default events
+            events: eventos.map((e) => {
+                return {
+                    title: 'Turno',
+                    start: e,
+                    end: e,
+                    backgroundColor: '#00a65a', //Success (green)
+                    borderColor: '#00a65a', //Success (green)
+                    allDay: false,
+                }
+            }),
+            businessHours: {
+                start: '09:00', // hora final
+                end: '13:00', // hora inicial
+                dow: [1, 2, 3, 4, 5] // dias de semana, 0=Domingo
+            },
+        });
+
+        calendar.render();
+        // $('#calendar').fullCalendar()
+
+
+    })
+</script>
+{#
+<script>
+    $(function () {
+
+
+        /* initialize the external events
+         -----------------------------------------------------------------*/
+        function ini_events(ele) {
+            ele.each(function () {
+
+                // create an Event Object (https://fullcalendar.io/docs/event-object)
+                // it doesn't need to have a start or end
+                var eventObject = {
+                    title: $.trim($(this).text()) // use the element's text as the event title
+                }
+
+                // store the Event Object in the DOM element so we can get to it later
+                $(this).data('eventObject', eventObject)
+
+
+            })
+        }
+
+        ini_events($('#external-events div.external-event'))
+
+        /* initialize the calendar
+         -----------------------------------------------------------------*/
+        //Date for the calendar events (dummy data)
+        var date = new Date()
+        var d = date.getDate(),
+            m = date.getMonth(),
+            y = date.getFullYear()
+
+        var Calendar = FullCalendar.Calendar;
+
+        var containerEl = document.getElementById('external-events');
+        var checkbox = document.getElementById('drop-remove');
+        var calendarEl = document.getElementById('calendar');
+
+        // initialize the external events
+        // -----------------------------------------------------------------
+        let eventos = ['18/11/2021-10:30', '16/11/2021-14:30']
+        eventos = eventos.map((e) => {
+            let split = e.split('-')
+            let fecha = split[0].split('/')
+            return new Date(fecha[2] + '/' + fecha[1] + '/' + fecha[0] + '-' + split[1])
+        })
+
+        var calendar = new Calendar(calendarEl, {
+
+            headerToolbar: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'dayGridMonth,timeGridWeek,timeGridDay'
+            },
+            themeSystem: 'bootstrap',
+            //Random default events
+
+            events: eventos.map((e) => {
+                return {
+                    title: 'Turno', start: e,
+                    backgroundColor: '#00a65a', //Success (green)
+                    borderColor: '#00a65a', //Success (green)
+                    allDay: false,
+                }
+            }),
+            businessHours: {
+                start: '10:00', // hora final
+                end: '18:00', // hora inicial
+                dow: [1, 2, 3, 4, 5] // dias de semana, 0=Domingo
+            },
+            eventColor: '#f3f3f3',
+
+            drop: function (info) {
+                // is the "remove after drop" checkbox checked?
+                if (checkbox.checked) {
+                    // if so, remove the element from the "Draggable Events" list
+                    info.draggedEl.parentNode.removeChild(info.draggedEl);
+                }
+            }
+        });
+        calendar.setOption('locale', 'es');
+
+        calendar.render();
+        // $('#calendar').fullCalendar()
+
+        calendar.render();
+        // $('#calendar').fullCalendar()
+
+        /* ADDING EVENTS */
+        var currColor = '#3c8dbc' //Red by default
+        // Color chooser button
+        $('#color-chooser > li > a').click(function (e) {
+            e.preventDefault()
+            // Save color
+            currColor = $(this).css('color')
+            // Add color effect to button
+            $('#add-new-event').css({
+                'background-color': currColor,
+                'border-color': currColor
+            })
+        })
+        $('#add-new-event').click(function (e) {
+            e.preventDefault()
+            // Get value and make sure it is not null
+            var val = $('#new-event').val()
+            if (val.length == 0) {
+                return
+            }
+
+            // Create events
+            var event = $('<div />')
+            event.css({
+                'background-color': currColor,
+                'border-color': currColor,
+                'color': '#fff'
+            }).addClass('external-event')
+            event.text(val)
+            $('#external-events').prepend(event)
+
+            // Add draggable funtionality
+            ini_events(event)
+
+            // Remove event from text input
+            $('#new-event').val('')
+        })
+
+
+    })
+</script>#}
+{% endblock %}

@@ -104,6 +104,30 @@ def create_app(environment="development"):
         estudio.estudio_estado1_carga,
         methods=["POST"],
     )
+    app.add_url_rule("/empleado/estudio2", "estudio_estado2", estudio.estudio_estado2)
+    app.add_url_rule(
+        "/empleado/estudio2",
+        "estudio_estado2_carga",
+        estudio.estudio_estado2_carga,
+        methods=["POST"],
+    )
+    app.add_url_rule("/empleado/estudio3", "estudio_estado3", estudio.estudio_estado3)
+    app.add_url_rule(
+        "/empleado/estudio3",
+        "estudio_estado3_carga",
+        estudio.estudio_estado3_carga,
+        methods=["POST"],
+    )
+    app.add_url_rule("/empleado/estudio4", "estudio_estado4", estudio.estudio_estado4)
+    app.add_url_rule(
+        "/empleado/cancelarturno", "cancelar_turno", estudio.cancelar_turno
+    )
+    app.add_url_rule(
+        "/empleado/estudio4",
+        "estudio_estado4_carga",
+        estudio.estudio_estado4_carga,
+        methods=["POST"],
+    )
 
     # Rutas de configuracion
     app.add_url_rule("/descarga", "download", estudio.download)
