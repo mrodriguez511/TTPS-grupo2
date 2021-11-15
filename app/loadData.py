@@ -113,8 +113,6 @@ def cargarPacientes():
             "paciente1@gmail.com",
             1111,
             "El paciente presenta multiples fracturas desde niño",
-            12345,
-            1,
         ),
         Paciente(
             "Paciente2",
@@ -242,3 +240,4 @@ def cargarEstudios():
     db.session.add(estudioEnero)
     db.session.add(estudioFebrero)
     db.session.add(estudioMarzo)
+    db.session.commit()
