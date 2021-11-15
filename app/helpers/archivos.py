@@ -7,9 +7,15 @@ from app.models.estudio import Estudio
 
 
 def generar_factura(estudio):
-
-    #path_wkthmltopdf = "C:/Program Files/wkhtmltopdf/bin/wkhtmltopdf.exe"
-    #config = pdfkit.configuration(wkhtmltopdf=path_wkthmltopdf)
+    
+    if 'DYNO' in os.environ:
+        print ('loading wkhtmltopdf path on heroku')
+        path_wkthmltopdf = subprocess.Popen(
+            ['which', os.environ.get('WKHTMLTOPDF_BINARY', 'wkhtmltopdf-pack')], # Note we default to 'wkhtmltopdf' as the binary name
+            stdout=subprocess.PIPE).communicate()[0].strip()
+    else:
+        path_wkthmltopdf= "C:/Program Files/wkhtmltopdf/bin/wkhtmltopdf.exe"
+    config = pdfkit.configuration(wkhtmltopdf=path_wkthmltopdf)
 
     tipoEstudio = TipoEstudio.query.filter(
         TipoEstudio.id == estudio.tipoEstudio
@@ -22,11 +28,7 @@ def generar_factura(estudio):
     nombre_archivo = "presupuesto_" + str(estudio.id) + ".pdf"
     ruta_archivo = os.path.join(ruta, nombre_archivo)
     
-    if 'DYNO' in os.environ:
-        print ('loading wkhtmltopdf path on heroku')
-        config = subprocess.Popen(
-            ['which', os.environ.get('WKHTMLTOPDF_BINARY', 'wkhtmltopdf-pack')], # Note we default to 'wkhtmltopdf' as the binary name
-            stdout=subprocess.PIPE).communicate()[0].strip()
+    
     
     
     pdfkit.from_string(html, ruta_archivo, configuration=config)
