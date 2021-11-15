@@ -184,9 +184,6 @@ def create_app(environment="development"):
 
     # Retornar la instancia de app configurada
     return app
-<<<<<<< HEAD
 
 
 app = create_app()
-=======
->>>>>>> a9e2b96ea7e0fe3181fab6d1f9d39b926854017e
