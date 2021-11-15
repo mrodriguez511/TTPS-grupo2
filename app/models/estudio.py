@@ -5,6 +5,7 @@ from sqlalchemy import Column, Integer, String, Boolean, DateTime, ForeignKey
 from app.db import db
 from sqlalchemy.orm import relationship
 from flask import session
+from app.helpers.auth import authenticated
 
 
 class Estudio(db.Model):
@@ -53,4 +54,8 @@ class Estudio(db.Model):
         self.retrasado = False
         self.anulado = False
         self.estadoActual = 1
-        self.estados = [Estado(1, session["id"], self.id)]
+        if authenticated(session):
+            id = session["id"]
+        else:
+            id = 1
+        self.estados = [Estado(1, id, self.id)]
