@@ -35,8 +35,6 @@ class Paciente(db.Model):
         email=None,
         telefono=None,
         resumenHC=None,
-        nroAfiliado=None,
-        obraSocial=None,
     ):
         self.nombre = nombre
         self.apellido = apellido
@@ -46,5 +44,3 @@ class Paciente(db.Model):
         self.telefono = telefono
         self.resumenHC = resumenHC
         self.password = dni
-        self.nroAfiliado = nroAfiliado
-        self.obraSocial = obraSocial

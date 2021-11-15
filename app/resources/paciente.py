@@ -63,7 +63,18 @@ def create_paciente():
         flash("Ya existe un paciente con el DNI o email ingresado")
         return redirect(url_for("paciente_new"))
 
-    new_paciente = Paciente(**request.form)
+    new_paciente = Paciente(
+        params["nombre"],
+        params["apellido"],
+        params["dni"],
+        params["fechaNacimiento"],
+        params["email"],
+        params["telefono"],
+        params["resumenHC"],
+    )
+    if params["obraSocial"] != "Seleccionar":
+        new_paciente.obraSocial = params["obraSocial"]
+        new_paciente.nroAfiliado = params["nroAfiliado"]
 
     db.session.add(new_paciente)
     db.session.commit()
