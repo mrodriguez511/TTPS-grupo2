@@ -21,13 +21,17 @@ def index():
 
     p = pacientes.fetchall()"""
 
-    prueba = (
+    pacientes1 = (
         db.session.query(Paciente, ObraSocial)
         .filter(Paciente.obraSocial == ObraSocial.id)
         .all()
     )
 
-    return render_template("paciente/index.html", pacientes=prueba)
+    pacientes2 = Paciente.query.filter(Paciente.obraSocial == None).all()
+
+    return render_template(
+        "paciente/index.html", pacientes1=pacientes1, pacientes2=pacientes2
+    )
 
 
 def new_paciente():
