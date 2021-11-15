@@ -131,6 +131,30 @@ def create_app(environment="development"):
         estudio.estudio_estado1_carga,
         methods=["POST"],
     )
+    app.add_url_rule("/empleado/estudio2", "estudio_estado2", estudio.estudio_estado2)
+    app.add_url_rule(
+        "/empleado/estudio2",
+        "estudio_estado2_carga",
+        estudio.estudio_estado2_carga,
+        methods=["POST"],
+    )
+    app.add_url_rule("/empleado/estudio3", "estudio_estado3", estudio.estudio_estado3)
+    app.add_url_rule(
+        "/empleado/estudio3",
+        "estudio_estado3_carga",
+        estudio.estudio_estado3_carga,
+        methods=["POST"],
+    )
+    app.add_url_rule("/empleado/estudio4", "estudio_estado4", estudio.estudio_estado4)
+    app.add_url_rule(
+        "/empleado/cancelarturno", "cancelar_turno", estudio.cancelar_turno
+    )
+    app.add_url_rule(
+        "/empleado/estudio4",
+        "estudio_estado4_carga",
+        estudio.estudio_estado4_carga,
+        methods=["POST"],
+    )
 
     # Rutas de configuracion
     app.add_url_rule("/descarga", "download", estudio.download)
@@ -140,9 +164,10 @@ def create_app(environment="development"):
     )
 
     # Ruta para el Home (usando decorator)
-    @app.route("/")
+    app.add_url_rule("/", "home", auth.home)
+    """@app.route("/")
     def home():
-        return render_template("home.html")
+        return render_template("home.html")"""
 
     # Rutas de API-REST (usando Blueprints)
     """api = Blueprint("api", __name__, url_prefix="/api")
@@ -159,6 +184,9 @@ def create_app(environment="development"):
 
     # Retornar la instancia de app configurada
     return app
+<<<<<<< HEAD
 
 
 app = create_app()
+=======
+>>>>>>> a9e2b96ea7e0fe3181fab6d1f9d39b926854017e

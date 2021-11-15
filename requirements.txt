@@ -7,6 +7,9 @@ SQLAlchemy==1.4.25
 Flask-SQLAlchemy==2.5.1
 wkhtmltopdf-pack-ng==0.12.3.0
 pdfkit==0.6.0
+<<<<<<< HEAD
 gunicorn==20.1.0
 Flask-Migrate==2.5.2
 psycopg2==2.8.4
+=======
+>>>>>>> a9e2b96ea7e0fe3181fab6d1f9d39b926854017e
