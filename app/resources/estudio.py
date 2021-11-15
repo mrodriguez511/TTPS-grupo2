@@ -352,7 +352,36 @@ def estudio_estado7():
 
     return render_template("estudio/estado7.html", estudio=estudio)
 
+
+def estudio_estado8():
+    """esperando formar lote"""
+    if not authenticated(session):
+        abort(401)
+    if not (session["rol"] == 2):
+        abort(401)
+
+    estudio_id = request.args.get("estudio")
+    estudio = Estudio.query.filter(Estudio.id == estudio_id).first()
+
+    return render_template("estudio/estado8.html", estudio=estudio)
+
     # return render_template("empleados/index.html")  # redirect
+
+
+def estudio_estado8_carga():
+    if not authenticated(session):
+        abort(401)
+    if not (session["rol"] == 2):
+        abort(401)
+
+    empleado = request.form["empleado"]
+    id_estudio = request.args.get("estudio")
+    estudio = Estudio.query.filter(Estudio.id == id_estudio).first()
+
+    estudio.empleadoMuestra = empleado
+    estudio.estadoActual += 1
+    db.session.commit()
+    return redirect(url_for("estudio_estado6", estudio=estudio.id))
 
 
 def download():

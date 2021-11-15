@@ -8,7 +8,7 @@ from app.models.estudio import Estudio
 
 def generar_factura(estudio):
 
-    if "DYNO" in os.environ:
+    """if "DYNO" in os.environ:
         print("loading wkhtmltopdf path on heroku")
         path_wkthmltopdf = (
             subprocess.Popen(
@@ -21,8 +21,8 @@ def generar_factura(estudio):
             .communicate()[0]
             .strip()
         )
-    else:
-        path_wkthmltopdf = "C:/Program Files/wkhtmltopdf/bin/wkhtmltopdf.exe"
+    else:"""
+    path_wkthmltopdf = "C:/Program Files/wkhtmltopdf/bin/wkhtmltopdf.exe"
     config = pdfkit.configuration(wkhtmltopdf=path_wkthmltopdf)
 
     tipoEstudio = TipoEstudio.query.filter(

@@ -242,3 +242,4 @@ def cargarEstudios():
     db.session.add(estudioEnero)
     db.session.add(estudioFebrero)
     db.session.add(estudioMarzo)
+    db.session.commit()
