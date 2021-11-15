@@ -16,12 +16,18 @@ def index():
     if not (session["rol"] == 2):
         abort(401)
 
-    consulta = "select p.id, p.nombre, p.apellido, p.dni, p.telefono , o.nombre , p.nroAfiliado from pacientes as p left join obrassociales as o on p.obraSocial = o.id"
+    """consulta = "select p.id, p.nombre, p.apellido, p.dni, p.telefono , o.nombre , p.nroAfiliado from pacientes as p left join obrassociales as o on p.obraSocial = o.id"
     pacientes = db.session.execute(consulta)
 
-    p = pacientes.fetchall()
+    p = pacientes.fetchall()"""
 
-    return render_template("paciente/index.html", pacientes=p)
+    prueba = (
+        db.session.query(Paciente, ObraSocial)
+        .filter(Paciente.obraSocial == ObraSocial.id)
+        .all()
+    )
+
+    return render_template("paciente/index.html", pacientes=prueba)
 
 
 def new_paciente():

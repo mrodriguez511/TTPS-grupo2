@@ -1,11 +1,8 @@
 from flask import redirect, render_template, session, abort
-from sqlalchemy.sql.expression import null
 from sqlalchemy.sql.operators import and_
-
 from app.models.estudio import Estudio
 from app.models.paciente import Paciente
 from app.models.tipoEstudio import TipoEstudio
-
 from app.helpers.auth import authenticated
 from app.db import db
 

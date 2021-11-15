@@ -1,0 +1,85 @@
+{% extends "layout.html" %}
+{% block title %}Usuarios{% endblock %}
+{% block head %}
+{{ super() }}
+
+
+{% endblock %}
+{% block content %}
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <h3>Estudio #{{estudio.id}}</h3>
+    </div>
+    <div class="row">
+        <div class="col-10">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Esperando retiro de muestra</h3>
+                </div>
+                <div class="card-body">
+                    <form class="row g-3 align-items-end"
+                        action="{{ url_for('estudio_estado5_carga' , estudio=estudio.id) }}" method="POST">
+
+
+                        <div class="row col-md-8 mt-5">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="empleado" class="form-label">Nombre y apellido de empleado que retira la
+                                        muestra</label>
+
+                                    <input type="text" name="empleado" id="empleado" class="form-control"
+                                        autocomplete="off" required>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+
+
+                        <div class="col-12">
+                            <button id="btn-enviar" type="submit" class="btn btn-primary mt-5"
+                                disabled>Siguiente</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    {% include 'includes/workflow.html' %}
+
+    <a href="{{ url_for('empleado_home') }}" class="btn btn-outline-secondary mt-5">Volver a home</a>
+</div>
+
+
+
+
+
+
+
+
+{% endblock %}
+{% block scripts %}
+
+
+
+<!-- bs-custom-file-input -->
+<script src="/static/assets/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
+
+
+<script type="text/javascript">
+
+    var empleado = document.getElementById('empleado');
+    var submit = document.getElementById('btn-enviar');
+
+
+    empleado.addEventListener('change', function () {
+        submit.disabled = (empleado.value.length <= 7)
+    });
+
+</script>
+
+{% endblock %}

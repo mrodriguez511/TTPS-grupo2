@@ -1,5 +1,6 @@
 from datetime import datetime
 from app.models.estado import Estado
+from app.models.resultado import Resultado
 from sqlalchemy import Column, Integer, String, Boolean, DateTime, ForeignKey
 from app.db import db
 from sqlalchemy.orm import relationship
@@ -18,8 +19,8 @@ class Estudio(db.Model):
     empleado = Column(Integer, ForeignKey("users.id"))
     diagnosticoPresuntivo = Column(Integer, ForeignKey("diagnosticosPresuntivos.id"))
     presupuesto = Column(Integer)
-    resultado_id = Column(Integer, ForeignKey("resultados.id"), nullable=True)
-    resultado = relationship("Resultado")
+    resultado = relationship(Resultado)
+    resultado_id = Column(Integer, ForeignKey("resultados.id"))
     estadoActual = Column(Integer)
     estados = relationship("Estado")
     archivoPresupuesto = Column(String(100), nullable=True)

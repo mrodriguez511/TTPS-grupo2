@@ -7,15 +7,18 @@ db = SQLAlchemy()
 def init_app(app):  # liga nstra app con la bd
     db.init_app(app)
     with app.app_context():
-        from app.models.user import User
-        from app.models.rol import Rol
-        from app.models.diagnosticoPresuntivo import DiagnosticoPresuntivo
+
+        from app.models.resultado import Resultado
+        from app.models.medicoDerivante import MedicoDerivante
+        from app.models.estado import Estado
+        from app.models.lote import Lote
         from app.models.obraSocial import ObraSocial
         from app.models.paciente import Paciente
-        from app.models.resultado import Resultado
-        from app.models.lote import Lote
         from app.models.tipoEstudio import TipoEstudio
-        from app.models.medicoDerivante import MedicoDerivante
+        from app.models.user import User
+        from app.models.rol import Rol
+        from app.models.estudio import Estudio
+        from app.models.diagnosticoPresuntivo import DiagnosticoPresuntivo
 
     config_db(app)
 

@@ -9,7 +9,8 @@ class Resultado(db.Model):
     id = Column(Integer, primary_key=True, autoincrement=True)
     valor = Column(Boolean)
     detalle = Column(String(200), unique=False)
-    # permisos = relationship("Permiso", secondary=roles_permisos, back_populates="roles")
+    estudio = relationship("Estudio")
+   
 
     def __init__(self, valor=None, detalle=None):
         self.valor = valor

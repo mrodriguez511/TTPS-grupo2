@@ -2,17 +2,21 @@
 import datetime
 from app.db import db
 import csv
+
 from app.models.diagnosticoPresuntivo import DiagnosticoPresuntivo
+from app.models.resultado import Resultado
+from app.models.medicoDerivante import MedicoDerivante
+from app.models.estado import Estado
+from app.models.lote import Lote
 from app.models.obraSocial import ObraSocial
 from app.models.paciente import Paciente
 from app.models.tipoEstudio import TipoEstudio
-from app.models.medicoDerivante import MedicoDerivante
+from app.models.user import User
+from app.models.rol import Rol
 from app.models.estudio import Estudio
 
 
 def cargarDatos():
-    from app.models.user import User
-
     if not db.session.query(User).first():
         carga()
 
@@ -26,8 +30,6 @@ def carga():
 
     db.session.add(rol1)
     db.session.add(rol2)
-
-    db.session.commit()
 
     usuario1 = User(
         first_name="admin",
@@ -53,7 +55,6 @@ def carga():
     cargarObrasSociales()
     cargarPacientes()
     cargarMedicosDerivantes()
-    # cargarPuntosDeEncuentro()
     cargarTiposDeEstudio()
     cargarDiagonosticos()
     cargarEstudios()
@@ -68,6 +69,7 @@ def cargarConfig():
         paginado=10, paleta_AppPublica=1, paleta_AppPrivada=1, ordenacion=True
     )
     db.session.add(config)
+    db.session.commit()
 
 
 def cargarMedicosDerivantes():
@@ -82,6 +84,7 @@ def cargarMedicosDerivantes():
 
     for medico in medicosDerivantes:
         db.session.add(medico)
+    db.session.commit()
 
 
 def cargarObrasSociales():
@@ -94,6 +97,7 @@ def cargarObrasSociales():
 
     for obraSocial in obrasSociales:
         db.session.add(obraSocial)
+    db.session.commit()
 
 
 def cargarPacientes():
@@ -125,6 +129,7 @@ def cargarPacientes():
 
     for paciente in pacientes:
         db.session.add(paciente)
+    db.session.commit()
 
 
 def cargarTiposDeEstudio():
@@ -150,14 +155,15 @@ def cargarTiposDeEstudio():
 
     for tipoEstudio in tiposDeEstudio:
         db.session.add(tipoEstudio)
+    db.session.commit()
 
 
 def cargarDiagonosticos():
     with open("archivos/Patologias.csv") as data_set:
         reader = csv.reader(data_set)
-        encabezado = next(reader)
         for fila in reader:
-            db.session.add(DiagnosticoPresuntivo(nombre=fila))
+            db.session.add(DiagnosticoPresuntivo(nombre=fila[0]))
+            db.session.commit()
 
 
 def cargarEstudios():

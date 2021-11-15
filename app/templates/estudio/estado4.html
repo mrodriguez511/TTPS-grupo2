@@ -16,7 +16,7 @@
         <div class="col-10">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Esperando comprobante de pago</h3>
+                    <h3 class="card-title">Esperando extracción de muestra</h3>
                 </div>
                 <div class="card-body">
                     <form class="row g-3 align-items-end"
@@ -58,15 +58,16 @@
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label for="inputEmail4" class="form-label">Tamaño de muestra (ml)</label>
-                                    <input type="number" name="presupuesto" id="muestra" class="form-control"
-                                        autocomplete="off" required>
+
+                                    <input type="number" name="muestra" id="muestra" class="form-control" min="5"
+                                        max="12.5" step="0.01" autocomplete="off" required>
                                 </div>
                             </div>
                             <p></p>
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label for="inputEmail4" class="form-label">Numero de freezer</label>
-                                    <input type="number" name="presupuesto" id="freezer" class="form-control"
+                                    <input type="number" name="freezer" id="freezer" class="form-control"
                                         autocomplete="off" required>
                                 </div>
                             </div>
@@ -126,13 +127,11 @@
 
 
     freezer.addEventListener('change', function () {
-        submit.disabled = () => !(freezer.value && muestra.value)
+        submit.disabled = (freezer.value && muestra.value) ? false : true
     });
     muestra.addEventListener('change', function () {
-        submit.disabled = () => !(freezer.value && muestra.value)
+        submit.disabled = (freezer.value && muestra.value) ? false : true
     });
-
-
 
 
 

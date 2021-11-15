@@ -9,30 +9,17 @@ from flask import (
     flash,
     current_app,
 )
-from operator import and_
-from sqlalchemy.sql.elements import Null
-
 from werkzeug.utils import send_from_directory
 from app.helpers.archivos import generar_factura
 from app.models.estudio import Estudio
 from app.models.user import User
 from app.models.rol import Rol
 import os
-import csv
 from datetime import datetime
-
-
-"""from app.models.punto_encuentro import (
-    Paciente,
-    MedicoDerivante,
-    DiagnosticoPresuntivo,
-    TipoEstudio,
-)"""
 from app.models.diagnosticoPresuntivo import DiagnosticoPresuntivo
 from app.models.paciente import Paciente
 from app.models.tipoEstudio import TipoEstudio
 from app.models.medicoDerivante import MedicoDerivante
-
 from app.helpers.auth import authenticated
 from app.db import db
 from datetime import datetime
@@ -136,16 +123,10 @@ def estudio_estado1():
     if not (session["rol"] == 2):
         abort(401)
 
-    estudio = "555"
-    estudio_id = estudio.__getattribute__  # cambio para que tome el id
+    estudio_id = request.args.get("estudio")
+    estudio = Estudio.query.filter(Estudio.id == estudio_id).first()
 
     ruta = current_app.config["UPLOADED_FACTURAS_DEST"]
-    # ruta_archivo = os.path.join(ruta, "factura_" + str(estudio.id) + ".pdf")
-    ruta_archivo = os.path.join(ruta, "factura_" + str(estudio_id) + ".pdf")
-
-    # factura = os.path.join(current_app.root_path, app.config["UPLOAD_FOLDER"])
-    factura = "archivos/facturas/factura_" + "555" + ".pdf"
-    return render_template("estudio/estado1.html", estudio=estudio, factura=factura)
     ruta_archivo = os.path.join(ruta, estudio.archivoPresupuesto)
     # ruta_archivo = "sdfsdf"
     return render_template(
@@ -304,19 +285,75 @@ def estudio_estado4_carga():
     if not (session["rol"] == 2):
         abort(401)
 
-    archivo = request.form["consentimiento"]
+    freezer = request.form["freezer"]
+    muestra = request.form["muestra"]
     id_estudio = request.args.get("estudio")
     estudio = Estudio.query.filter(Estudio.id == id_estudio).first()
-    estudio.consentimientoFirmado = archivo
+
+    estudio.muestra_ml = muestra
+    estudio.muestra_freezer = freezer
+
     estudio.estadoActual += 1
-
-    # archivo = generar_factura(new_estudio) #genero el estudio
-    # new_estudio.archivoPresupuesto = archivo
-    # db.session.commit()
-
     db.session.commit()
-    # FALTA GUARDAR EL ARCHIVO Y AGREGAR EL BOTON DE DESCARGAR EL COMPROBANTE EXISTENTE
-    return redirect(url_for("estudio_estado3", estudio=estudio.id))
+
+    return redirect(url_for("estudio_estado5", estudio=estudio.id))
+
+
+def estudio_estado5():
+    """retiro de muestra"""
+    if not authenticated(session):
+        abort(401)
+    if not (session["rol"] == 2):
+        abort(401)
+
+    estudio_id = request.args.get("estudio")
+    estudio = Estudio.query.filter(Estudio.id == estudio_id).first()
+
+    return render_template("estudio/estado5.html", estudio=estudio)
+
+
+def estudio_estado5_carga():
+    if not authenticated(session):
+        abort(401)
+    if not (session["rol"] == 2):
+        abort(401)
+
+    empleado = request.form["empleado"]
+    id_estudio = request.args.get("estudio")
+    estudio = Estudio.query.filter(Estudio.id == id_estudio).first()
+
+    estudio.empleadoMuestra = empleado
+    estudio.estadoActual += 1
+    db.session.commit()
+    return redirect(url_for("estudio_estado6", estudio=estudio.id))
+
+
+def estudio_estado6():
+    """esperando formar lote"""
+    if not authenticated(session):
+        abort(401)
+    if not (session["rol"] == 2):
+        abort(401)
+
+    estudio_id = request.args.get("estudio")
+    estudio = Estudio.query.filter(Estudio.id == estudio_id).first()
+
+    return render_template("estudio/estado6.html", estudio=estudio)
+
+
+def estudio_estado7():
+    """esperando formar lote"""
+    if not authenticated(session):
+        abort(401)
+    if not (session["rol"] == 2):
+        abort(401)
+
+    estudio_id = request.args.get("estudio")
+    estudio = Estudio.query.filter(Estudio.id == estudio_id).first()
+
+    return render_template("estudio/estado7.html", estudio=estudio)
+
+    # return render_template("empleados/index.html")  # redirect
 
 
 def download():
