@@ -229,6 +229,7 @@ def cargarEstudios():
     estudio1.turno = "2021-01-18"
     estudio2.turno = "2021-05-18"
     estudio3.turno = "2021-10-18"
+    estudio4.turno = "2021-12-18"
     estudioEnero.fecha = "2021-01-01"
     estudioFebrero.fecha = "2021-02-01"
     estudioMarzo.fecha = "2021-03-01"
