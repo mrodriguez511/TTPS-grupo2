@@ -11,6 +11,7 @@ from flask import (
 )
 from werkzeug.utils import send_from_directory
 from app.helpers.archivos import generar_factura
+from app.helpers.estados import cargarNuevoEstado
 from app.models.estudio import Estudio
 from app.models.user import User
 from app.models.rol import Rol
@@ -391,6 +392,12 @@ def download():
 
 
 def actualizar():
+
+    if not authenticated(session):
+        abort(401)
+    if not (session["rol"] == 2):
+        abort(401)
+
 
     import datetime
 

@@ -157,7 +157,7 @@ def cargarTiposDeEstudio():
 
 
 def cargarDiagonosticos():
-    with open("archivos/Patologias.csv") as data_set:
+    with open("archivos/Patologias.csv", encoding="utf-8") as data_set:
         reader = csv.reader(data_set)
         for fila in reader:
             db.session.add(DiagnosticoPresuntivo(nombre=fila[0]))
@@ -232,10 +232,6 @@ def cargarEstudios():
     estudioEnero.fecha = "2021-01-01"
     estudioFebrero.fecha = "2021-02-01"
     estudioMarzo.fecha = "2021-03-01"
-    estudio1.extraccionAbonada = False
-    estudio2.extraccionAbonada = False
-    estudio3.extraccionAbonada = False
-    estudio4.extraccionAbonada = False
     db.session.add(estudio1)
     db.session.add(estudio2)
     db.session.add(estudio3)

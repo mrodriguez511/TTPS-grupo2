@@ -1,4 +1,4 @@
-from flask import redirect, render_template, session, abort
+from flask import redirect, render_template, session, abort, request, url_for
 from sqlalchemy.sql.operators import and_
 from app.models.estudio import Estudio
 from app.models.paciente import Paciente
@@ -24,9 +24,27 @@ def index():
             Paciente,
             TipoEstudio,
         )
+        .filter(and_(Estudio.estadoActual > 4, Estudio.extraccionAbonada == False))
         .filter(Estudio.paciente == Paciente.id)
         .filter(Estudio.tipoEstudio == TipoEstudio.id)
-        .filter(and_(Estudio.estadoActual > 4, Estudio.extraccionAbonada == False))
         .all()
     )
+
     return render_template("liquidacionExtracciones/index.html", estudios=estudios)
+
+
+def abonar():
+    if not authenticated(session):
+        abort(401)
+
+    if not (session["rol"] == 2):
+        abort(401)
+
+    estudios_id = request.form.getlist("check_liquidar")
+
+    for estudio_id in estudios_id:
+        estudio = Estudio.query.filter(Estudio.id == estudio_id).first()
+        estudio.extraccionAbonada = True
+    db.session.commit()
+
+    return redirect(url_for("liquidacionExtracciones_index"))

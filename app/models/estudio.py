@@ -53,6 +53,8 @@ class Estudio(db.Model):
         self.fecha = datetime.now()
         self.retrasado = False
         self.anulado = False
+        self.extraccionAbonada = False
+        self.resultadoEnviado = False
         self.estadoActual = 1
         if authenticated(session):
             id = session["id"]

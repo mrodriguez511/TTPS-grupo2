@@ -119,6 +119,11 @@ def create_app(environment="development"):
         "liquidacionExtracciones_index",
         liquidacionExtracciones.index,
     )
+    app.add_url_rule(
+        "/liquidacion_Extracciones/Abonar",
+        "liquidacionExtracciones_abonar",
+        liquidacionExtracciones.abonar,
+    )
 
     # reportes
     app.add_url_rule("/reportes", "reportes_index", reportes.index)
