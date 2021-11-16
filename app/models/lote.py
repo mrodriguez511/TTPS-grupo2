@@ -13,6 +13,5 @@ class Lote(db.Model):
     url = Column(String(300), nullable=True)
     estudios = relationship("Estudio")
 
-
-def __init__(self, estudios=None):
-    self.estudios = [estudios]
+    def __init__(self):
+        pass

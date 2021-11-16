@@ -8,7 +8,7 @@ from app import db
 from app.resources import (
     empleado,
     estudio,
-    estudiosParaCrearLote,
+    lote,
     liquidacionExtracciones,
     paciente,
     reportes,
@@ -108,9 +108,31 @@ def create_app(environment="development"):
 
     # estudios para crear Lote
     app.add_url_rule(
-        "/estudios_Lote",
-        "estudiosParaCrearLote_index",
-        estudiosParaCrearLote.index,
+        "/lotes/formarLote",
+        "estudiosFormarLote_index",
+        lote.estudiosFormarLote_index,
+    )
+    app.add_url_rule(
+        "/lotes/formarLote/nuevo",
+        "estudiosParaCrearLote_formarLote",
+        lote.formarLote,
+    )
+    app.add_url_rule(
+        "/lotes/lotesEnProcesamiento",
+        "lote_enProcesamiento_index",
+        lote.esperaURL_index,
+    )
+
+    app.add_url_rule(
+        "/lotes/lotesEnProcesamiento/URL",
+        "lote_enProcesamiento_agregarURL",
+        lote.agregarURL,
+    )
+
+    app.add_url_rule(
+        "/lotes/lotesProcesados",
+        "lote_procesado_index",
+        lote.procesados_index,
     )
 
     # liquidacion de extracciones
