@@ -388,3 +388,37 @@ def download():
     filename = request.args.get("filename")
     ruta = current_app.config["UPLOADED_FACTURAS_DEST"]
     return send_from_directory(ruta, filename, environ=request.environ)
+
+
+def actualizar():
+
+    import datetime
+
+    estudios = Estudio.query.all()
+
+    for estudio in estudios:
+        if estudio.estadoActual == 1:
+            fecha = datetime.datetime.today() - datetime.timedelta(days=30)
+            if estudio.fecha < fecha:
+                estudio.anulado = True
+                estudio.estadoActual = -1
+                db.session.commit()
+        else:
+            if (
+                estudio.estadoActual >= 5
+                and estudio.estadoActual <= 9
+                and not estudio.retrasado
+            ):
+                fecha = datetime.datetime.today() - datetime.timedelta(days=90)
+                if estudio.turno < fecha:
+                    estudio.retrasado = True
+                    db.session.commit()
+
+    estudios = (
+        db.session.query(Estudio, Paciente, TipoEstudio)
+        .filter(Estudio.paciente == Paciente.id)
+        .filter(Estudio.tipoEstudio == TipoEstudio.id)
+        .all()
+    )
+
+    return render_template("estudio/index.html", estudios=estudios)
