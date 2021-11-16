@@ -213,6 +213,10 @@ def create_app(environment="development"):
         "/empleado/estudio10", "estudio_estado10", estudio.estudio_estado10
     )
 
+    app.add_url_rule(
+        "/empleado/estudios/retrasados", "estudio_retrasado", estudio.retrasados_index
+    )
+
     # Rutas de configuracion
     app.add_url_rule("/descarga", "download", estudio.download)
     app.add_url_rule("/configuracion", "settings_edit", configuracion.edit)

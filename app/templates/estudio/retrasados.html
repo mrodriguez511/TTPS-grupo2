@@ -1,5 +1,5 @@
 {% extends "layout.html" %}
-{% block title %}Estudios{% endblock %}
+{% block title %}Estudios retrasados{% endblock %}
 {% block head %}
 {{ super() }}
 <!-- DataTables -->
@@ -14,7 +14,7 @@
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <div class="content-header">
-        <h1>Estudios</h1>
+        <h1>Estudios retrasados</h1>
     </div>
     <section class="">
         <div class="">
@@ -22,11 +22,6 @@
                 <div class="col-11">
                     <div class="card">
                         <div class="card-header">
-                            <a href="{{ url_for('estudio_new') }}" class="btn btn-outline-success btn-sm">Crear nuevo
-                                estudio</a>
-                            <a href="{{ url_for('estudio_actualizar') }}"
-                                class="btn btn-outline-success btn-sm">Actualizar estudios</a>
-
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
@@ -37,7 +32,6 @@
                                         <th scope="col">Tipo de Estudio</th>
                                         <th scope="col">Fecha Inicio</th>
                                         <th scope="col">Paciente</th>
-                                        <th scope="col">Retrasado</th>
                                         <th scope="col">Estado/Esperando..</th>
                                         <th scope="col">Acciones</th>
                                     </tr>
@@ -50,11 +44,6 @@
                                         <td>{{ tipoEstudio.nombre }}</td>
                                         <td>{{ estudio.fecha }}</td>
                                         <td>{{ paciente.nombre }} {{ paciente.apellido }}</td>
-                                        {% if not (estudio.retrasado) %}
-                                        <td>{{ "No" }}</td>
-                                        {% else %}
-                                        <td>{{ "Sí" }}</td>
-                                        {% endif %}
                                         {% if estudio.anulado %}
                                         <td>{{ "Anulado" }}</td>
                                         {% elif estudio.estadoActual == 1 %}
@@ -79,10 +68,8 @@
                                         <td>{{ "Resultado entregado" }}</td>
                                         {% endif %}
                                         <td>
-                                            {% if not estudio.anulado %}
                                             <a href="{{ url_for('estudio_ver', id=estudio.id )}}"
                                                 class="btn btn-primary btn-sm">Ver</a>
-                                            {% endif %}
                                         </td>
                                     </tr>
                                     {% endfor %}

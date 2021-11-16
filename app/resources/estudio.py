@@ -69,7 +69,12 @@ def ver():
     if not (session["rol"] == 2):
         abort(401)
 
-    return render_template("empleados/index.html")
+    estudio_id = request.args.get("id")
+    estudio = Estudio.query.filter(Estudio.id == estudio_id).first()
+
+    return redirect(
+        url_for("estudio_estado" + str(estudio.estadoActual), estudio=estudio.id)
+    )
 
 
 def new_estudio():
@@ -492,3 +497,23 @@ def actualizar():
                     db.session.commit()
 
     return redirect(url_for("estudio_index"))
+
+
+def retrasados_index():
+    """listado de estudios retrasados"""
+
+    if not authenticated(session):
+        abort(401)
+
+    if not (session["rol"] == 2):
+        abort(401)
+
+    estudios = (
+        db.session.query(Estudio, Paciente, TipoEstudio)
+        .filter(Estudio.retrasado == True)
+        .filter(Estudio.paciente == Paciente.id)
+        .filter(Estudio.tipoEstudio == TipoEstudio.id)
+        .all()
+    )
+
+    return render_template("estudio/retrasados.html", estudios=estudios)
