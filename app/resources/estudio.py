@@ -14,6 +14,7 @@ from app.helpers.archivos import generar_factura
 from app.helpers.estados import cargarNuevoEstado
 from app.models.estudio import Estudio
 from app.models.user import User
+from app.models.resultado import Resultado
 from app.models.rol import Rol
 import os
 from datetime import datetime
@@ -113,7 +114,7 @@ def create_estudio():
     new_estudio.archivoPresupuesto = archivo
     db.session.commit()
 
-    return redirect(url_for("estudio_estado1"))
+    return redirect(url_for("estudio_estado1", estudio=new_estudio.id))
 
 
 def estudio_estado1():
@@ -125,12 +126,13 @@ def estudio_estado1():
 
     estudio_id = request.args.get("estudio")
     estudio = Estudio.query.filter(Estudio.id == estudio_id).first()
-
+    # prueba = "factura_9.pdf"
     ruta = current_app.config["UPLOADED_FACTURAS_DEST"]
     ruta_archivo = os.path.join(ruta, estudio.archivoPresupuesto)
+    # ruta_archivo = os.path.join(ruta, prueba)
     # ruta_archivo = "sdfsdf"
     return render_template(
-        "estudio/estado1.html", estudio=estudio, ruta_archivo=estudio.archivoPresupuesto
+        "estudio/estado1.html", estudio=estudio, ruta_archivo=ruta_archivo
     )
 
 
@@ -366,8 +368,6 @@ def estudio_estado8():
 
     return render_template("estudio/estado8.html", estudio=estudio)
 
-    # return render_template("empleados/index.html")  # redirect
-
 
 def estudio_estado8_carga():
     if not authenticated(session):
@@ -375,14 +375,68 @@ def estudio_estado8_carga():
     if not (session["rol"] == 2):
         abort(401)
 
-    empleado = request.form["empleado"]
+    informe = request.form["informe"]
+    valor = request.form["resultado"]
+
     id_estudio = request.args.get("estudio")
     estudio = Estudio.query.filter(Estudio.id == id_estudio).first()
 
-    estudio.empleadoMuestra = empleado
+    resultado = Resultado(int(valor), informe)
+    estudio.resultado_id = resultado.id
     estudio.estadoActual += 1
+
+    db.session.add(resultado)
     db.session.commit()
-    return redirect(url_for("estudio_estado6", estudio=estudio.id))
+
+    return redirect(url_for("estudio_estado9", estudio=estudio.id))
+    # return render_template("estudio/estado8.html", estudio=estudio)
+
+
+def estudio_estado9():
+    """envio de mail"""
+    if not authenticated(session):
+        abort(401)
+    if not (session["rol"] == 2):
+        abort(401)
+
+    estudio_id = request.args.get("estudio")
+    estudio = Estudio.query.filter(Estudio.id == estudio_id).first()
+    resultado = Resultado.query.filter(Resultado.id == estudio.resultado_id).first()
+    medico = MedicoDerivante.query.filter(
+        MedicoDerivante.id == estudio.medicoDerivante
+    ).first()
+
+    return render_template(
+        "estudio/estado9.html", estudio=estudio, resultado=resultado, medico=medico
+    )
+
+
+def estudio_estado9_carga():
+    if not authenticated(session):
+        abort(401)
+    if not (session["rol"] == 2):
+        abort(401)
+
+    id_estudio = request.args.get("estudio")
+    estudio = Estudio.query.filter(Estudio.id == id_estudio).first()
+    estudio.resultadoEnviado = 1
+    estudio.estadoActual += 1
+
+    db.session.commit()
+    return redirect(url_for("estudio_estado10", estudio=estudio.id))
+
+
+def estudio_estado10():
+    """fin"""
+    if not authenticated(session):
+        abort(401)
+    if not (session["rol"] == 2):
+        abort(401)
+
+    estudio_id = request.args.get("estudio")
+    estudio = Estudio.query.filter(Estudio.id == estudio_id).first()
+
+    return render_template("estudio/estado10.html", estudio=estudio)
 
 
 def download():
