@@ -45,9 +45,9 @@ def index():
         .all()
     )
 
-    turnos = db.session.query(Estudio.turno).filter(Estudio.turno != None).all()
+    """turnos = db.session.query(Estudio.turno).filter(Estudio.turno != None).all()
     flash(type(turnos))
-    flash(turnos)
+    flash(turnos)"""
 
     return render_template("estudio/index.html", estudios=estudios)
 
@@ -283,7 +283,7 @@ def cancelar_turno():
     estudio.turno = None
     estudio.estadoActual -= 1
 
-    agendados = []  # query que traiga todos los turnos agendados
+    agendados = db.session.query(Estudio.turno).filter(Estudio.turno != None).all()
     db.session.commit()
     cargarNuevoEstado(estudio)
 
