@@ -172,6 +172,16 @@ def create_app(environment="development"):
         estudio.estudio_estado8_carga,
         methods=["POST"],
     )
+    app.add_url_rule(
+        "/empleado/estudio9",
+        "estudio_estado9_carga",
+        estudio.estudio_estado9_carga,
+        methods=["POST"],
+    )
+    app.add_url_rule("/empleado/estudio9", "estudio_estado9", estudio.estudio_estado9)
+    app.add_url_rule(
+        "/empleado/estudio10", "estudio_estado10", estudio.estudio_estado10
+    )
 
     # Rutas de configuracion
     app.add_url_rule("/descarga", "download", estudio.download)

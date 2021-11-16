@@ -367,8 +367,6 @@ def estudio_estado8():
 
     return render_template("estudio/estado8.html", estudio=estudio)
 
-    # return render_template("empleados/index.html")  # redirect
-
 
 def estudio_estado8_carga():
     if not authenticated(session):
@@ -382,14 +380,62 @@ def estudio_estado8_carga():
     id_estudio = request.args.get("estudio")
     estudio = Estudio.query.filter(Estudio.id == id_estudio).first()
 
-    # resultado = Resultado(int(valor), informe)
-    estudio.resultado_id = Resultado(int(valor), informe)
+    resultado = Resultado(int(valor), informe)
+    estudio.resultado_id = resultado.id
+    estudio.estadoActual += 1
+
+    db.session.add(resultado)
+    db.session.commit()
+
+    return redirect(url_for("estudio_estado9", estudio=estudio.id))
+    # return render_template("estudio/estado8.html", estudio=estudio)
+
+
+def estudio_estado9():
+    """envio de mail"""
+    if not authenticated(session):
+        abort(401)
+    if not (session["rol"] == 2):
+        abort(401)
+
+    estudio_id = request.args.get("estudio")
+    estudio = Estudio.query.filter(Estudio.id == estudio_id).first()
+    resultado = Resultado.query.filter(Resultado.id == estudio.resultado_id).first()
+    medico = MedicoDerivante.query.filter(
+        MedicoDerivante.id == estudio.medicoDerivante
+    ).first()
+
+    return render_template(
+        "estudio/estado9.html", estudio=estudio, resultado=resultado, medico=medico
+    )
+
+
+def estudio_estado9_carga():
+    if not authenticated(session):
+        abort(401)
+    if not (session["rol"] == 2):
+        abort(401)
+
+    id_estudio = request.args.get("estudio")
+    estudio = Estudio.query.filter(Estudio.id == id_estudio).first()
+    estudio.resultadoEnviado = 1
     estudio.estadoActual += 1
 
     db.session.commit()
+    return redirect(url_for("estudio_estado10", estudio=estudio.id))
 
-    return redirect(url_for("estudio_estado7", estudio=estudio.id))
-    # return render_template("estudio/estado8.html", estudio=estudio)
+
+def estudio_estado10():
+    """fin"""
+    if not authenticated(session):
+        abort(401)
+    if not (session["rol"] == 2):
+        abort(401)
+
+    estudio_id = request.args.get("estudio")
+    estudio = Estudio.query.filter(Estudio.id == estudio_id).first()
+
+    return render_template("estudio/estado10.html", estudio=estudio)
 
 
 def download():
