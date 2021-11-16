@@ -84,6 +84,10 @@ def create_app(environment="development"):
     # Rutas de Empleado
     app.add_url_rule("/empleado", "empleado_home", estudio.listar)
     app.add_url_rule("/empleado/estudios", "estudio_index", estudio.index)
+    app.add_url_rule(
+        "/empleado/estudios/actualizarEstados", "estudio_actualizar", estudio.actualizar
+    )
+    app.add_url_rule(
     app.add_url_rule("/empleado/estudios/ver_estudio", "estudio_ver", estudio.ver)
 
     # estudio estado 0

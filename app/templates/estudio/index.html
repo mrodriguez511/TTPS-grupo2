@@ -24,6 +24,8 @@
                         <div class="card-header">
                             <a href="{{ url_for('estudio_new') }}" class="btn btn-outline-success btn-sm">Crear nuevo
                                 estudio</a>
+                            <a href="{{ url_for('estudio_actualizar') }}"
+                                class="btn btn-outline-success btn-sm">Actualizar estudios</a>
 
                         </div>
                         <!-- /.card-header -->
@@ -53,7 +55,9 @@
                                         {% else %}
                                         <td>{{ "Sí" }}</td>
                                         {% endif %}
-                                        {% if estudio.estadoActual == 1 %}
+                                        {% if estudio.anulado %}
+                                        <td>{{ "Anulado" }}</td>
+                                        {% elif estudio.estadoActual == 1 %}
                                         <td>{{ "Comprobante de pago" }}</td>
                                         {% elif estudio.estadoActual == 2 %}
                                         <td>{{ "Consentimiento firmado" }}</td>
