@@ -112,7 +112,7 @@ def create_estudio():
     new_estudio.archivoPresupuesto = archivo
     db.session.commit()
 
-    return redirect(url_for("estudio_estado1"))
+    return redirect(url_for("estudio_estado1", estudio=new_estudio.id))
 
 
 def estudio_estado1():
@@ -124,12 +124,13 @@ def estudio_estado1():
 
     estudio_id = request.args.get("estudio")
     estudio = Estudio.query.filter(Estudio.id == estudio_id).first()
-
+    # prueba = "factura_9.pdf"
     ruta = current_app.config["UPLOADED_FACTURAS_DEST"]
     ruta_archivo = os.path.join(ruta, estudio.archivoPresupuesto)
+    # ruta_archivo = os.path.join(ruta, prueba)
     # ruta_archivo = "sdfsdf"
     return render_template(
-        "estudio/estado1.html", estudio=estudio, ruta_archivo=estudio.archivoPresupuesto
+        "estudio/estado1.html", estudio=estudio, ruta_archivo=ruta_archivo
     )
 
 
@@ -374,11 +375,11 @@ def estudio_estado8_carga():
     if not (session["rol"] == 2):
         abort(401)
 
-    empleado = request.form["empleado"]
+    informe = request.form["informe"]
     id_estudio = request.args.get("estudio")
     estudio = Estudio.query.filter(Estudio.id == id_estudio).first()
 
-    estudio.empleadoMuestra = empleado
+    estudio = informe
     estudio.estadoActual += 1
     db.session.commit()
     return redirect(url_for("estudio_estado6", estudio=estudio.id))
