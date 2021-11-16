@@ -449,8 +449,11 @@ def estudio_estado10():
 
     estudio_id = request.args.get("estudio")
     estudio = Estudio.query.filter(Estudio.id == estudio_id).first()
+    resultado = Resultado.query.filter(Resultado.id == Estudio.resultado_id).first()
 
-    return render_template("estudio/estado10.html", estudio=estudio)
+    return render_template(
+        "estudio/estado10.html", estudio=estudio, resultado=resultado
+    )
 
 
 def download():
