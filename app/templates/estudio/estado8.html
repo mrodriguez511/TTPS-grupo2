@@ -3,6 +3,7 @@
 {% block head %}
 {{ super() }}
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+<link href="/static/assets/summernote.min.css" rel="stylesheet">
 
 
 
@@ -26,6 +27,16 @@
 
 
                         <div class="card-body">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="inputState" class="form-label">Resultado</label>
+                                    <select name="resultado" class="form-control" required>
+                                        <option disabled selected value="">Seleccionar</option>
+                                        <option value={{1}}> Positivo </option>
+                                        <option value={{0}}> Negativo </option>
+                                    </select>
+                                </div>
+                            </div>
                             <label for="summernote">Interpretación del resultado biotecnológico</label>
                             <textarea id="summernote">
                             {% if informe %}{{informe}}{% else %}<em>Complete Interpretación de resultado...</em>{% endif %}
@@ -65,13 +76,16 @@
 {% endblock %}
 
 {% block scripts %}
+
+
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.min.js"></script>
 
-<script>
 
-    $(function () {
+<script>
+    $(document).ready(function () {
         $("#summernote").summernote({
             height: 300,
             toolbar: [
@@ -86,9 +100,20 @@
                 ['view', ['undo', 'redo', 'fullscreen', 'codeview']]
             ]
         });
+    });
+</script>
+
+
+
+<script>
+
+    $(document).ready(function () {
+
 
 
         var informe = document.getElementById('summernote');
+        var resul = document.getElementById('resultado');
+        var form = document.getElementById('formulario');
         var submit = document.getElementById('btn-enviar');
         var guardar = document.getElementById('btn-guardar');
         var descarga = document.getElementById('btn-descargar')
@@ -123,10 +148,27 @@
             // Save the PDF
             doc.save('informe-estudio{{estudio.id}}.pdf');
         })
+
+        form.addEventListener("submit", function (e) {
+            if (!validar()) {
+                alert('Error al completar campos')
+                e.preventDefault();
+            } //stop form from submitting
+
+        })
+
+        let validar = () => ((informe.value.length > 50) && (resul != -1))
+
+
+
+
+
     })
 
 
 </script>
+
+
 
 {% endblock scripts %}
 

@@ -13,6 +13,7 @@ from werkzeug.utils import send_from_directory
 from app.helpers.archivos import generar_factura
 from app.models.estudio import Estudio
 from app.models.user import User
+from app.models.resultado import Resultado
 from app.models.rol import Rol
 import os
 from datetime import datetime
@@ -376,13 +377,19 @@ def estudio_estado8_carga():
         abort(401)
 
     informe = request.form["informe"]
+    valor = request.form["resultado"]
+
     id_estudio = request.args.get("estudio")
     estudio = Estudio.query.filter(Estudio.id == id_estudio).first()
 
-    estudio = informe
+    # resultado = Resultado(int(valor), informe)
+    estudio.resultado_id = Resultado(int(valor), informe)
     estudio.estadoActual += 1
+
     db.session.commit()
-    return redirect(url_for("estudio_estado6", estudio=estudio.id))
+
+    return redirect(url_for("estudio_estado7", estudio=estudio.id))
+    # return render_template("estudio/estado8.html", estudio=estudio)
 
 
 def download():
