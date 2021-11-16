@@ -45,6 +45,10 @@ def index():
         .all()
     )
 
+    turnos = db.session.query(Estudio.turno).filter(Estudio.turno != None).all()
+    flash(type(turnos))
+    flash(turnos)
+
     return render_template("estudio/index.html", estudios=estudios)
 
 
@@ -153,6 +157,7 @@ def estudio_estado1_carga():
     # db.session.commit()
 
     db.session.commit()
+    cargarNuevoEstado(estudio)
     # FALTA GUARDAR EL ARCHIVO Y AGREGAR EL BOTON DE DESCARGAR EL COMPROBANTE EXISTENTE
     return redirect(url_for("estudio_estado2", estudio=estudio.id))
 
@@ -198,6 +203,7 @@ def estudio_estado2_carga():
     # db.session.commit()
 
     db.session.commit()
+    cargarNuevoEstado(estudio)
     # FALTA GUARDAR EL ARCHIVO Y AGREGAR EL BOTON DE DESCARGAR EL COMPROBANTE EXISTENTE
     return redirect(url_for("estudio_estado3", estudio=estudio.id))
 
@@ -212,7 +218,8 @@ def estudio_estado3():
     estudio_id = request.args.get("estudio")
     estudio = Estudio.query.filter(Estudio.id == estudio_id).first()
 
-    agendados = []  # query que traiga todos los turnos agendados
+    agendados = db.session.query(Estudio.turno).filter(Estudio.turno != None).all()
+    # es una lista de datetime
 
     """with open("archivos/Patologias.csv") as data_set:
         reader = csv.reader(data_set)
@@ -246,6 +253,7 @@ def estudio_estado3_carga():
     # falta chekear turno disponible
 
     db.session.commit()
+    cargarNuevoEstado(estudio)
 
     return redirect(url_for("estudio_estado4", estudio=estudio.id))
 
@@ -277,6 +285,7 @@ def cancelar_turno():
 
     agendados = []  # query que traiga todos los turnos agendados
     db.session.commit()
+    cargarNuevoEstado(estudio)
 
     return render_template("estudio/estado3.html", estudio=estudio, agendados=agendados)
 
@@ -297,6 +306,7 @@ def estudio_estado4_carga():
 
     estudio.estadoActual += 1
     db.session.commit()
+    cargarNuevoEstado(estudio)
 
     return redirect(url_for("estudio_estado5", estudio=estudio.id))
 
@@ -327,6 +337,7 @@ def estudio_estado5_carga():
     estudio.empleadoMuestra = empleado
     estudio.estadoActual += 1
     db.session.commit()
+    cargarNuevoEstado(estudio)
     return redirect(url_for("estudio_estado6", estudio=estudio.id))
 
 
@@ -382,11 +393,13 @@ def estudio_estado8_carga():
     estudio = Estudio.query.filter(Estudio.id == id_estudio).first()
 
     resultado = Resultado(int(valor), informe)
+    db.session.add(resultado)
+    db.session.commit()
     estudio.resultado_id = resultado.id
     estudio.estadoActual += 1
 
-    db.session.add(resultado)
     db.session.commit()
+    cargarNuevoEstado(estudio)
 
     return redirect(url_for("estudio_estado9", estudio=estudio.id))
     # return render_template("estudio/estado8.html", estudio=estudio)
@@ -419,10 +432,11 @@ def estudio_estado9_carga():
 
     id_estudio = request.args.get("estudio")
     estudio = Estudio.query.filter(Estudio.id == id_estudio).first()
-    estudio.resultadoEnviado = 1
+    estudio.resultadoEnviado = True
     estudio.estadoActual += 1
 
     db.session.commit()
+    cargarNuevoEstado(estudio)
     return redirect(url_for("estudio_estado10", estudio=estudio.id))
 
 
@@ -452,7 +466,6 @@ def actualizar():
     if not (session["rol"] == 2):
         abort(401)
 
-
     import datetime
 
     estudios = Estudio.query.all()
@@ -475,11 +488,4 @@ def actualizar():
                     estudio.retrasado = True
                     db.session.commit()
 
-    estudios = (
-        db.session.query(Estudio, Paciente, TipoEstudio)
-        .filter(Estudio.paciente == Paciente.id)
-        .filter(Estudio.tipoEstudio == TipoEstudio.id)
-        .all()
-    )
-
-    return render_template("estudio/index.html", estudios=estudios)
+    return redirect(url_for("estudio_index"))
