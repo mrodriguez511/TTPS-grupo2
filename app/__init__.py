@@ -8,7 +8,7 @@ from app import db
 from app.resources import (
     empleado,
     estudio,
-    estudiosParaCrearLote,
+    lote,
     liquidacionExtracciones,
     paciente,
     reportes,
@@ -84,6 +84,9 @@ def create_app(environment="development"):
     # Rutas de Empleado
     app.add_url_rule("/empleado", "empleado_home", estudio.listar)
     app.add_url_rule("/empleado/estudios", "estudio_index", estudio.index)
+    app.add_url_rule(
+        "/empleado/estudios/actualizarEstados", "estudio_actualizar", estudio.actualizar
+    )
     app.add_url_rule("/empleado/estudios/ver_estudio", "estudio_ver", estudio.ver)
 
     # estudio estado 0
@@ -105,9 +108,31 @@ def create_app(environment="development"):
 
     # estudios para crear Lote
     app.add_url_rule(
-        "/estudios_Lote",
-        "estudiosParaCrearLote_index",
-        estudiosParaCrearLote.index,
+        "/lotes/formarLote",
+        "estudiosFormarLote_index",
+        lote.estudiosFormarLote_index,
+    )
+    app.add_url_rule(
+        "/lotes/formarLote/nuevo",
+        "estudiosParaCrearLote_formarLote",
+        lote.formarLote,
+    )
+    app.add_url_rule(
+        "/lotes/lotesEnProcesamiento",
+        "lote_enProcesamiento_index",
+        lote.esperaURL_index,
+    )
+
+    app.add_url_rule(
+        "/lotes/lotesEnProcesamiento/URL",
+        "lote_enProcesamiento_agregarURL",
+        lote.agregarURL,
+    )
+
+    app.add_url_rule(
+        "/lotes/lotesProcesados",
+        "lote_procesado_index",
+        lote.procesados_index,
     )
 
     # liquidacion de extracciones
@@ -115,6 +140,11 @@ def create_app(environment="development"):
         "/liquidacion_Extracciones",
         "liquidacionExtracciones_index",
         liquidacionExtracciones.index,
+    )
+    app.add_url_rule(
+        "/liquidacion_Extracciones/Abonar",
+        "liquidacionExtracciones_abonar",
+        liquidacionExtracciones.abonar,
     )
 
     # reportes
@@ -181,6 +211,10 @@ def create_app(environment="development"):
     app.add_url_rule("/empleado/estudio9", "estudio_estado9", estudio.estudio_estado9)
     app.add_url_rule(
         "/empleado/estudio10", "estudio_estado10", estudio.estudio_estado10
+    )
+
+    app.add_url_rule(
+        "/empleado/estudios/retrasados", "estudio_retrasado", estudio.retrasados_index
     )
 
     # Rutas de configuracion

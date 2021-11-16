@@ -1,5 +1,5 @@
 {% extends "layout.html" %}
-{% block title %}Estudios{% endblock %}
+{% block title %}Lotes en procesamiento{% endblock %}
 {% block head %}
 {{ super() }}
 <!-- DataTables -->
@@ -13,8 +13,9 @@
 {% block content %}
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
+
     <div class="content-header">
-        <h1>Estudios</h1>
+        <h1>Lotes en procesamiento</h1>
     </div>
     <section class="">
         <div class="">
@@ -22,67 +23,62 @@
                 <div class="col-11">
                     <div class="card">
                         <div class="card-header">
-                            <a href="{{ url_for('estudio_new') }}" class="btn btn-outline-success btn-sm">Crear nuevo
-                                estudio</a>
-                            <a href="{{ url_for('estudio_actualizar') }}"
-                                class="btn btn-outline-success btn-sm">Actualizar estudios</a>
+
 
                         </div>
                         <!-- /.card-header -->
+
                         <div class="card-body">
                             <table id="table2" class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">Tipo de Estudio</th>
-                                        <th scope="col">Fecha Inicio</th>
-                                        <th scope="col">Paciente</th>
-                                        <th scope="col">Retrasado</th>
-                                        <th scope="col">Estado/Esperando..</th>
-                                        <th scope="col">Acciones</th>
+                                        <th scope="col">Lote #</th>
+                                        <th scope="col">Procesamiento</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {% for estudio,paciente, tipoEstudio in estudios %}
-
+                                    {% for lote in lotes %}
                                     <tr>
-                                        <td scope="row">{{ estudio.id }}</td>
-                                        <td>{{ tipoEstudio.nombre }}</td>
-                                        <td>{{ estudio.fecha }}</td>
-                                        <td>{{ paciente.nombre }} {{ paciente.apellido }}</td>
-                                        {% if not (estudio.retrasado) %}
-                                        <td>{{ "No" }}</td>
-                                        {% else %}
-                                        <td>{{ "Sí" }}</td>
-                                        {% endif %}
-                                        {% if estudio.anulado %}
-                                        <td>{{ "Anulado" }}</td>
-                                        {% elif estudio.estadoActual == 1 %}
-                                        <td>{{ "Comprobante de pago" }}</td>
-                                        {% elif estudio.estadoActual == 2 %}
-                                        <td>{{ "Consentimiento firmado" }}</td>
-                                        {% elif estudio.estadoActual == 3 %}
-                                        <td>{{ "Selección de turno" }}</td>
-                                        {% elif estudio.estadoActual == 4 %}
-                                        <td>{{ "Toma de muestra" }}</td>
-                                        {% elif estudio.estadoActual == 5 %}
-                                        <td>{{ "Retiro de muestra" }}</td>
-                                        {% elif estudio.estadoActual == 6 %}
-                                        <td>{{ "Formar lote" }}</td>
-                                        {% elif estudio.estadoActual == 7 %}
-                                        <td>{{ "Resultado biotecnológico" }}</td>
-                                        {% elif estudio.estadoActual == 8 %}
-                                        <td>{{ "Interpretación de resultado" }}</td>
-                                        {% elif estudio.estadoActual == 9 %}
-                                        <td>{{ "Entrega de resultado" }}</td>
-                                        {% elif estudio.estadoActual == 10 %}
-                                        <td>{{ "Resultado entregado" }}</td>
-                                        {% endif %}
+                                        <td scope="row">{{ lote.id }}</td>
                                         <td>
-                                            {% if not estudio.anulado %}
-                                            <a href="{{ url_for('estudio_ver', id=estudio.id )}}"
-                                                class="btn btn-primary btn-sm">Ver</a>
-                                            {% endif %}
+                                            <div class="modal fade" id="url{{lote.id}}" tabindex="-1"
+                                                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">Agregar URL</h5>
+                                                            <button type="button" class="btn-close"
+                                                                data-bs-dismiss="modal" aria-label="Close"></button>
+
+                                                        </div>
+                                                        <form
+                                                            action="{{ url_for('lote_enProcesamiento_agregarURL',id=lote.id) }}"
+                                                            method="POST">
+                                                            <div class="modal-body">
+                                                                <textarea class="form-control"
+                                                                    id="exampleFormControlTextarea1" rows="3" name="url"
+                                                                    placeholder="Ingresar URL..." required></textarea>
+                                                                {#<p>Agregar URL</p>
+
+                                                                <p><input name="url" placeholder="Ingrese URL.."
+                                                                        required>#}
+                                                                </p>
+
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-outline-danger"
+                                                                    data-bs-dismiss="modal">Cancelar</button>
+
+                                                                <button type="submit" class="btn btn-success">
+                                                                    Guardar URL</button>
+
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <button data-bs-toggle="modal" data-bs-target="#url{{lote.id}}"
+                                                class="btn btn-success btn-sm">Ingresar URL</button>
                                         </td>
                                     </tr>
                                     {% endfor %}

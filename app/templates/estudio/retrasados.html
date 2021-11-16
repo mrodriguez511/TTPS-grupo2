@@ -1,5 +1,5 @@
 {% extends "layout.html" %}
-{% block title %}Liquidacion de extracciones{% endblock %}
+{% block title %}Estudios retrasados{% endblock %}
 {% block head %}
 {{ super() }}
 <!-- DataTables -->
@@ -13,9 +13,8 @@
 {% block content %}
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
-
     <div class="content-header">
-        <h1>Liquidacion de extracciones</h1>
+        <h1>Estudios retrasados</h1>
     </div>
     <section class="">
         <div class="">
@@ -23,50 +22,57 @@
                 <div class="col-11">
                     <div class="card">
                         <div class="card-header">
-
-
                         </div>
                         <!-- /.card-header -->
-
                         <div class="card-body">
                             <table id="table2" class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
-                                        <th scope="col">Estudio#</th>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Tipo de Estudio</th>
+                                        <th scope="col">Fecha Inicio</th>
                                         <th scope="col">Paciente</th>
-                                        <th scope="col">Tipo de estudio</th>
-                                        <th scope="col">Fecha toma de muestra</th>
-                                        <th scope="col">Costo Extraccion</th>
-                                        <th scope="col">Seleccionar para abonar</th>
+                                        <th scope="col">Estado/Esperando..</th>
+                                        <th scope="col">Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <form action="{{ url_for('liquidacionExtracciones_abonar') }}" method="POST">
-                                        {% for estudio,paciente,tipoEstudio in estudios %}
+                                    {% for estudio,paciente, tipoEstudio in estudios %}
 
-
-                                        <tr>
-                                            <td scope="row">{{ estudio.id }}</td>
-                                            <td>{{ paciente.nombre }} {{ paciente.apellido }}</td>
-                                            <td>{{ tipoEstudio.nombre }}</td>
-                                            <td>{{ estudio.turno }}</td>
-                                            <td>{{ "$800" }}</td>
-                                            <td>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" name="check_liquidar"
-                                                        type="checkbox" value="{{estudio.id}}" id="flexCheckDefault">
-                                                    <label class="form-check-label" for="flexCheckDefault">
-                                                    </label>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        {% endfor %}
-                                        <div class="container py-5">
-                                            <input type="submit" class="btn btn-success" value="Liquidar">
-                                            <button type="reset" class="btn btn-outline-secondary">Limpiar</button>
-                                        </div>
-                                    </form>
-
+                                    <tr>
+                                        <td scope="row">{{ estudio.id }}</td>
+                                        <td>{{ tipoEstudio.nombre }}</td>
+                                        <td>{{ estudio.fecha }}</td>
+                                        <td>{{ paciente.nombre }} {{ paciente.apellido }}</td>
+                                        {% if estudio.anulado %}
+                                        <td>{{ "Anulado" }}</td>
+                                        {% elif estudio.estadoActual == 1 %}
+                                        <td>{{ "Comprobante de pago" }}</td>
+                                        {% elif estudio.estadoActual == 2 %}
+                                        <td>{{ "Consentimiento firmado" }}</td>
+                                        {% elif estudio.estadoActual == 3 %}
+                                        <td>{{ "Selección de turno" }}</td>
+                                        {% elif estudio.estadoActual == 4 %}
+                                        <td>{{ "Toma de muestra" }}</td>
+                                        {% elif estudio.estadoActual == 5 %}
+                                        <td>{{ "Retiro de muestra" }}</td>
+                                        {% elif estudio.estadoActual == 6 %}
+                                        <td>{{ "Formar lote" }}</td>
+                                        {% elif estudio.estadoActual == 7 %}
+                                        <td>{{ "Resultado biotecnológico" }}</td>
+                                        {% elif estudio.estadoActual == 8 %}
+                                        <td>{{ "Interpretación de resultado" }}</td>
+                                        {% elif estudio.estadoActual == 9 %}
+                                        <td>{{ "Entrega de resultado" }}</td>
+                                        {% elif estudio.estadoActual == 10 %}
+                                        <td>{{ "Resultado entregado" }}</td>
+                                        {% endif %}
+                                        <td>
+                                            <a href="{{ url_for('estudio_ver', id=estudio.id )}}"
+                                                class="btn btn-primary btn-sm">Ver</a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
                                 </tbody>
                             </table>
                         </div>

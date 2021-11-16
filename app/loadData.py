@@ -157,7 +157,7 @@ def cargarTiposDeEstudio():
 
 
 def cargarDiagonosticos():
-    with open("archivos/Patologias.csv") as data_set:
+    with open("archivos/Patologias.csv", encoding="utf-8") as data_set:
         reader = csv.reader(data_set)
         for fila in reader:
             db.session.add(DiagnosticoPresuntivo(nombre=fila[0]))
@@ -226,13 +226,13 @@ def cargarEstudios():
     estudio2.estadoActual = 6
     estudio3.estadoActual = 6
     estudio4.estadoActual = 4
+    estudio1.turno = "2021-01-18"
+    estudio2.turno = "2021-05-18"
+    estudio3.turno = "2021-10-18"
+    estudio4.turno = "2021-12-18"
     estudioEnero.fecha = "2021-01-01"
     estudioFebrero.fecha = "2021-02-01"
     estudioMarzo.fecha = "2021-03-01"
-    estudio1.extraccionAbonada = False
-    estudio2.extraccionAbonada = False
-    estudio3.extraccionAbonada = False
-    estudio4.extraccionAbonada = False
     db.session.add(estudio1)
     db.session.add(estudio2)
     db.session.add(estudio3)
@@ -240,4 +240,12 @@ def cargarEstudios():
     db.session.add(estudioEnero)
     db.session.add(estudioFebrero)
     db.session.add(estudioMarzo)
+    lote1 = Lote()
+    lote1.estudios.append(estudio1)
+    lote1.estudios.append(estudio2)
+    lote2 = Lote()
+    lote2.estudios.append(estudio3)
+    lote2.url = "https://www.google.com/"
+    db.session.add(lote1)
+    db.session.add(lote2)
     db.session.commit()

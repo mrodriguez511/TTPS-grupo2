@@ -1,5 +1,5 @@
 {% extends "layout.html" %}
-{% block title %}Liquidacion de extracciones{% endblock %}
+{% block title %}Estudios esperando formar lote{% endblock %}
 {% block head %}
 {{ super() }}
 <!-- DataTables -->
@@ -15,7 +15,7 @@
     <!-- Content Header (Page header) -->
 
     <div class="content-header">
-        <h1>Liquidacion de extracciones</h1>
+        <h1>Estudios esperando formar lote</h1>
     </div>
     <section class="">
         <div class="">
@@ -36,12 +36,11 @@
                                         <th scope="col">Paciente</th>
                                         <th scope="col">Tipo de estudio</th>
                                         <th scope="col">Fecha toma de muestra</th>
-                                        <th scope="col">Costo Extraccion</th>
                                         <th scope="col">Seleccionar para abonar</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <form action="{{ url_for('liquidacionExtracciones_abonar') }}" method="POST">
+                                    <form action="{{ url_for('estudiosParaCrearLote_formarLote') }}" method="POST">
                                         {% for estudio,paciente,tipoEstudio in estudios %}
 
 
@@ -50,10 +49,9 @@
                                             <td>{{ paciente.nombre }} {{ paciente.apellido }}</td>
                                             <td>{{ tipoEstudio.nombre }}</td>
                                             <td>{{ estudio.turno }}</td>
-                                            <td>{{ "$800" }}</td>
                                             <td>
                                                 <div class="form-check">
-                                                    <input class="form-check-input" name="check_liquidar"
+                                                    <input class="form-check-input" name="check_formarLote"
                                                         type="checkbox" value="{{estudio.id}}" id="flexCheckDefault">
                                                     <label class="form-check-label" for="flexCheckDefault">
                                                     </label>
@@ -62,7 +60,7 @@
                                         </tr>
                                         {% endfor %}
                                         <div class="container py-5">
-                                            <input type="submit" class="btn btn-success" value="Liquidar">
+                                            <input type="submit" class="btn btn-success" value="Formar Lote">
                                             <button type="reset" class="btn btn-outline-secondary">Limpiar</button>
                                         </div>
                                     </form>
