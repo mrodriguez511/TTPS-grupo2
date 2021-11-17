@@ -41,10 +41,9 @@ def formarLote():
         abort(401)
     estudios_id = request.form["estudios"]
     estudios_id = estudios_id.split(",")
-    
+
     lote = Lote()
     for estudio_id in estudios_id:
-        flash(estudio_id)
         estudio = Estudio.query.filter(Estudio.id == estudio_id).first()
         lote.estudios.append(estudio)
 
