@@ -518,3 +518,50 @@ def retrasados_index():
     )
 
     return render_template("estudio/retrasados.html", estudios=estudios)
+
+
+def boxPlot():
+
+    if not authenticated(session):
+        abort(401)
+
+    if not (session["rol"] == 2):
+        abort(401)
+
+    estudios = (
+        db.session.query(Estudio, Paciente, TipoEstudio)
+        .filter(
+            and_(
+                Estudio.fecha >= str(2021) + "-01-01",
+                Estudio.fecha <= str(2021) + "-12-31",
+            )
+        )
+        .filter(Estudio.estadoActual == 10)
+        .filter(Estudio.paciente == Paciente.id)
+        .filter(Estudio.tipoEstudio == TipoEstudio.id)
+        .all()
+    )
+
+    lista = []
+    for estudio, paciente, tipo in estudios:
+        estado = Estado.query.filter(
+            and_(Estado.estudio == estudio.id, Estado.numero == 10)
+        ).first()
+        cantDias = estado.fecha.day - estudio.turno.day
+        lista.append(cantDias)
+
+    lista.sort()
+
+    total = len(lista)
+    min = lista.index(0)
+    max = lista.index(total - 1)
+    posQ1 = total / 4
+    q1 = lista.index(posQ1 - 1) + lista.index(posQ1) / 2
+    posQ2 = total / 2
+    q2 = lista.index(posQ2 - 1) + lista.index(posQ2) / 2
+    posQ3 = 3 * total / 4
+    q3 = lista.index(posQ3 - 1) + lista.index(posQ3) / 2
+
+    return render_template(
+        "estudio/retrasados.html", min=min, max=max, q1=q1, q2=q2, q3=q3
+    )
