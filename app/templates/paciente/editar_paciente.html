@@ -14,46 +14,51 @@
         <div class="col-10">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Alta de paciente</h3>
+                    <h3 class="card-title">Edición de paciente {{paciente.nombre}}</h3>
                 </div>
                 <div class="card-body">
-                    <form class="row g-3" action="{{ url_for('paciente_create') }}" method="POST">
+                    <form class="row g-3" action="{{ url_for('paciente_update', id=paciente.id) }}" method="POST">
                         <div class="row">
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label for="inputEmail4" class="form-label">Nombre</label>
-                                    <input type="text" name="nombre" class="form-control" required>
+                                    <input type="text" name="nombre" class="form-control" value={{paciente.nombre}}
+                                        required>
                                 </div>
                             </div>
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label for="inputEmail4" class="form-label">Apellido</label>
-                                    <input type="text" name="apellido" class="form-control" required>
+                                    <input type="text" name="apellido" class="form-control" value={{paciente.apellido}}
+                                        required>
                                 </div>
                             </div>
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label for="inputEmail4" class="form-label">DNI</label>
-                                    <input type="number" name="dni" class="form-control" maxlength="8" required>
+                                    <input type="number" name="dni" class="form-control" maxlength="8"
+                                        value={{paciente.dni}} required disabled>
                                 </div>
                             </div>
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label for="inputEmail4" class="form-label">Fecha de nacimiento</label>
                                     <input type="date" name="fechaNacimiento" id="datefield" class="form-control"
-                                        min='1900-01-01' required>
+                                        min='1900-01-01' value={{paciente.fechaNacimiento}} required>
                                 </div>
                             </div>
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label for="inputEmail4" class="form-label">Email</label>
-                                    <input type="email" name="email" class="form-control" required>
+                                    <input type="email" name="email" class="form-control" value={{paciente.email}}
+                                        disabled required>
                                 </div>
                             </div>
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label for="inputEmail4" class="form-label">Telefono</label>
-                                    <input type="tel" name="telefono" class="form-control" required>
+                                    <input type="tel" name="telefono" class="form-control" value={{paciente.telefono}}
+                                        required>
                                 </div>
                             </div>
                             <div class="col-sm-4">
@@ -78,11 +83,12 @@
                             <div class="col-sm-12">
                                 <div class="form-group">
                                     <label for="inputEmail4" class="form-label">Resumen de historia clinica</label>
-                                    <textarea name="resumenHC" class="form-control" required></textarea>
+                                    <textarea name="resumenHC" class="form-control"
+                                        required>{{paciente.resumenHC}}</textarea>
                                 </div>
                             </div>
                             <div class="col-12">
-                                <button type="submit" class="btn btn-primary">Alta de paciente</button>
+                                <button type="submit" class="btn btn-primary">Editar datos</button>
                             </div>
                         </div>
                     </form>

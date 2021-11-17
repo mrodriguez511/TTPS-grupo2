@@ -178,7 +178,7 @@ def cargarEstudios():
         1,  # tipoEstudio hay 5
         3,  # medicoDerivante hay 4
         1,  # paciente hay 2
-        1,  # empleado hay 1
+        2,  # empleado hay 1
         10,  # diagnostico hay muchos 300 y pico
         900000,  # presupuesto
     )
@@ -186,7 +186,7 @@ def cargarEstudios():
         5,  # tipoEstudio hay 5
         4,  # medicoDerivante hay 4
         1,  # paciente hay 2
-        1,  # empleado hay 1
+        2,  # empleado hay 1
         300,  # diagnostico hay muchos 300 y pico
         10000,  # presupuesto
     )
@@ -194,7 +194,7 @@ def cargarEstudios():
         5,  # tipoEstudio hay 5
         4,  # medicoDerivante hay 4
         1,  # paciente hay 2
-        1,  # empleado hay 1
+        2,  # empleado hay 1
         300,  # diagnostico hay muchos 300 y pico
         10000,  # presupuesto
     )
@@ -202,7 +202,7 @@ def cargarEstudios():
         5,  # tipoEstudio hay 5
         4,  # medicoDerivante hay 4
         1,  # paciente hay 2
-        1,  # empleado hay 1
+        2,  # empleado hay 1
         300,  # diagnostico hay muchos 300 y pico
         10000,  # presupuesto
     )
@@ -210,7 +210,7 @@ def cargarEstudios():
         5,  # tipoEstudio hay 5
         4,  # medicoDerivante hay 4
         1,  # paciente hay 2
-        1,  # empleado hay 1
+        2,  # empleado hay 1
         300,  # diagnostico hay muchos 300 y pico
         10000,  # presupuesto
     )
@@ -218,10 +218,94 @@ def cargarEstudios():
         5,  # tipoEstudio hay 5
         4,  # medicoDerivante hay 4
         1,  # paciente hay 2
-        1,  # empleado hay 1
+        2,  # empleado hay 1
         300,  # diagnostico hay muchos 300 y pico
         10000,  # presupuesto
     )
+    estudio5 = Estudio(
+        4,  # tipoEstudio hay 5
+        3,  # medicoDerivante hay 4
+        2,  # paciente hay 2
+        2,  # empleado hay 1
+        3,  # diagnostico hay muchos 300 y pico
+        300000,  # presupuesto
+    )
+
+    estudio6 = Estudio(
+        4,  # tipoEstudio hay 5
+        3,  # medicoDerivante hay 4
+        1,  # paciente hay 2
+        2,  # empleado hay 1
+        10,  # diagnostico hay muchos 300 y pico
+        900000,  # presupuesto
+    )
+    estudio7 = Estudio(
+        1,  # tipoEstudio hay 5
+        4,  # medicoDerivante hay 4
+        1,  # paciente hay 2
+        2,  # empleado hay 1
+        18,  # diagnostico hay muchos 300 y pico
+        10000,  # presupuesto
+    )
+    estudio8 = Estudio(
+        3,  # tipoEstudio hay 5
+        4,  # medicoDerivante hay 4
+        1,  # paciente hay 2
+        2,  # empleado hay 1
+        201,  # diagnostico hay muchos 300 y pico
+        10000,  # presupuesto
+    )
+    estudio9 = Estudio(
+        2,  # tipoEstudio hay 5
+        3,  # medicoDerivante hay 4
+        2,  # paciente hay 2
+        2,  # empleado hay 1
+        3,  # diagnostico hay muchos 300 y pico
+        300000,  # presupuesto
+    )
+
+    estudio10 = Estudio(
+        4,  # tipoEstudio hay 5
+        1,  # medicoDerivante hay 4
+        1,  # paciente hay 2
+        2,  # empleado hay 1
+        10,  # diagnostico hay muchos 300 y pico
+        900000,  # presupuesto
+    )
+    estudio11 = Estudio(
+        4,  # tipoEstudio hay 5
+        2,  # medicoDerivante hay 4
+        1,  # paciente hay 2
+        2,  # empleado hay 1
+        300,  # diagnostico hay muchos 300 y pico
+        10000,  # presupuesto
+    )
+    estudio12 = Estudio(
+        5,  # tipoEstudio hay 5
+        4,  # medicoDerivante hay 4
+        1,  # paciente hay 2
+        2,  # empleado hay 1
+        300,  # diagnostico hay muchos 300 y pico
+        10000,  # presupuesto
+    )
+
+    estudio5.estadoActual = 10
+    estudio6.estadoActual = 10
+    estudio7.estadoActual = 10
+    estudio8.estadoActual = 10
+    estudio9.estadoActual = 10
+    estudio10.estadoActual = 10
+    estudio11.estadoActual = 10
+    estudio12.estadoActual = 10
+    estudio5.turno = "2021-08-01"
+    estudio6.turno = "2021-08-01"
+    estudio7.turno = "2021-08-01"
+    estudio8.turno = "2021-08-01"
+    estudio9.turno = "2021-08-01"
+    estudio10.turno = "2021-08-01"
+    estudio11.turno = "2021-08-01"
+    estudio12.turno = "2021-08-01"
+
     estudio1.estadoActual = 6
     estudio2.estadoActual = 6
     estudio3.estadoActual = 6
@@ -233,6 +317,34 @@ def cargarEstudios():
     estudioEnero.fecha = "2021-01-01"
     estudioFebrero.fecha = "2021-02-01"
     estudioMarzo.fecha = "2021-02-18"
+
+    estadoEstudio5 = Estado(10, 2, 8)
+    estadoEstudio6 = Estado(10, 2, 9)
+    estadoEstudio7 = Estado(10, 2, 10)
+    estadoEstudio8 = Estado(10, 2, 11)
+    estadoEstudio9 = Estado(10, 2, 12)
+    estadoEstudio10 = Estado(10, 2, 13)
+    estadoEstudio11 = Estado(10, 2, 14)
+    estadoEstudio12 = Estado(10, 2, 15)
+
+    db.session.add(estadoEstudio5)
+    db.session.add(estadoEstudio6)
+    db.session.add(estadoEstudio7)
+    db.session.add(estadoEstudio8)
+    db.session.add(estadoEstudio9)
+    db.session.add(estadoEstudio10)
+    db.session.add(estadoEstudio11)
+    db.session.add(estadoEstudio12)
+
+    estadoEstudio5.fecha = "2021-08-31"
+    estadoEstudio6.fecha = "2021-08-20"
+    estadoEstudio7.fecha = "2021-08-25"
+    estadoEstudio8.fecha = "2021-11-12"
+    estadoEstudio9.fecha = "2021-09-05"
+    estadoEstudio10.fecha = "2021-08-29"
+    estadoEstudio11.fecha = "2021-09-10"
+    estadoEstudio12.fecha = "2021-08-18"
+
     db.session.add(estudio1)
     db.session.add(estudio2)
     db.session.add(estudio3)
@@ -240,9 +352,18 @@ def cargarEstudios():
     db.session.add(estudioEnero)
     db.session.add(estudioFebrero)
     db.session.add(estudioMarzo)
+    db.session.add(estudio5)
+    db.session.add(estudio6)
+    db.session.add(estudio7)
+    db.session.add(estudio8)
+    db.session.add(estudio9)
+    db.session.add(estudio10)
+    db.session.add(estudio11)
+    db.session.add(estudio12)
+
     lote1 = Lote()
-    lote1.estudios.append(estudio1)
-    lote1.estudios.append(estudio2)
+    lote1.estudios.append(estudio5)
+    lote1.estudios.append(estudio6)
     lote2 = Lote()
     lote2.estudios.append(estudio3)
     lote2.url = "https://www.google.com/"

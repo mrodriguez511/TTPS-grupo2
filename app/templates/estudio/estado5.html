@@ -30,7 +30,8 @@
                                         muestra</label>
 
                                     <input type="text" name="empleado" id="empleado" class="form-control"
-                                        autocomplete="off" required>
+                                        autocomplete="off" required {% if estudio.estadoActual> 5 %} disabled
+                                    value="{{estudio.empleadoMuestra}}" {% endif %}>
                                 </div>
                             </div>
 
@@ -40,7 +41,9 @@
 
 
                         <div class="col-12">
-                            <button id="btn-enviar" type="submit" class="btn btn-primary mt-5"
+                            <button id="btn-enviar" type="submit" class="btn btn-primary mt-5" {% if
+                                estudio.estadoActual> 5 %} hidden{% endif
+                                %}
                                 disabled>Siguiente</button>
                         </div>
                     </form>

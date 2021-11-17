@@ -104,6 +104,18 @@ def create_app(environment="development"):
         paciente.create_paciente,
         methods=["POST"],
     )
+    app.add_url_rule(
+        "/empleado/edit_paciente",
+        "paciente_editar",
+        paciente.update_paciente,
+        methods=["POST"],
+    )
+    app.add_url_rule(
+        "/empleado/edit_paciente",
+        "paciente_update",
+        paciente.editar_paciente,
+        methods=["GET"],
+    )
     app.add_url_rule("/empleado/pacientes", "paciente_index", paciente.index)
 
     # estudios para crear Lote
@@ -149,12 +161,18 @@ def create_app(environment="development"):
         "/liquidacion_Extracciones/Abonar",
         "liquidacionExtracciones_abonar",
         liquidacionExtracciones.abonar,
+        methods=["POST"],
     )
 
     # reportes
     app.add_url_rule("/reportes", "reportes_index", reportes.index)
     app.add_url_rule(
         "/reporte_cant_estudios_tipo", "reportes1", reportes.cant_estudios_tipo
+    )
+    app.add_url_rule(
+        "/reporte_boxplot",
+        "reporte_boxplot",
+        reportes.boxPlot,
     )
 
     # estudio estado 1

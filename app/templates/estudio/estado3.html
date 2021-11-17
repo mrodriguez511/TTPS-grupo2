@@ -21,8 +21,9 @@
                     <h3 class="card-title">Esperando selección de turno</h3>
                 </div>
                 <div class="card-body">
-                    <form class="row g-3 align-items-start justify-content-around" id="formulario"
-                        action="{{ url_for('estudio_estado3_carga' , estudio=estudio.id) }}" method="POST">
+                    {% if estudio.estadoActual <= 3 %} <form class="row g-3 align-items-start justify-content-around"
+                        id="formulario" action="{{ url_for('estudio_estado3_carga' , estudio=estudio.id) }}"
+                        method="POST">
                         <div class="col-4 form-group">
                             <label>Asignar turno:</label>
                             <div class="row ml-1">
@@ -41,8 +42,7 @@
 
 
                             <div class="col-12">
-                                <button id="btn-enviar" type="submit" on-click='sendForm()' class="btn btn-primary mt-5"
-                                    disabled>Guardar turno</button>
+                                <button id="btn-enviar" class="btn btn-primary mt-5" disabled>Seleccionar turno</button>
                             </div>
                         </div>
 
@@ -59,12 +59,10 @@
                             </div>
                         </div>
 
-
-
-
-
-
-                    </form>
+                        </form>
+                        {% else %}
+                        <h4>Turno agendado el día {{ estudio.turno.strftime('%d/%m/%Y a las %H:%M') }} </h4>
+                        {% endif %}
 
                 </div>
             </div>
@@ -105,28 +103,7 @@
 <script src='/static/assets/plugins/fullcalendar/locales/es.js'></script>
 
 
-<script type="text/javascript">
 
-    let hoy = (new Date).toISOString().substring(0, 10);
-
-    var fecha = document.getElementById('fecha');
-    fecha.setAttribute('min', hoy)
-
-    var hora = document.getElementById('hora');
-    var submit = document.getElementById('btn-enviar');
-
-    fecha.addEventListener('change', function () {
-        submit.disabled = (fecha.value && hora.value) ? false : true
-    });
-
-    hora.addEventListener('change', function () {
-        submit.disabled = (fecha.value && hora.value) ? false : true
-    });
-
-
-
-
-</script>
 
 <script>
     $(function () {
@@ -175,8 +152,8 @@
         // -----------------------------------------------------------------
         let eventos = ['18/11/2021-10:30', '16/11/2021-14:30']
 
-        //CAAAAAAMBIARRRR
-
+        eventos = '{{ agendados }}'
+        eventos = eventos.substr(0, eventos.length - 1).split(',')
 
         eventos = eventos.map((e) => {
             let split = e.split('-')
@@ -191,7 +168,7 @@
                 right: 'dayGridMonth,timeGridWeek,timeGridDay'
             },
             themeSystem: 'bootstrap',
-            //Random default events
+            locale: 'es',
             events: eventos.map((e) => {
                 return {
                     title: 'Turno',
@@ -214,6 +191,56 @@
 
 
     })
+</script>
+
+<script type="text/javascript">
+    eventos = '{{ agendados }}'
+    eventos = eventos.substr(0, eventos.length - 1).split(',')
+
+    eventos = eventos.map((e) => {
+        let split = e.split('-')
+        let fecha = split[0].split('/')
+        let completa = new Date(fecha[2] + '/' + fecha[1] + '/' + fecha[0] + '-' + split[1])
+        return completa
+    })
+
+    let tomorrow = new Date(new Date())
+    tomorrow.setDate(tomorrow.getDate() + 1)
+    let mañana = tomorrow.toISOString().substring(0, 10);
+
+    var fecha = document.getElementById('fecha');
+    fecha.setAttribute('min', mañana)
+
+    var hora = document.getElementById('hora');
+    var submit = document.getElementById('btn-enviar');
+
+
+    let validarfecha = () => {
+        let f = fecha.value
+        let h = hora.value
+        let fechax = f.split('-')
+        let x = new Date(f + 'T' + h)
+        let turno = new Date(x)
+        if (eventos.find((t) => t.getTime() == turno.getTime())) {
+            submit.innerText = 'Turno no disponible'
+            return true
+
+        }
+        submit.innerText = 'Agendar turno'
+        return false
+    }
+
+
+
+    fecha.addEventListener('change', function () {
+        submit.disabled = (fecha.value && hora.value) ? validarfecha() : true
+    });
+
+    hora.addEventListener('change', function () {
+        submit.disabled = (fecha.value && hora.value) ? validarfecha() : true
+    });
+
+
 </script>
 {#
 <script>
