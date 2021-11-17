@@ -23,19 +23,13 @@
                     <form class="row g-3 align-items-end" enctype="multipart/form-data"
                         action="{{ url_for('estudio_estado1_carga' , estudio=estudio.id) }}" method="POST">
                         <div class="col-md-8">
-                            {#<a class="btn btn-outline-secondary" href="/archivos/facturas/factura_{{estudio}}.pdf"
-                                download={{ "factura_" ~ estudio ~ ".pdf" }}>Descargar factura </a>#}
+
                             <a class="btn btn-outline-secondary btn-sm" target="_blank"
                                 href="{{ url_for('download',ruta=ruta,  filename=filename) }}">Descargar
                                 presupuesto </a>
-
-
-                        </div> <input type="text" class="custom-file-input" name="route" aria-disabled="true" hidden
-                            value="{{ruta}}">
+                        </div>
                         <div class="col-md-8 mt-5">
                             <div class="custom-file">
-
-
                                 <input type="file" class="custom-file-input" name="file" id="customFile"
                                     data-buttonText="consentimiento informado firmado">
                                 <label class="custom-file-label" for="customFile">Cargar comprobante de pago enviado por
@@ -52,12 +46,14 @@
                                 disabled>Siguiente</button>
                         </div>
                     </form>
+
                     {% else %}
                     <div class="col-md-8">
                         <a class="btn btn-outline-secondary btn-sm" target="_blank"
-                            href="{{ url_for('download', filename=ruta_archivo) }}">Descargar
+                            href="{{ url_for('download', filename=presupuesto) }}">Descargar
                             presupuesto </a>
-                        <a href="javascript:demoFromHTML()" class="btn btn-outline-secondary btn-sm">Descargar
+                        <a href="{{ url_for('download', filename=comprobante) }}" target="_blank"
+                            class="btn btn-outline-secondary btn-sm">Descargar
                             comprobante de pago </a>
                     </div>
 
@@ -69,68 +65,7 @@
         </div>
     </div>
     {% include 'includes/workflow.html' %}
-    {#<div class="steps d-flex flex-wrap flex-sm-nowrap justify-content-between pt-5 pb-2">
-        <div class="step completed">
-            <div class="step-icon-wrap">
-                <div class="step-icon"><i class="fa fa-check"></i></div>
-            </div>
-            <h4 class="step-title">Comprobante de pago</h4>
-        </div>
-        <div class="step completed">
-            <div class="step-icon-wrap">
-                <div class="step-icon"><i class="fa fa-check"></i></div>
-            </div>
-            <h4 class="step-title">Consentimiento firmado</h4>
-        </div>
-        <div class="step">
-            <div class="step-icon-wrap">
-                <div class="step-icon"><i class="fa fa-check"></i></div>
-            </div>
-            <h4 class="step-title">Selección de turno</h4>
-        </div>
-        <div class="step">
-            <div class="step-icon-wrap">
-                <div class="step-icon"><i class="fa fa-check"></i></div>
-            </div>
-            <h4 class="step-title">Toma de muestra</h4>
-        </div>
-        <div class="step">
-            <div class="step-icon-wrap">
-                <div class="step-icon"><i class="fa fa-check"></i></div>
-            </div>
-            <h4 class="step-title">Retiro de muestra</h4>
-        </div>
-        <div class="step">
-            <div class="step-icon-wrap">
-                <div class="step-icon"><i class="fa fa-check"></i></div>
-            </div>
-            <h4 class="step-title">Formar lote</h4>
-        </div>
-        <div class="step">
-            <div class="step-icon-wrap">
-                <div class="step-icon"><i class="fa fa-check"></i></div>
-            </div>
-            <h4 class="step-title">Resultado biotecnologico</h4>
-        </div>
-        <div class="step">
-            <div class="step-icon-wrap">
-                <div class="step-icon"><i class="fa fa-check"></i></div>
-            </div>
-            <h4 class="step-title">Interpretación de resultado</h4>
-        </div>
-        <div class="step">
-            <div class="step-icon-wrap">
-                <div class="step-icon"><i class="fa fa-check"></i></div>
-            </div>
-            <h4 class="step-title">Entrega de resultado</h4>
-        </div>
-        <div class="step">
-            <div class="step-icon-wrap">
-                <div class="step-icon"><i class="fa fa-check"></i></div>
-            </div>
-            <h4 class="step-title">Resultado entregado</h4>
-        </div>
-    </div>#}
+
     <a href="{{ url_for('empleado_home') }}" class="btn btn-outline-secondary mt-5">Volver a home</a>
 </div>
 

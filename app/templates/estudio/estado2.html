@@ -20,18 +20,18 @@
                 </div>
                 <div class="card-body">
                     {% if estudio.estadoActual <= 2 %} <form class="row g-3 align-items-end"
+                        enctype="multipart/form-data"
                         action="{{ url_for('estudio_estado2_carga' , estudio=estudio.id) }}" method="POST">
 
                         <div class="col-md-8">
 
-                            <a href="javascript:demoFromHTML()" class="btn btn-outline-secondary btn-sm" {#
-                                href="{{ url_for('download', filename=ruta_archivo) }}" #}>Descargar
+                            <a href="javascript:demoFromHTML()" class="btn btn-outline-secondary btn-sm">Descargar
                                 consentimiento para enviar </a>
                         </div>
 
                         <div class="col-md-8 mt-5">
                             <div class="custom-file">
-                                <input type="file" class="custom-file-input" name="consentimiento" id="customFile"
+                                <input type="file" class="custom-file-input" name="file" id="customFile"
                                     data-buttonText="Your label here.">
                                 <label class="custom-file-label" for="customFile">Cargar consentimiento informado
                                     firmado enviado por
@@ -67,16 +67,15 @@
                                 disabled>Siguiente</button>
                         </div>
                         </form>
+                        
                         {% else %}
-                        <div class="col-md-8">
-
-                            <a href="javascript:demoFromHTML()" class="btn btn-outline-secondary btn-sm">Descargar
-                                archivo
-                                consentimiento firmado </a>
-                        </div>
+                    <div class="col-md-8">
+                        <a href="{{ url_for('download', filename=firmado) }}" target="_blank"
+                            class="btn btn-outline-secondary btn-sm">Descargar archivo consentimiento firmado</a>
+                    </div>
 
 
-                        {% endif %}
+                    {% endif %}
 
                 </div>
             </div>

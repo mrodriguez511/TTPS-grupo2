@@ -19,8 +19,7 @@
                     <h3 class="card-title">Esperando envio de resultado</h3>
                 </div>
                 <div class="card-body my-5 ">
-                    <button id="btn-descargar" class="btn btn-outline-primary mt-5" type="button">Descargar
-                        informe</button>
+
                     <form class="row g-3 align-items-end" id="formulario"
                         action="{{ url_for('estudio_estado9_carga' , estudio=estudio.id) }}" method="POST">
                         <div class="form-check m-5">
@@ -77,24 +76,7 @@
 
         });
 
-        descarga.addEventListener("click", function () {
-            let contenido = '{{resultado.detalle}}'
 
-            var doc = new jsPDF();
-            var elementHTML = contenido
-            var specialElementHandlers = {
-                '#elementH': function (element, renderer) {
-                    return true;
-                }
-            };
-            doc.fromHTML(elementHTML, 15, 15, {
-                'width': 700,
-                'elementHandlers': specialElementHandlers
-            });
-
-            // Save the PDF
-            doc.save('informe-estudio{{estudio.id}}.pdf');
-        })
 
     })
 

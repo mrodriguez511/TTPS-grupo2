@@ -140,15 +140,19 @@ def estudio_estado1():
 
     estudio_id = request.args.get("estudio")
     estudio = Estudio.query.filter(Estudio.id == estudio_id).first()
-    ruta = current_app.config["UPLOADED_FACTURAS_DEST"]
-    # ruta_archivo = os.path.join(ruta, estudio.archivoPresupuesto)
-    # ruta_archivo = os.path.join(ruta, prueba)
-    # ruta_archivo = "sdfsdf"
+
+    if estudio.estadoActual > 1:
+        return render_template(
+            "estudio/estado1.html",
+            estudio=estudio,
+            presupuesto=estudio.archivoPresupuesto,
+            comprobante=estudio.comprobanteDePago,
+        )
+
     return render_template(
         "estudio/estado1.html",
         estudio=estudio,
         filename=estudio.archivoPresupuesto,
-        ruta=ruta,
     )
 
 
@@ -159,7 +163,6 @@ def estudio_estado1_carga():
         abort(401)
 
     archivo = request.files["file"]
-    ruta = request.form["route"]
     id_estudio = request.args.get("estudio")
     estudio = Estudio.query.filter(Estudio.id == id_estudio).first()
 
@@ -172,10 +175,6 @@ def estudio_estado1_carga():
     uploader(archivo, filename)
 
     estudio.comprobanteDePago = filename
-    # ruta = current_app.config["UPLOADED_FACTURAS_DEST"]
-    # archivo = generar_factura(new_estudio) #genero el estudio
-    # new_estudio.archivoPresupuesto = archivo
-    # db.session.commit()
 
     db.session.commit()
     cargarNuevoEstado(estudio)
@@ -200,10 +199,14 @@ def estudio_estado2():
         TipoEstudio.id == estudio.tipoEstudio
     ).first()
 
-    # ruta = current_app.config["UPLOADED_FACTURAS_DEST"]
-    # ruta_archivo = os.path.join(ruta, estudio.archivoConsentimiento)
+    if estudio.estadoActual > 2:
+        return render_template(
+            "estudio/estado2.html",
+            estudio=estudio,
+            tipoEstudio=tipoEstudio,
+            firmado=estudio.consentimientoFirmado,
+        )
 
-    # ruta_archivo = "sdfsdf"
     return render_template(
         "estudio/estado2.html",
         estudio=estudio,
@@ -217,15 +220,18 @@ def estudio_estado2_carga():
     if not (session["rol"] == 2):
         abort(401)
 
-    archivo = request.form["consentimiento"]
+    archivo = request.files["file"]
     id_estudio = request.args.get("estudio")
     estudio = Estudio.query.filter(Estudio.id == id_estudio).first()
-    estudio.consentimientoFirmado = archivo
     estudio.estadoActual += 1
 
-    # archivo = generar_factura(new_estudio) #genero el estudio
-    # new_estudio.archivoPresupuesto = archivo
-    # db.session.commit()
+    extension = archivo.filename.split(".")
+    extension = extension[1]
+    filename = "consentimiento" + str(id_estudio) + "." + extension
+
+    uploader(archivo, filename)
+
+    estudio.consentimientoFirmado = filename
 
     db.session.commit()
     cargarNuevoEstado(estudio)
@@ -522,9 +528,9 @@ def estudio_estado10():
 
 def download():
     filename = request.args.get("filename")
-    ruta = request.args.get("ruta")
+    # ruta = request.args.get("ruta")
 
-    # ruta = current_app.config["UPLOADED_FACTURAS_DEST"] + "\\"
+    ruta = current_app.config["UPLOADED_FACTURAS_DEST"]
     # ruta = ruta.replace("\\", "/")
 
     return send_from_directory(ruta, filename, environ=request.environ)
@@ -534,8 +540,9 @@ def uploader(archivo, filename):
 
     path = current_app.config["UPLOADED_FACTURAS_DEST"].replace("\\", "/")
     ruta = path + "/" + filename
-
+    # ruta = current_app.config["UPLOADED_FACTURAS_DEST"]
     # Guardamos el archivo en el directorio "Archivos PDF"
+
     archivo.save(ruta)
 
     return filename
