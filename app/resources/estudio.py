@@ -137,13 +137,15 @@ def estudio_estado1():
 
     estudio_id = request.args.get("estudio")
     estudio = Estudio.query.filter(Estudio.id == estudio_id).first()
-    # prueba = "factura_9.pdf"
     ruta = current_app.config["UPLOADED_FACTURAS_DEST"]
-    ruta_archivo = os.path.join(ruta, estudio.archivoPresupuesto)
+    # ruta_archivo = os.path.join(ruta, estudio.archivoPresupuesto)
     # ruta_archivo = os.path.join(ruta, prueba)
     # ruta_archivo = "sdfsdf"
     return render_template(
-        "estudio/estado1.html", estudio=estudio, ruta_archivo=ruta_archivo
+        "estudio/estado1.html",
+        estudio=estudio,
+        filename=estudio.archivoPresupuesto,
+        ruta=ruta,
     )
 
 
@@ -465,7 +467,11 @@ def estudio_estado10():
 
 def download():
     filename = request.args.get("filename")
-    ruta = current_app.config["UPLOADED_FACTURAS_DEST"]
+    ruta = request.args.get("ruta")
+
+    # ruta = current_app.config["UPLOADED_FACTURAS_DEST"] + "\\"
+    # ruta = ruta.replace("\\", "/")
+
     return send_from_directory(ruta, filename, environ=request.environ)
 
 

@@ -26,8 +26,9 @@
                             {#<a class="btn btn-outline-secondary" href="/archivos/facturas/factura_{{estudio}}.pdf"
                                 download={{ "factura_" ~ estudio ~ ".pdf" }}>Descargar factura </a>#}
                             <a class="btn btn-outline-secondary btn-sm" target="_blank"
-                                href="{{ url_for('download', filename=ruta_archivo) }}">Descargar
+                                href="{{ url_for('download',ruta=ruta,  filename=filename) }}">Descargar
                                 presupuesto </a>
+                            <h3>{{ruta_archivo}}</h3>
 
                         </div>
                         <div class="col-md-8 mt-5">
