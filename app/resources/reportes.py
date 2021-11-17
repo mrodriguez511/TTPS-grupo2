@@ -30,71 +30,6 @@ def index():
     return render_template("reportes/index.html", reportes=reportes)
 
 
-def cant_estudios_tipo():
-    if not authenticated(session):
-        abort(401)
-    if not (session["rol"] == 2):
-        abort(401)
-
-    tipos = (
-        db.session.query(Estudio.tipoEstudio, func.count(Estudio.tipoEstudio))
-        .group_by(Estudio.tipoEstudio)
-        .all()
-    )
-    total_tipos = []
-    flash(tipos)
-    for i in range(1, 6):
-        total = 0
-        flash(i)
-        for t in tipos:
-            flash(t)
-            if i == t[0]:
-                flash(i)
-                flash(t[0])
-                total += t[1]
-        total_tipos.append(total)
-    flash(total_tipos)
-
-    # flash(t[0]) #tipo
-    # todos_estudios
-    # flash(t[1])#cantidad
-    # return render_template("empleados/index.html", tipos=tipos)
-    return render_template("reportes/cant_estudios_tipo.html", total_tipos=total_tipos)
-
-
-def cant_estudios_mes_anio():
-    if not authenticated(session):
-        abort(401)
-    if not (session["rol"] == 2):
-        abort(401)
-
-    # anio_buscado= request.form
-    meses = (
-        db.session.query(Estudio.fecha, func.count(Estudio.fecha))
-        .group_by(
-            func.date(Estudio.fecha) >= "2021-01-01",
-            func.date(Estudio.fecha) <= "2021-12-31",
-        )
-        .group_by(Estudio.mes)
-    )
-    meses_totales = []
-    for i in range(1, 13):
-        total = 0
-        flash(i)
-        for m in meses:
-            mes = m[0]
-            mes_ = mes.month
-            flash(mes_)
-            if i == mes_:
-                total += m[1]
-        meses_totales.append(total)
-
-    flash(meses_totales)
-    return render_template(
-        "reportes/cant_estudios_mes_anio.html", meses_totales=meses_totales
-    )
-
-
 def cantTipo():
     if not authenticated(session):
         abort(401)
@@ -106,24 +41,12 @@ def cantTipo():
         .group_by(Estudio.tipoEstudio)
         .all()
     )
-    total_tipos = []
-    # flash(tipos)
-    for i in range(1, 6):
-        total = 0
-        #    flash(i)
-        for t in tipos:
-            #        flash(t)
-            if i == t[0]:
-                #            flash(i)
-                #            flash(t[0])
-                total += t[1]
-        total_tipos.append(total)
-    # flash(total_tipos)
 
-    # flash(t[0]) #tipo
-    # todos_estudios
-    # flash(t[1])#cantidad
-    # return render_template("empleados/index.html", tipos=tipos)
+    total_tipos = [0, 0, 0, 0, 0]
+    if tipos:
+        for tipo in tipos:
+            total_tipos[tipo[0] - 1] += tipo[1]
+
     return render_template("reportes/cantTipo.html", total_tipos=total_tipos)
 
 
@@ -133,20 +56,26 @@ def cantMes():
     if not (session["rol"] == 2):
         abort(401)
 
-    # anio_buscado= request.form
-    meses = Estudio.query.filter(
-        and_(
-            Estudio.fecha >= str(2021) + "-01-01", Estudio.fecha <= str(2021) + "-12-31"
+    anio = request.args.get("anio", "2021")
+
+    estudios = (
+        db.session.query(Estudio.fecha, func.count(Estudio.mes))
+        .filter(
+            and_(
+                Estudio.fecha >= str(anio) + "-01-01",
+                Estudio.fecha <= str(anio) + "-12-31",
+            )
         )
-    ).all()
+        .group_by(Estudio.mes)
+        .all()
+    )
 
-    meses_totales = []
-    for i in range(1, 13):
-        total = 0
-        for m in meses:
-            mes_ = m.fecha.month
-            if i == mes_:
-                total += 1
-        meses_totales.append(total)
+    meses_totales = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
-    return render_template("reportes/cantMes.html", meses_totales=meses_totales)
+    if estudios:
+        for fecha, cant in estudios:
+            meses_totales[fecha.month - 1] += cant
+
+    return render_template(
+        "reportes/cantMes.html", meses_totales=meses_totales, anio=anio
+    )
