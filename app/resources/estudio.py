@@ -165,11 +165,7 @@ def estudio_estado1_carga():
     estudio.comprobanteDePago = archivo
     estudio.estadoActual += 1
 
-    extension = archivo.filename.split(".")
-    extension = extension[1]
-    filename = "comprobante" + str(id_estudio) + "." + extension
-
-    uploader(archivo, filename)
+    
 
     # ruta = current_app.config["UPLOADED_FACTURAS_DEST"]
     # archivo = generar_factura(new_estudio) #genero el estudio
