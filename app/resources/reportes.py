@@ -83,10 +83,9 @@ def cant_estudios_mes_anio():
         flash(i)
         for m in meses:
             mes = m[0]
-            flash(mes)
-            if i == m[0]:
-                flash(i)
-                flash(m[0])
+            mes_ = mes.month
+            flash(mes_)
+            if i == mes_:
                 total += m[1]
         meses_totales.append(total)
 

@@ -42,18 +42,26 @@
     <div id="container"></div>
     <script>
 
-        let tipos = "{{ total_tipos }}"
-        let t = tipos.substr(1, tipos.length - 2)
+        let meses_totales = "{{ meses_totales }}"
+        let t = meses_totales.substr(1, tipos.length - 2)
         let final = t.split(',')
 
         anychart.onDocumentReady(function () {
+
             // create data
             var data = [
-                ["Exoma", final[0]],
-                ["Genoma", final[1]],
-                ["Carrier", final[2]],
-                ["Cariotipo", final[3]],
-                ["Array CGH", final[4]]
+                ["1", final[0]],
+                ["2", final[1]],
+                ["3", final[2]],
+                ["4", final[3]],
+                ["5", final[4]],
+                ["6", final[5]],
+                ["7", final[6]],
+                ["8", final[7]],
+                ["9", final[8]],
+                ["10", final[9]],
+                ["11", final[10]],
+                ["12", final[11]],
             ];
 
             // create a chart
@@ -63,10 +71,10 @@
             var series = chart.column(data);
 
             // set the chart title
-            chart.title("Cantidad de estudios por tipo");
+            chart.title("Cantidad de estudios mensuales en año seleccionado");
 
             // set the titles of the axes
-            chart.xAxis().title("Tipo estudio");
+            chart.xAxis().title("Mes");
             chart.yAxis().title("Cantidad");
 
             // set the container id
