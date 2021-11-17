@@ -14,6 +14,7 @@ from sqlalchemy.sql.sqltypes import DateTime
 from werkzeug.utils import send_from_directory
 from app.helpers.archivos import generar_factura
 from app.helpers.estados import cargarNuevoEstado
+from app.models.estado import Estado
 from app.models.estudio import Estudio
 from app.models.user import User
 from app.models.resultado import Resultado
@@ -28,6 +29,7 @@ from app.helpers.auth import authenticated
 from app.db import db
 from datetime import datetime
 from operator import and_
+from sqlalchemy.sql.operators import ilike_op
 
 # import pdfkit
 
@@ -47,44 +49,6 @@ def index():
         .filter(Estudio.tipoEstudio == TipoEstudio.id)
         .all()
     )
-
-    from sqlalchemy import func
-    from sqlalchemy import extract
-    from sqlalchemy import cast, Date
-
-    """for estudio, paciente, tipo in estudios:
-        flash(type(estudio.fecha))
-        flash(estudio.fecha.month)"""
-
-    # anio = request.form["año"]
-    e = (
-        db.session.query(Estudio)
-        .filter(
-            and_(
-                Estudio.fecha >= str(2020) + "-01-01",
-                Estudio.fecha <= str(2020) + "-12-31",
-            )
-        )
-        .count()
-    )
-
-    flash(e)
-    flash(type(e))
-
-    """b = (
-        db.session.query(Estudio.fecha, func.count(Estudio.fecha.caste(Date).month))
-        .group_by(Estudio.fecha.caste(Date).month)
-        .filter(Estudio.fecha.caste(Date).year == 2021)
-        .all()
-    )"""
-
-    """e = (
-        db.session.query(Estudio, func.strftime("%Y-%m", Estudio.fecha))
-        .group_by(Estudio.fecha)
-        .count()
-        .all()
-    )
-    flash(e)"""
 
     return render_template("estudio/index.html", estudios=estudios)
 

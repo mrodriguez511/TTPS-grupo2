@@ -232,7 +232,7 @@ def cargarEstudios():
     estudio4.turno = "2021-12-18"
     estudioEnero.fecha = "2021-01-01"
     estudioFebrero.fecha = "2021-02-01"
-    estudioMarzo.fecha = "2021-03-01"
+    estudioMarzo.fecha = "2021-02-18"
     db.session.add(estudio1)
     db.session.add(estudio2)
     db.session.add(estudio3)
