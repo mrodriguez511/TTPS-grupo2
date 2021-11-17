@@ -165,15 +165,11 @@ def estudio_estado1_carga():
     estudio.comprobanteDePago = archivo
     estudio.estadoActual += 1
 
-  
-    
     extension = archivo.filename.split(".")
     extension = extension[1]
     filename = "comprobante" + str(id_estudio) + "." + extension
 
     uploader(archivo, filename)
-
-    
 
     # ruta = current_app.config["UPLOADED_FACTURAS_DEST"]
     # archivo = generar_factura(new_estudio) #genero el estudio
@@ -535,13 +531,11 @@ def download():
 
 def uploader(archivo, filename):
 
-    
     path = current_app.config["UPLOADED_FACTURAS_DEST"].replace("\\", "/")
     ruta = path + "/" + filename
-    
+
     # Guardamos el archivo en el directorio "Archivos PDF"
     archivo.save(ruta)
-
 
     return filename
 
