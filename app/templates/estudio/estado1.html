@@ -19,6 +19,7 @@
                     <h3 class="card-title">Esperando comprobante de pago</h3>
                 </div>
                 <div class="card-body">
+                    {% if estudio.estadoActual == 1 %}
                     <form class="row g-3 align-items-end"
                         action="{{ url_for('estudio_estado1_carga' , estudio=estudio.id) }}" method="POST">
 
@@ -48,6 +49,17 @@
                                 disabled>Siguiente</button>
                         </div>
                     </form>
+                    {% else %}
+                    <div class="col-md-8">
+                        <a class="btn btn-outline-secondary btn-sm" target="_blank"
+                            href="{{ url_for('download', filename=ruta_archivo) }}">Descargar
+                            presupuesto </a>
+                        <a href="javascript:demoFromHTML()" class="btn btn-outline-secondary btn-sm">Descargar
+                            comprobante de pago </a>
+                    </div>
+
+
+                    {% endif %}
 
                 </div>
             </div>

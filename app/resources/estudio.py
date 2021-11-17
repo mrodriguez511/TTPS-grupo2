@@ -15,8 +15,10 @@ from werkzeug.utils import send_from_directory
 from app.helpers.archivos import generar_factura
 from app.helpers.estados import cargarNuevoEstado
 from app.models.estudio import Estudio
+from app.models.estado import Estado
 from app.models.user import User
 from app.models.resultado import Resultado
+from app.models.lote import Lote
 from app.models.rol import Rol
 import os
 from datetime import date, datetime
@@ -213,6 +215,10 @@ def estudio_estado2():
     estudio_id = request.args.get("estudio")
     estudio = Estudio.query.filter(Estudio.id == estudio_id).first()
 
+    if estudio.estadoActual < 2:
+        flash("no puede acceder a un estado futuro")
+        return redirect(url_for("home"))
+
     tipoEstudio = TipoEstudio.query.filter(
         TipoEstudio.id == estudio.tipoEstudio
     ).first()
@@ -260,20 +266,16 @@ def estudio_estado3():
     estudio_id = request.args.get("estudio")
     estudio = Estudio.query.filter(Estudio.id == estudio_id).first()
 
-    agendados = db.session.query(Estudio.turno).filter(Estudio.turno != None).all()
-    # es una lista de datetime
+    if estudio.estadoActual < 3:
+        flash("no puede acceder a un estado futuro")
+        return redirect(url_for("home"))
 
-    """with open("archivos/Patologias.csv") as data_set:
-        reader = csv.reader(data_set)
-        for fila in reader:
-            flash(fila[0])
-            flash(type(fila))
-            db.session.add(DiagnosticoPresuntivo(nombre=fila))
-    """
-    # ruta = current_app.config["UPLOADED_FACTURAS_DEST"]
-    # ruta_archivo = os.path.join(ruta, estudio.archivoConsentimiento)
+    turnos = db.session.query(Estudio.turno).filter(Estudio.turno != None).all()
 
-    # ruta_archivo = "sdfsdf"
+    agendados = ""
+    for turno in turnos:
+        agendados = agendados + str(turno[0].strftime("%d/%m/%Y-%H:%M")) + ","
+
     return render_template("estudio/estado3.html", estudio=estudio, agendados=agendados)
 
 
@@ -310,7 +312,12 @@ def estudio_estado4():
     estudio_id = request.args.get("estudio")
     estudio = Estudio.query.filter(Estudio.id == estudio_id).first()
 
+    if estudio.estadoActual < 4:
+        flash("no puede acceder a un estado futuro")
+        return redirect(url_for("home"))
+
     enfecha = estudio.fecha < datetime.now()
+
     return render_template("estudio/estado4.html", estudio=estudio, enfecha=enfecha)
 
 
@@ -322,14 +329,14 @@ def cancelar_turno():
 
     estudio_id = request.args.get("estudio")
     estudio = Estudio.query.filter(Estudio.id == estudio_id).first()
+
     estudio.turno = None
     estudio.estadoActual -= 1
 
-    agendados = db.session.query(Estudio.turno).filter(Estudio.turno != None).all()
     db.session.commit()
     cargarNuevoEstado(estudio)
 
-    return render_template("estudio/estado3.html", estudio=estudio, agendados=agendados)
+    return redirect(url_for("estudio_estado3", estudio=estudio.id))
 
 
 def estudio_estado4_carga():
@@ -363,6 +370,10 @@ def estudio_estado5():
     estudio_id = request.args.get("estudio")
     estudio = Estudio.query.filter(Estudio.id == estudio_id).first()
 
+    if estudio.estadoActual < 5:
+        flash("no puede acceder a un estado futuro")
+        return redirect(url_for("home"))
+
     return render_template("estudio/estado5.html", estudio=estudio)
 
 
@@ -372,10 +383,9 @@ def estudio_estado5_carga():
     if not (session["rol"] == 2):
         abort(401)
 
-    empleado = request.form["empleado"]
     id_estudio = request.args.get("estudio")
     estudio = Estudio.query.filter(Estudio.id == id_estudio).first()
-
+    empleado = request.form["empleado"]
     estudio.empleadoMuestra = empleado
     estudio.estadoActual += 1
     db.session.commit()
@@ -392,6 +402,15 @@ def estudio_estado6():
 
     estudio_id = request.args.get("estudio")
     estudio = Estudio.query.filter(Estudio.id == estudio_id).first()
+    if estudio.estadoActual < 6:
+        flash("no puede acceder a un estado futuro")
+        return redirect(url_for("home"))
+    elif estudio.estadoActual > 6:
+        estado = Estado.query.filter(
+            and_(Estado.estudio == estudio.id, Estado.numero == 7)
+        ).first()
+        fecha = estado.fecha
+        return render_template("estudio/estado6.html", estudio=estudio, fecha=fecha)
 
     return render_template("estudio/estado6.html", estudio=estudio)
 
@@ -406,6 +425,18 @@ def estudio_estado7():
     estudio_id = request.args.get("estudio")
     estudio = Estudio.query.filter(Estudio.id == estudio_id).first()
 
+    if estudio.estadoActual < 7:
+        flash("no puede acceder a un estado futuro")
+        return redirect(url_for("home"))
+
+    elif estudio.estadoActual > 7:
+        lote = Lote.query.filter(Lote.id == estudio.lote)
+        estado = Estado.query.filter(
+            and_(Estado.estudio == estudio.id, Estado.numero == 8)
+        ).first()
+        fecha = estado.fecha
+        return render_template("estudio/estado7.html", estudio=estudio, fecha=fecha)
+
     return render_template("estudio/estado7.html", estudio=estudio)
 
 
@@ -418,6 +449,15 @@ def estudio_estado8():
 
     estudio_id = request.args.get("estudio")
     estudio = Estudio.query.filter(Estudio.id == estudio_id).first()
+
+    if estudio.estadoActual < 8:
+        flash("no puede acceder a un estado futuro")
+        return redirect(url_for("home"))
+    elif estudio.estadoActual > 8:
+        resultado = Resultado.query.filter(Resultado.id == estudio.resultado_id).first()
+        return render_template(
+            "estudio/estado8.html", estudio=estudio, resultado=resultado
+        )
 
     return render_template("estudio/estado8.html", estudio=estudio)
 
@@ -456,6 +496,11 @@ def estudio_estado9():
 
     estudio_id = request.args.get("estudio")
     estudio = Estudio.query.filter(Estudio.id == estudio_id).first()
+
+    if estudio.estadoActual < 9:
+        flash("no puede acceder a un estado futuro")
+        return redirect(url_for("home"))
+
     resultado = Resultado.query.filter(Resultado.id == estudio.resultado_id).first()
     medico = MedicoDerivante.query.filter(
         MedicoDerivante.id == estudio.medicoDerivante

@@ -51,8 +51,8 @@
                                         <td>{{ obraSocial.nombre }}</td>
                                         <td>{{ paciente.nroAfiliado }}</td>
                                         <td>
-                                            <a href="{{ url_for('estudio_ver', id=paciente.id )}}"
-                                                class="btn btn-primary btn-sm">Ver</a>
+                                            <a href="{{ url_for('paciente_editar', id=paciente.id )}}"
+                                                class="btn btn-primary btn-sm">Editar datos</a>
                                         </td>
                                     </tr>
                                     {% endfor %}
@@ -65,8 +65,8 @@
                                         <td>{{ "-" }}</td>
                                         <td>{{ "-" }}</td>
                                         <td>
-                                            <a href="{{ url_for('estudio_ver', id=paciente.id )}}"
-                                                class="btn btn-primary btn-sm">Ver</a>
+                                            <a href="{{ url_for('paciente_editar', id=paciente.id )}}"
+                                                class="btn btn-primary btn-sm">Editar datos</a>
                                         </td>
                                     </tr>
                                     {% endfor %}
@@ -100,6 +100,8 @@
 <script src="/static/assets/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
 <!-- Page specific script -->
 <script>
+
+    let pacientes 
     $(function () {
         $("#tabla").DataTable({
             "responsive": true, "lengthChange": false, "autoWidth": false,

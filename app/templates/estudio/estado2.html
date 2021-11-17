@@ -19,7 +19,7 @@
                     <h3 class="card-title">Esperando consentimiento informado</h3>
                 </div>
                 <div class="card-body">
-                    <form class="row g-3 align-items-end"
+                    {% if estudio.estadoActual <= 2 %} <form class="row g-3 align-items-end"
                         action="{{ url_for('estudio_estado2_carga' , estudio=estudio.id) }}" method="POST">
 
                         <div class="col-md-8">
@@ -66,7 +66,17 @@
                             <button id="btn-enviar" type="submit" class="btn btn-primary mt-5"
                                 disabled>Siguiente</button>
                         </div>
-                    </form>
+                        </form>
+                        {% else %}
+                        <div class="col-md-8">
+
+                            <a href="javascript:demoFromHTML()" class="btn btn-outline-secondary btn-sm">Descargar
+                                archivo
+                                consentimiento firmado </a>
+                        </div>
+
+
+                        {% endif %}
 
                 </div>
             </div>
