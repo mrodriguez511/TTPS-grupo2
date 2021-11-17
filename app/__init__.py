@@ -38,7 +38,7 @@ def create_app(environment="development"):
     Session(app)
 
     # Define the application directory
-    APP_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    APP_ROOT = os.path.dirname(os.path.abspath(__file__))
     # APP_FILES = os.makedirs(os.path.join(APP_ROOT, "archivos"), exist_ok=True)
     APP_FILES = os.path.join(APP_ROOT, "archivos")
     APP_FACTURAS = os.path.join(APP_FILES, "facturas")

@@ -162,11 +162,16 @@ def estudio_estado1_carga():
     ruta = request.form["route"]
     id_estudio = request.args.get("estudio")
     estudio = Estudio.query.filter(Estudio.id == id_estudio).first()
-    estudio.comprobanteDePago = archivo
+
     estudio.estadoActual += 1
 
-    
+    extension = archivo.filename.split(".")
+    extension = extension[1]
+    filename = "comprobante" + str(id_estudio) + "." + extension
 
+    uploader(archivo, filename)
+
+    estudio.comprobanteDePago = filename
     # ruta = current_app.config["UPLOADED_FACTURAS_DEST"]
     # archivo = generar_factura(new_estudio) #genero el estudio
     # new_estudio.archivoPresupuesto = archivo
