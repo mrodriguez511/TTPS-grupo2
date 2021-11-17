@@ -156,6 +156,7 @@ def create_app(environment="development"):
     app.add_url_rule(
         "/reporte_cant_estudios_tipo", "reportes1", reportes.cant_estudios_tipo
     )
+    app.add_url_rule("/reporte_boxplot", "reporte_boxplot", reportes.boxPlot)
 
     # estudio estado 1
     app.add_url_rule("/empleado/estudio1", "estudio_estado1", estudio.estudio_estado1)
