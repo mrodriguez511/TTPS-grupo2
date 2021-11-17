@@ -460,7 +460,7 @@ def estudio_estado8_carga():
     resultado = Resultado(int(valor), informe)
     db.session.add(resultado)
     db.session.commit()
-    estudio.resultado_id = resultado.id
+    # estudio.resultado_id = resultado.id
     estudio.estadoActual += 1
 
     db.session.commit()
