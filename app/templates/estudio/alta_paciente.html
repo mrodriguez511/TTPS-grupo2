@@ -59,9 +59,10 @@
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label for="inputState" class="form-label">Obra Social</label>
-                                    <select name="obraSocial" class="form-control" data-show-subtext="true"
-                                        data-live-search="true">
-                                        <option selected>Seleccionar</option>
+
+                                    <select name="obraSocial" id="obra" class="form-control">
+                                        <option disabled selected value="">Seleccionar</option>
+                                        <option value="">no posee</option>
                                         {% for obra in obrasSociales %}
                                         <option value={{obra.id}}> {{obra.nombre}} </option>
                                         {% endfor %}
@@ -71,7 +72,7 @@
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label for="inputEmail4" class="form-label">Numero de afiliado</label>
-                                    <input type="number" name="nroAfiliado" class="form-control">
+                                    <input type="number" id="num" name="nroAfiliado" class="form-control" disabled>
                                 </div>
                             </div>
                             <div class="col-sm-12">
@@ -95,13 +96,30 @@
 
 
 
+
+
 {% endblock %}
 
 
 
 {% block scripts %}
 
-<script> var today = new Date();
+<script>
+    let obra = document.getElementById("obra")
+    let num = document.getElementById("num")
+    obra.addEventListener("change", function () {
+        if (obra.value) {
+            num.disabled = false;
+            num.requerid = true;
+        }
+        else {
+            num.disabled = true;
+            num.requerid = false;
+        }
+
+    });
+
+    var today = new Date();
     var dd = today.getDate();
     var mm = today.getMonth() + 1; //January is 0!
     var yyyy = today.getFullYear();

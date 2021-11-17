@@ -117,7 +117,7 @@ def create_estudio():
         diagnosticoPresuntivo=params["diagnostico"],
         presupuesto=params["presupuesto"],
     )
-    new_estudio.archivoPresupuesto = generar_factura(new_estudio)
+    # new_estudio.archivoPresupuesto = generar_factura(new_estudio)
 
     db.session.add(new_estudio)
     archivo = generar_factura(new_estudio)  # genero el estudio

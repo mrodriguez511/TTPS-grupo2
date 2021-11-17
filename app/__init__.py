@@ -112,11 +112,14 @@ def create_app(environment="development"):
         "estudiosFormarLote_index",
         lote.estudiosFormarLote_index,
     )
+
     app.add_url_rule(
         "/lotes/formarLote/nuevo",
         "estudiosParaCrearLote_formarLote",
         lote.formarLote,
+        methods=["POST"],
     )
+
     app.add_url_rule(
         "/lotes/lotesEnProcesamiento",
         "lote_enProcesamiento_index",
@@ -127,6 +130,7 @@ def create_app(environment="development"):
         "/lotes/lotesEnProcesamiento/URL",
         "lote_enProcesamiento_agregarURL",
         lote.agregarURL,
+        methods=["POST"],
     )
 
     app.add_url_rule(

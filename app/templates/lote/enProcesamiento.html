@@ -2,7 +2,7 @@
 {% block title %}Lotes en procesamiento{% endblock %}
 {% block head %}
 {{ super() }}
-<!-- DataTables -->
+
 <link rel="stylesheet" href="/static/assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
 <link rel="stylesheet" href="/static/assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
 <link rel="stylesheet" href="/static/assets/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
@@ -41,45 +41,48 @@
                                     <tr>
                                         <td scope="row">{{ lote.id }}</td>
                                         <td>
-                                            <div class="modal fade" id="url{{lote.id}}" tabindex="-1"
-                                                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal fade" id="url{{lote.id}}">
                                                 <div class="modal-dialog">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h5 class="modal-title">Agregar URL</h5>
-                                                            <button type="button" class="btn-close"
-                                                                data-bs-dismiss="modal" aria-label="Close"></button>
-
+                                                            <h4 class="modal-title">Agregar URL</h4>
+                                                            <button type="button" class="close" data-dismiss="modal"
+                                                                aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
                                                         </div>
                                                         <form
                                                             action="{{ url_for('lote_enProcesamiento_agregarURL',id=lote.id) }}"
                                                             method="POST">
                                                             <div class="modal-body">
-                                                                <textarea class="form-control"
-                                                                    id="exampleFormControlTextarea1" rows="3" name="url"
-                                                                    placeholder="Ingresar URL..." required></textarea>
-                                                                {#<p>Agregar URL</p>
-
-                                                                <p><input name="url" placeholder="Ingrese URL.."
-                                                                        required>#}
-                                                                </p>
-
+                                                                <input type="text" name="lote" id="lote"
+                                                                    value={{lote.id}} hidden>
+                                                                <input type="text" name="url" id="url" class="w-100"
+                                                                    placeholder="Ingrese url del lote" required>
                                                             </div>
-                                                            <div class="modal-footer">
+                                                            <div class="modal-footer justify-content-between">
                                                                 <button type="button" class="btn btn-outline-danger"
-                                                                    data-bs-dismiss="modal">Cancelar</button>
+                                                                    data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">Cancelar</span>
+                                                                </button>
 
                                                                 <button type="submit" class="btn btn-success">
                                                                     Guardar URL</button>
-
                                                             </div>
                                                         </form>
                                                     </div>
+                                                    <!-- /.modal-content -class="btn btn-outline-danger"-->
                                                 </div>
+                                                <!-- /.modal-dialog -->
                                             </div>
-                                            <button data-bs-toggle="modal" data-bs-target="#url{{lote.id}}"
-                                                class="btn btn-success btn-sm">Ingresar URL</button>
+                                            <!-- /.modal -->
+
+                                            <a class="btn btn-success btn-sm" id="customSwitch3" data-toggle="modal"
+                                                data-target="#url{{lote.id}}"> Ingresar URL
+                                            </a>
+
                                         </td>
+
                                     </tr>
                                     {% endfor %}
                                 </tbody>
@@ -96,6 +99,13 @@
 
 {% block scripts %}
 
+<!-- SweetAlert2 -->
+<script src="/static/assets/plugins/sweetalert2/sweetalert2.min.js"></script>
+<!-- Toastr -->
+<script src="/static/assets/plugins/toastr/toastr.min.js"></script>
+
+<!-- AdminLTE for demo purposes -->
+<script src="/static/assets/dist/js/demo.js"></script>
 
 <!-- DataTables  & Plugins -->
 <script src="/static/assets/plugins/datatables/jquery.dataTables.min.js"></script>
@@ -112,24 +122,30 @@
 <script src="/static/assets/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
 <!-- Page specific script -->
 <script>
-    $(function () {
-        $("#tabla").DataTable({
-            "responsive": true, "lengthChange": false, "autoWidth": false,
-            "buttons": ["copy", "pdf"]
-        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-        $('#table2').DataTable({
-            "language": {
-                "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
-            },
-            "paging": true,
-            "lengthChange": false,
-            "searching": true,
-            "ordering": true,
-            "info": true,
-            "autoWidth": false,
-            "responsive": true,
-        });
-    });
+    $('#myModalExito').modal('show');
+    $('#myModalExito').modal('hide'); // cerrar
 
+
+    $('#').change(function () {
+
+        $(function () {
+            $("#tabla").DataTable({
+                "responsive": true, "lengthChange": false, "autoWidth": false,
+                "buttons": ["copy", "pdf"]
+            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+            $('#table2').DataTable({
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
+                },
+                "paging": true,
+                "lengthChange": false,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+            });
+        });
+    })
 </script>
 {% endblock %}
