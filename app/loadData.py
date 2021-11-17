@@ -306,6 +306,14 @@ def cargarEstudios():
     estudio11.turno = "2021-08-01"
     estudio12.turno = "2021-08-01"
 
+    estudioMarzo2 = Estudio(
+        4,  # tipoEstudio hay 5
+        4,  # medicoDerivante hay 4
+        1,  # paciente hay 2
+        1,  # empleado hay 1
+        300,  # diagnostico hay muchos 300 y pico
+        20000,  # presupuesto
+    )
     estudio1.estadoActual = 6
     estudio2.estadoActual = 6
     estudio3.estadoActual = 6
@@ -345,6 +353,18 @@ def cargarEstudios():
     estadoEstudio11.fecha = "2021-09-10"
     estadoEstudio12.fecha = "2021-08-18"
 
+    estudioEnero.fecha = "2020-01-01"
+    estudioEnero.mes = 1
+    estudioFebrero.fecha = "2021-02-01"
+    estudioFebrero.mes = 2
+    estudioMarzo.fecha = "2021-03-01"
+    estudioMarzo.mes = 3
+    estudioMarzo2.fecha = "2021-03-18"
+    estudioMarzo2.mes = 3
+    estudio1.extraccionAbonada = False
+    estudio2.extraccionAbonada = False
+    estudio3.extraccionAbonada = False
+    estudio4.extraccionAbonada = False
     db.session.add(estudio1)
     db.session.add(estudio2)
     db.session.add(estudio3)
@@ -370,3 +390,4 @@ def cargarEstudios():
     db.session.add(lote1)
     db.session.add(lote2)
     db.session.commit()
+    db.session.add(estudioMarzo2)

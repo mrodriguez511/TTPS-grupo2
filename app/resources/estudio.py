@@ -120,6 +120,7 @@ def create_estudio():
     # new_estudio.archivoPresupuesto = generar_factura(new_estudio)
 
     db.session.add(new_estudio)
+
     archivo = generar_factura(new_estudio)  # genero el estudio
     new_estudio.archivoPresupuesto = archivo
     db.session.commit()
