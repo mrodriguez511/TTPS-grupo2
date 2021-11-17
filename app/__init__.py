@@ -149,6 +149,7 @@ def create_app(environment="development"):
         "/liquidacion_Extracciones/Abonar",
         "liquidacionExtracciones_abonar",
         liquidacionExtracciones.abonar,
+        methods=["POST"],
     )
 
     # reportes
