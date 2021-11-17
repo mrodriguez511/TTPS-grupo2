@@ -385,7 +385,7 @@ def cargarEstudios():
     lote1.estudios.append(estudio5)
     lote1.estudios.append(estudio6)
     lote2 = Lote()
-    lote2.estudios.append(estudio3)
+    lote2.estudios.append(estudio7)
     lote2.url = "https://www.google.com/"
     db.session.add(lote1)
     db.session.add(lote2)
