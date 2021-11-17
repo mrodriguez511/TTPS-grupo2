@@ -19,21 +19,23 @@
                     <h3 class="card-title">Esperando comprobante de pago</h3>
                 </div>
                 <div class="card-body">
-                    <form class="row g-3 align-items-end"
+                    <form class="row g-3 align-items-end" enctype="multipart/form-data"
                         action="{{ url_for('estudio_estado1_carga' , estudio=estudio.id) }}" method="POST">
-
                         <div class="col-md-8">
                             {#<a class="btn btn-outline-secondary" href="/archivos/facturas/factura_{{estudio}}.pdf"
                                 download={{ "factura_" ~ estudio ~ ".pdf" }}>Descargar factura </a>#}
                             <a class="btn btn-outline-secondary btn-sm" target="_blank"
                                 href="{{ url_for('download',ruta=ruta,  filename=filename) }}">Descargar
                                 presupuesto </a>
-                            <h3>{{ruta_archivo}}</h3>
 
-                        </div>
+
+                        </div> <input type="text" class="custom-file-input" name="route" aria-disabled="true" hidden
+                            value="{{ruta}}">
                         <div class="col-md-8 mt-5">
                             <div class="custom-file">
-                                <input type="file" class="custom-file-input" name="comprobante" id="customFile"
+
+
+                                <input type="file" class="custom-file-input" name="file" id="customFile"
                                     data-buttonText="consentimiento informado firmado">
                                 <label class="custom-file-label" for="customFile">Cargar comprobante de pago enviado por
                                     el
