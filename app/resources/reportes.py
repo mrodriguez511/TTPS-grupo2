@@ -52,6 +52,7 @@ def cantMes():
                 Estudio.fecha <= str(anio) + "-12-31",
             )
         )
+        .group_by(Estudio.fecha)
         .group_by(Estudio.mes)
         .all()
     )
