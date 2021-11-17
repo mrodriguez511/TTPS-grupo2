@@ -125,6 +125,8 @@ def create_app(environment="development"):
     app.add_url_rule(
         "/reporte_cant_estudios_mes_anio", "reportes2", reportes.cant_estudios_mes_anio
     )
+    app.add_url_rule("/reportes/cantTipo", "reportes_tipo", reportes.cantTipo)
+    app.add_url_rule("/reportes/cantMes", "reportes_mes", reportes.cantMes)
 
     # estudio estado 1
     app.add_url_rule("/empleado/estudio1", "estudio_estado1", estudio.estudio_estado1)
