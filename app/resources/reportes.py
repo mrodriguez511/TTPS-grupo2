@@ -53,11 +53,13 @@ def boxPlot():
 
     lista = []
 
+    anio = request.args.get("boxplot")
+
     estudios = (
         Estudio.query.filter(
             and_(
-                Estudio.fecha >= str(2021) + "-01-01",
-                Estudio.fecha <= str(2021) + "-12-31",
+                Estudio.fecha >= str(anio) + "-01-01",
+                Estudio.fecha <= str(anio) + "-12-31",
             )
         )
         .filter(Estudio.estadoActual == 10)
@@ -94,5 +96,5 @@ def boxPlot():
         q3 = 0
 
     return render_template(
-        "reportes/boxplot.html", min=min, max=max, q1=q1, q2=q2, q3=q3
+        "reportes/boxplot.html", min=min, max=max, q1=q1, q2=q2, q3=q3, anio=anio
     )

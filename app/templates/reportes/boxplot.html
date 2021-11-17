@@ -63,6 +63,19 @@
     <!-- Content Header (Page header) -->
     <div class="content-header">
         <h1>Boxplot</h1>
+        <div class="col-sm-4">
+            <form class="row g-3" action="{{ url_for('reporte_boxplot') }}" method="GET">
+                <div class="form-group">
+                    <label for="inputState" class="form-label">Seleccionar Año</label>
+                    <input name=boxplot class="form-control" type="number" min="2000" max="2021" step="1"
+                        value="2021" />
+                </div>
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary">Buscar</button>
+                </div>
+            </form>
+        </div>
+
     </div>
     {% block scripts %}
     <script type="text/javascript">
@@ -71,6 +84,7 @@
         var q1 = parseInt("{{q1}}", 10)
         var q2 = parseInt("{{q2}}", 10)
         var q3 = parseInt("{{q3}}", 10)
+        var anio = parseInt("{{anio}}", 10)
         Highcharts.chart('container', {
 
             chart: {
@@ -88,7 +102,7 @@
             xAxis: {
                 categories: ["Año"],
                 title: {
-                    text: '2021'
+                    text: anio
                 }
             },
 
@@ -115,7 +129,7 @@
                     [min, q1, q2, q3, max]
                 ],
                 tooltip: {
-                    headerFormat: '<em>Experiment No {point.key}</em><br/>'
+                    headerFormat: '<em>Demora por {point.key}</em><br/>'
                 }
             }]
 
