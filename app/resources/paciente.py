@@ -38,8 +38,8 @@ def new_paciente():
     """permite acceder al formulario para alta de usuario"""
     if not authenticated(session):
         abort(401)
-    """if not check_permission(session["id"], "user_new"):
-        abort(401)"""
+    if not (session["rol"] == 2):
+        abort(401)
 
     obrasSociales = ObraSocial.query.all()
 
@@ -52,8 +52,8 @@ def create_paciente():
 
     if not authenticated(session):
         abort(401)
-    """if not check_permission(session["id"], "paciente_create"):
-        abort(401)"""
+    if not (session["rol"] == 2):
+        abort(401)
 
     params = request.form
     paciente = Paciente.query.filter(
@@ -72,7 +72,7 @@ def create_paciente():
         params["telefono"],
         params["resumenHC"],
     )
-    if params["obraSocial"] != "Seleccionar":
+    if params["obraSocial"] != "0":
         new_paciente.obraSocial = params["obraSocial"]
         new_paciente.nroAfiliado = params["nroAfiliado"]
 
@@ -80,3 +80,50 @@ def create_paciente():
     db.session.commit()
 
     return redirect(url_for("estudio_new"))
+
+
+def editar_paciente():
+
+    """función para alta de paciente"""
+
+    if not authenticated(session):
+        abort(401)
+    if not (session["rol"] == 2):
+        abort(401)
+
+    paciente_id = request.args.get("id")
+    paciente = Paciente.query.filter(Paciente.id == paciente_id).first()
+
+    obrasSociales = ObraSocial.query.all()
+
+    return render_template(
+        "paciente/editar_paciente.html", obrasSociales=obrasSociales, paciente=paciente
+    )
+
+
+def update_paciente():
+
+    """actualizar datos de paciente"""
+
+    if not authenticated(session):
+        abort(401)
+    if not (session["rol"] == 2):
+        abort(401)
+
+    paciente_id = request.args.get("id")
+    paciente = Paciente.query.filter(Paciente.id == paciente_id).first()
+
+    params = request.form
+    paciente.nombre = params["nombre"]
+    paciente.apellido = params["apellido"]
+    paciente.fechaNacimiento = params["fechaNacimiento"]
+    paciente.telefono = params["telefono"]
+    paciente.resumenHC = params["resumenHC"]
+
+    if params["obraSocial"] != "0":
+        paciente = params["obraSocial"]
+        new_paciente.nroAfiliado = params["nroAfiliado"]
+
+    db.session.commit()
+
+    return redirect(url_for("paciente_index"))
