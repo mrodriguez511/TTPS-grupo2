@@ -52,6 +52,7 @@ def cantMes():
                 Estudio.fecha <= str(anio) + "-12-31",
             )
         )
+        .group_by(Estudio.fecha)
         .group_by(Estudio.mes)
         .all()
     )
@@ -77,7 +78,7 @@ def boxPlot():
 
     lista = []
 
-    anio = request.args.get("boxplot", "2021")
+    anio = request.args.get("anio", "2021")
 
     estudios = (
         Estudio.query.filter(
