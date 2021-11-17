@@ -62,91 +62,118 @@
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <div class="content-header">
-        <h1>Boxplot</h1>
-        <div class="col-sm-4">
-            <form class="row g-3" action="{{ url_for('reporte_boxplot') }}" method="GET">
-                <div class="form-group">
-                    <label for="inputState" class="form-label">Seleccionar Año</label>
-                    <input name=boxplot class="form-control" type="number" min="2000" max="2021" step="1"
-                        value="2021" />
-                </div>
-                <div class="col-12">
-                    <button type="submit" class="btn btn-primary">Buscar</button>
-                </div>
-            </form>
-        </div>
-
+        <h3>Reportes</h3>
     </div>
-    {% block scripts %}
-    <script type="text/javascript">
-        var min = parseInt("{{min}}", 10)
-        var max = parseInt("{{max}}", 10)
-        var q1 = parseInt("{{q1}}", 10)
-        var q2 = parseInt("{{q2}}", 10)
-        var q3 = parseInt("{{q3}}", 10)
-        var anio = parseInt("{{anio}}", 10)
-        Highcharts.chart('container', {
+    <div class="row">
+        <div class="col-10">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Boxplot</h3>
+                </div>
+                <div class="card-body my-5">
+                    <div class="col-sm-4">
+                        <form class="row g-3" action="{{ url_for('reportes_mes') }}" method="GET">
+                            <div class="form-group d-flex">
 
-            chart: {
-                type: 'boxplot'
-            },
+                                <select name="anio" class="form-control" onchance='submit()' data-show-subtext="true"
+                                    data-live-search="true" required>
+                                    <option value="" selected>Seleccionar año</option>
 
+                                    <option value='2019'> 2019 </option>
+                                    <option value='2020'> 2020 </option>
+                                    <option value='2021'> 2021 </option>
+
+                                </select>
+
+                                <button type="submit" class="btn btn-primary">Buscar</button>
+
+                            </div>
+                        </form>
+                    </div>
+                    <div class="mx-auto">
+                        <div id="container"></div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <a href="{{ url_for('empleado_home') }}" class="btn btn-outline-secondary mt-5">Volver a home</a>
+</div>
+
+
+
+
+{% endblock %}
+
+
+
+
+{% block scripts %}
+
+
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/highcharts-more.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+<script type="text/javascript">
+    var min = parseInt("{{min}}", 10)
+    var max = parseInt("{{max}}", 10)
+    var q1 = parseInt("{{q1}}", 10)
+    var q2 = parseInt("{{q2}}", 10)
+    var q3 = parseInt("{{q3}}", 10)
+    var anio = parseInt("{{anio}}", 10)
+    Highcharts.chart('container', {
+
+        chart: {
+            type: 'boxplot'
+        },
+
+        title: {
+            text: 'Demora desde la toma de muestra a la entrega de resultado'
+        },
+
+        legend: {
+            enabled: false
+        },
+
+        xAxis: {
+            categories: ["Año"],
             title: {
-                text: 'Demora desde la toma de muestra a la entrega de resultado'
-            },
+                text: anio
+            }
+        },
 
-            legend: {
-                enabled: false
+        yAxis: {
+            title: {
+                text: 'Días'
             },
-
-            xAxis: {
-                categories: ["Año"],
-                title: {
-                    text: anio
-                }
-            },
-
-            yAxis: {
-                title: {
-                    text: 'Días'
-                },
-                plotLines: [{
-                    color: 'red',
-                    width: 1,
-                    label: {
-                        text: 'Theoretical mean: 932',
-                        align: 'center',
-                        style: {
-                            color: 'gray'
-                        }
+            plotLines: [{
+                color: 'red',
+                width: 1,
+                label: {
+                    text: 'Theoretical mean: 932',
+                    align: 'center',
+                    style: {
+                        color: 'gray'
                     }
-                }]
-            },
-
-            series: [{
-                name: 'Observaciones',
-                data: [
-                    [min, q1, q2, q3, max]
-                ],
-                tooltip: {
-                    headerFormat: '<em>Demora por {point.key}</em><br/>'
                 }
             }]
+        },
 
-        });
-    </script>
-    <script src="https://code.highcharts.com/highcharts.js"></script>
-    <script src="https://code.highcharts.com/highcharts-more.js"></script>
-    <script src="https://code.highcharts.com/modules/exporting.js"></script>
-    <script src="https://code.highcharts.com/modules/export-data.js"></script>
-    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+        series: [{
+            name: 'Observaciones',
+            data: [
+                [min, q1, q2, q3, max]
+            ],
+            tooltip: {
+                headerFormat: '<em>Demora por {point.key}</em><br/>'
+            }
+        }]
 
-    <figure class="highcharts-figure">
-        <div id="container"></div>
-        <p class="highcharts-description">
-        </p>
-    </figure>
+    });
+</script>
 
-    {% endblock %}
-</div>
 {% endblock %}
