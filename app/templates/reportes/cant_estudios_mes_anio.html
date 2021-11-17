@@ -43,7 +43,7 @@
     <script>
 
         let meses_totales = "{{ meses_totales }}"
-        let t = meses_totales.substr(1, tipos.length - 2)
+        let t = meses_totales.substr(1, meses_totales.length - 2)
         let final = t.split(',')
 
         anychart.onDocumentReady(function () {
