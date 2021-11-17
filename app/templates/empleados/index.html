@@ -14,17 +14,87 @@
     </div>
     {#<a href="{{ url_for('home') }}" class="btn btn-outline-secondary">Volver</a>
     % if (session["rol"] == 2) %#}
-    <a href="{{ url_for('estudio_new') }}" class="btn btn-outline-success">Alta de estudio</a>
-    <a href="{{ url_for('estudio_index') }}" class="btn btn-outline-success">Listado de Estudios</a>
-    <a href="{{ url_for('estudio_retrasado') }}" class="btn btn-outline-success">Estudios retrasados</a>
-    <a href="{{ url_for('paciente_index') }}" class="btn btn-outline-success">Listado de Pacientes</a>
-    <a href="{{ url_for('liquidacionExtracciones_index') }}" class="btn btn-outline-success">Liquidacion de
-        extracciones</a>
-    <a href="{{ url_for('estudiosFormarLote_index') }}" class="btn btn-outline-success">Estudios para formar Lote</a>
-    <a href="{{ url_for('lote_enProcesamiento_index') }}" class="btn btn-outline-success">Lotes en procesamiento</a>
-    <a href="{{ url_for('lote_procesado_index') }}" class="btn btn-outline-success">Lotes procesados</a>
-    <a href="{{ url_for('reporte_boxplot') }}" class="btn btn-outline-success">Reportes</a>
-    {#% endif %#}
+    <div class="col-8">
+        <div class="card card-outline card-primary card-tabs">
+            <div class="card-header p-0 pt-1">
+                <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="estudios-tab" data-toggle="pill" href="#estudios" role="tab"
+                            aria-controls="estudios" aria-selected="true">Estudios</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="pacientes-tab" data-toggle="pill" href="#pacientes" role="tab"
+                            aria-controls="pacientes" aria-selected="false">Pacientes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="extracciones-tab" data-toggle="pill" href="#extracciones" role="tab"
+                            aria-controls="extracciones" aria-selected="false">Extracciones</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="lotes-tab" data-toggle="pill" href="#lotes" role="tab"
+                            aria-controls="lotes" aria-selected="false">Lotes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="reportes-tab" data-toggle="pill" href="#reportes" role="tab"
+                            aria-controls="reportes" aria-selected="false">Reportes</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <div class="tab-content" id="custom-tabs-one-tabContent">
+                    <div class="tab-pane fade show active" id="estudios" role="tabpanel" aria-labelledby="estudios-tab">
+                        <div class="row col-12">
+                            <a href="{{ url_for('estudio_new') }}" class="btn btn-outline-primary mr-3">Alta de
+                                estudio</a>
+                            <a href="{{ url_for('estudio_index') }}" class="btn btn-outline-primary mr-3">Listado de
+                                Estudios</a>
+                            <a href="{{ url_for('estudio_retrasado') }}" class="btn btn-outline-primary mr-3">Estudios
+                                retrasados</a>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="pacientes" role="tabpanel" aria-labelledby="pacientes-tab">
+                        <div class="row col-12">
+                            <a href="{{ url_for('paciente_new') }}" class="btn btn-outline-primary mr-3">Nuevo
+                                Paciente</a>
+                            <a href="{{ url_for('paciente_index') }}" class="btn btn-outline-primary mr-3">Listado de
+                                Pacientes</a>
+                        </div>
+
+                    </div>
+                    <div class="tab-pane fade" id="extracciones" role="tabpanel" aria-labelledby="extracciones-tab">
+                        <div class="row col-12">
+                            <a href="{{ url_for('liquidacionExtracciones_index') }}"
+                                class="btn btn-outline-primary mr-3">Liquidacion de
+                                extracciones</a>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="lotes" role="tabpanel" aria-labelledby="lotes-tab">
+                        <div class="row col-12">
+                            <a href="{{ url_for('estudiosFormarLote_index') }}"
+                                class="btn btn-outline-primary mr-3">Estudios
+                                para formar Lote</a>
+                            <a href="{{ url_for('lote_enProcesamiento_index') }}"
+                                class="btn btn-outline-primary mr-3">Lotes
+                                en procesamiento</a>
+                            <a href="{{ url_for('lote_procesado_index') }}" class="btn btn-outline-primary mr-3">Lotes
+                                procesados</a>
+                        </div>
+
+                    </div>
+                    <div class="tab-pane fade" id="reportes" role="tabpanel" aria-labelledby="reportes-tab">
+                        <div class="row col-12">
+                            <a href="{{ url_for('reporte_boxplot') }}" class="btn btn-outline-primary mr-3">Boxplot</a>
+                            <a href="{{ url_for('reporte_boxplot') }}" class="btn btn-outline-primary mr-3">Boxplot</a>
+                            <a href="{{ url_for('reporte_boxplot') }}" class="btn btn-outline-primary mr-3">Boxplot</a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- /.card -->
+        </div>
+    </div>
+
 </div>
 {% endblock %}
 

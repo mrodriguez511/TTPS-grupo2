@@ -1,29 +1,26 @@
 {% extends "layout.html" %}
-{% block title %}Boxplot{% endblock %}
+{% block title %}Cantidad de estudios por mes{% endblock %}
 {% block head %}
 {{ super() }}
-<!-- DataTables -->
-<link rel="stylesheet" href="/static/assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
-<link rel="stylesheet" href="/static/assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
-<link rel="stylesheet" href="/static/assets/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
-<!-- Theme style -->
-<link rel="stylesheet" href="/static/assets/css/adminlte.min.css">
-<style>
-    #container {
-        height: 400px;
-    }
 
+<link href="https://cdn.anychart.com/releases/v8/css/anychart-ui.min.css" type="text/css" rel="stylesheet">
+<link href="https://cdn.anychart.com/releases/v8/fonts/css/anychart-font.min.css" type="text/css" rel="stylesheet">
+<style>
     .highcharts-figure,
     .highcharts-data-table table {
         min-width: 310px;
-        max-width: 700px;
+        max-width: 800px;
         margin: 1em auto;
+    }
+
+    #container {
+        height: 400px;
     }
 
     .highcharts-data-table table {
         font-family: Verdana, sans-serif;
         border-collapse: collapse;
-        border: 1px solid #EBEBEB;
+        border: 1px solid #ebebeb;
         margin: 10px auto;
         text-align: center;
         width: 100%;
@@ -57,8 +54,8 @@
     }
 </style>
 {% endblock %}
-{% block body_class %} sidebar-mini sidebar-collapse{% endblock body_class %}
 {% block content %}
+
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <div class="content-header">
@@ -68,7 +65,7 @@
         <div class="col-10">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Boxplot</h3>
+                    <h3 class="card-title">Cantidad de estudios por mes</h3>
                 </div>
                 <div class="card-body my-5">
                     <div class="col-sm-4">
@@ -105,75 +102,96 @@
 
 
 
+
+
 {% endblock %}
-
-
-
-
 {% block scripts %}
-
-
 <script src="https://code.highcharts.com/highcharts.js"></script>
-<script src="https://code.highcharts.com/highcharts-more.js"></script>
+<script src="https://code.highcharts.com/modules/data.js"></script>
+<script src="https://code.highcharts.com/modules/drilldown.js"></script>
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
 <script src="https://code.highcharts.com/modules/export-data.js"></script>
 <script src="https://code.highcharts.com/modules/accessibility.js"></script>
-<script type="text/javascript">
-    var min = parseInt("{{min}}", 10)
-    var max = parseInt("{{max}}", 10)
-    var q1 = parseInt("{{q1}}", 10)
-    var q2 = parseInt("{{q2}}", 10)
-    var q3 = parseInt("{{q3}}", 10)
-    var anio = parseInt("{{anio}}", 10)
+
+
+
+
+
+<script>
+    let meses_totales = "{{ meses_totales }}"
+    let t = meses_totales.substr(1, meses_totales.length - 2)
+    let cantidad = t.split(',')
+    cantidad = cantidad.map((f) => parseInt(f, 10))
+    var anio = "{{anio}}"
+
+    let mesesStr = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+
+
+
+
+    let cargaData = () => {
+        let datos = [];
+        for (let i = 0; i < mesesStr.length; i++) {
+            let value = { name: mesesStr[i], y: cantidad[i], drilldown: null }
+            datos.push(value);
+        } return datos
+    }
+
+
     Highcharts.chart('container', {
-
         chart: {
-            type: 'boxplot'
+            type: 'column'
         },
-
         title: {
-            text: 'Demora desde la toma de muestra a la entrega de resultado'
+            text: 'Cantidad de estudios por mes - Año ' + anio
         },
+        subtitle: {
+            text: ''
+        },
+        accessibility: {
+            announceNewData: {
+                enabled: true
+            }
+        },
+        xAxis: {
+            type: 'category'
+        },
+        yAxis: {
+            title: {
+                text: 'Cantidad de estudios'
+            }
 
+        },
         legend: {
             enabled: false
         },
-
-        xAxis: {
-            categories: ["Año"],
-            title: {
-                text: anio
-            }
-        },
-
-        yAxis: {
-            title: {
-                text: 'Días'
-            },
-            plotLines: [{
-                color: 'red',
-                width: 1,
-                label: {
-                    text: 'Theoretical mean: 932',
-                    align: 'center',
-                    style: {
-                        color: 'gray'
-                    }
+        plotOptions: {
+            series: {
+                borderWidth: 0,
+                dataLabels: {
+                    enabled: true,
+                    format: '{point.y:.1f}%'
                 }
-            }]
+            }
         },
 
-        series: [{
-            name: 'Observaciones',
-            data: [
-                [min, q1, q2, q3, max]
-            ],
-            tooltip: {
-                headerFormat: '<em>Demora por {point.key}</em><br/>'
+        tooltip: {
+            headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+            pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b> of total<br/>'
+        },
+
+        series: [
+            {
+                name: "Meses",
+                colorByPoint: true,
+                data: cargaData()
             }
-        }]
+        ],
 
     });
 </script>
+
+
+
 
 {% endblock %}
