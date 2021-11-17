@@ -55,11 +55,50 @@
 </style>
 {% endblock %}
 {% block content %}
-<h3>Cantidad de estudios por mes</h3>
 
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <h3>Reportes</h3>
+    </div>
+    <div class="row">
+        <div class="col-10">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Cantidad de estudios por mes</h3>
+                </div>
+                <div class="card-body my-5">
+                    <div class="col-sm-4">
+                        <form class="row g-3" action="{{ url_for('reportes_mes') }}" method="GET">
+                            <div class="form-group d-flex">
 
+                                <select name="anio" class="form-control" onchance='submit()' data-show-subtext="true"
+                                    data-live-search="true" required>
+                                    <option value="" selected>Seleccionar año</option>
 
-<div id="container"></div>
+                                    <option value='2019'> 2019 </option>
+                                    <option value='2020'> 2020 </option>
+                                    <option value='2021'> 2021 </option>
+
+                                </select>
+
+                                <button type="submit" class="btn btn-primary">Buscar</button>
+
+                            </div>
+                        </form>
+                    </div>
+                    <div class="mx-auto">
+                        <div id="container"></div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <a href="{{ url_for('empleado_home') }}" class="btn btn-outline-secondary mt-5">Volver a home</a>
+</div>
+
 
 
 
@@ -81,8 +120,22 @@
 <script>
     let meses_totales = "{{ meses_totales }}"
     let t = meses_totales.substr(1, meses_totales.length - 2)
-    let final = t.split(',')
-    final = final.map((f) => parseInt(f, 10))
+    let cantidad = t.split(',')
+    cantidad = cantidad.map((f) => parseInt(f, 10))
+
+    let mesesStr = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+
+
+
+
+    let cargaData = () => {
+        let datos = [];
+        for (let i = 0; i < mesesStr.length; i++) {
+            let value = { name: mesesStr[i], y: cantidad[i], drilldown: null }
+            datos.push(value);
+        } return datos
+    }
+
 
     Highcharts.chart('container', {
         chart: {
@@ -92,7 +145,7 @@
             text: 'Cantidad de estudios por mes'
         },
         subtitle: {
-            text: ''//Click the columns to view versions. Source: <a href="http://statcounter.com" target="_blank">statcounter.com</a>
+            text: ''
         },
         accessibility: {
             announceNewData: {
@@ -100,7 +153,7 @@
             }
         },
         xAxis: {
-            text: 'Meses'
+            type: 'category'
         },
         yAxis: {
             title: {
@@ -109,7 +162,7 @@
 
         },
         legend: {
-            enabled: true
+            enabled: false
         },
         plotOptions: {
             series: {
@@ -130,69 +183,7 @@
             {
                 name: "Meses",
                 colorByPoint: true,
-                data: [
-                    {
-                        name: "Enero",
-                        y: final[0],
-                        drilldown: null
-                    },
-                    {
-                        name: "Febrero",
-                        y: final[1],
-                        drilldown: null
-                    },
-                    {
-                        name: "Marzo",
-                        y: final[2],
-                        drilldown: null
-                    },
-                    {
-                        name: "Abril",
-                        y: final[3],
-                        drilldown: null
-                    },
-                    {
-                        name: "Mayo",
-                        y: final[4],
-                        drilldown: null
-                    },
-                    {
-                        name: "Junio",
-                        y: final[5],
-                        drilldown: null
-                    },
-                    {
-                        name: "Julio",
-                        y: final[6],
-                        drilldown: null
-                    },
-                    {
-                        name: "Agosto",
-                        y: final[7],
-                        drilldown: null
-                    },
-                    {
-                        name: "Sept",
-                        y: final[8],
-                        drilldown: null
-                    },
-                    {
-                        name: "Oct",
-                        y: final[9],
-                        drilldown: null
-                    },
-                    {
-                        name: "Nov",
-                        y: final[10],
-                        drilldown: null
-                    },
-                    {
-                        name: "Dic",
-                        y: final[11],
-                        drilldown: null
-                    }
-
-                ]
+                data: cargaData()
             }
         ],
 
