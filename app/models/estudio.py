@@ -1,4 +1,6 @@
 from datetime import datetime
+
+from sqlalchemy.sql.sqltypes import Date
 from app.models.estado import Estado
 from app.models.resultado import Resultado
 from sqlalchemy import Column, Integer, String, Boolean, DateTime, ForeignKey
@@ -11,6 +13,7 @@ class Estudio(db.Model):
     __tablename__ = "estudios"
     id = Column(Integer, primary_key=True, autoincrement=True)
     fecha = Column(DateTime)
+    mes = Column(Integer)
     retrasado = Column(Boolean)
     anulado = Column(Boolean)
     tipoEstudio = Column(Integer, ForeignKey("tiposEstudios.id"))
@@ -50,6 +53,7 @@ class Estudio(db.Model):
         self.diagnosticoPresuntivo = diagnosticoPresuntivo
         self.presupuesto = presupuesto
         self.fecha = datetime.now()
+        self.mes = datetime.now().month
         self.retrasado = False
         self.anulado = False
         self.estadoActual = 1
