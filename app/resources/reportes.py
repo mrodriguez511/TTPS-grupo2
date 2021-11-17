@@ -53,7 +53,7 @@ def boxPlot():
 
     lista = []
 
-    anio = request.args.get("boxplot")
+    anio = request.args.get("boxplot", "2021")
 
     estudios = (
         Estudio.query.filter(
