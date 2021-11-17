@@ -1,4 +1,4 @@
-from flask import redirect, render_template, session, abort, request, url_for
+from flask import redirect, render_template, session, abort, request, url_for, flash
 from sqlalchemy.sql.expression import null
 from sqlalchemy.sql.operators import and_
 from app.helpers.estados import cargarNuevoEstado
@@ -24,6 +24,7 @@ def estudiosFormarLote_index():
     estudios = (
         db.session.query(Estudio, Paciente, TipoEstudio)
         .filter(Estudio.estadoActual == 6)
+        .filter(Estudio.lote == None)
         .filter(Estudio.paciente == Paciente.id)
         .filter(Estudio.tipoEstudio == TipoEstudio.id)
         .all()
@@ -38,11 +39,12 @@ def formarLote():
 
     if not (session["rol"] == 2):
         abort(401)
-
-    estudios_id = request.form.getlist("check_formarLote")
-
+    estudios_id = request.form["estudios"]
+    estudios_id = estudios_id.split(",")
+    
     lote = Lote()
     for estudio_id in estudios_id:
+        flash(estudio_id)
         estudio = Estudio.query.filter(Estudio.id == estudio_id).first()
         lote.estudios.append(estudio)
 

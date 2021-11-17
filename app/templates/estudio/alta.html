@@ -2,18 +2,10 @@
 {% block title %}Usuarios{% endblock %}
 {% block head %}
 {{ super() }}
-<!-- Select2 -->
 
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 <link rel="stylesheet"
     href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@1.5.2/dist/select2-bootstrap4.min.css">
-{#
-<link rel="stylesheet" href="/static/assets/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
-
-<link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/select2-bootstrap-5-theme/1.2.0/select2-bootstrap-5-theme.min.css">
-
-#}
 
 
 {% endblock %}
@@ -39,11 +31,13 @@
                                 <div class="form-group">
                                     <label for="inputState" class="form-label">Paciente</label>
 
-                                    <select name="paciente" class="form-control select2bs4" data-show-subtext="true"
-                                        data-live-search="true" aria-placeholder="seleccionar paciente">
-                                        <option selected disabled hidden>Seleccionar</option>
+                                    <select required name="paciente" class="form-control select2bs4"
+                                        data-show-subtext="true" data-live-search="true"
+                                        aria-placeholder="seleccionar paciente">
+                                        <option selected disabled value="" hidden>Seleccionar</option>
                                         {% for paciente in pacientes %}
-                                        <option value={{paciente.id}}> {{paciente.nombre}} </option>
+                                        <option value={{paciente.id}}> {{paciente.nombre}} {{paciente.apellido}}
+                                        </option>
                                         {% endfor %}
                                     </select>
                                 </div>
@@ -58,11 +52,11 @@
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label for="inputState" class="form-label">Medico derivante</label>
-                                    <select name="medicoDerivante" class="form-control select2bs4"
+                                    <select required name="medicoDerivante" class="form-control select2bs4"
                                         data-show-subtext="true" data-live-search="true">
-                                        <option selected disabled hidden>Seleccionar</option>
+                                        <option selected disabled value="" hidden>Seleccionar</option>
                                         {% for medico in medicos %}
-                                        <option value={{medico.id}}> {{medico.nombre}} </option>
+                                        <option value={{medico.id}}> {{medico.nombre}} {{medico.apellido}} </option>
                                         {% endfor %}
                                     </select>
                                 </div>
@@ -70,9 +64,9 @@
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label for="inputState" class="form-label">Diagnóstico presuntivo</label>
-                                    <select name="diagnostico" class="form-control select2bs4" data-show-subtext="true"
-                                        data-live-search="true">
-                                        <option selected disabled hidden>Seleccionar</option>
+                                    <select required name="diagnostico" class="form-control select2bs4"
+                                        data-show-subtext="true" data-live-search="true">
+                                        <option selected disabled value="" hidden>Seleccionar</option>
                                         {% for diagnostico in diagnosticos %}
                                         <option value={{diagnostico.id}}> {{diagnostico.nombre}} </option>
                                         {% endfor %}
@@ -85,7 +79,7 @@
 
                                     <select name="tipoEstudio" class="form-control select2bs4" style="width: 100%;"
                                         required>
-                                        <option selected disabled hidden>Seleccionar</option>
+                                        <option selected disabled value="" hidden>Seleccionar</option>
                                         {% for tipo in tipos %}
                                         <option value={{tipo.id}}> {{tipo.nombre}} </option>
                                         {% endfor %}
