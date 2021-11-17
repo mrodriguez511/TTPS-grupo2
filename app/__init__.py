@@ -152,7 +152,6 @@ def create_app(environment="development"):
     )
 
     # reportes
-    app.add_url_rule("/reportes", "reportes_index", reportes.index)
     app.add_url_rule(
         "/reporte_boxplot",
         "reporte_boxplot",
