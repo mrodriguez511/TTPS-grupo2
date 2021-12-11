@@ -10,7 +10,11 @@
 
             {% if is_authenticated(session) %}
             <div class="text-center d-flex">
+                {% if session["email"] %}
                 <span class="pr-3 font-italic">{{session["email"]}}</span>
+                {% else %}
+                <span class="pr-3 font-italic">{{session["dni"]}}</span>
+                {% endif %}
                 <a href="#" class="d-block link-light text-decoration-none dropdown-toggle" id="dropdownUser2"
                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fa fa-user-tie" style="font-size: 1.2rem;"></i>
@@ -20,11 +24,6 @@
                     <li><a class="dropdown-item" href="{{ url_for('auth_logout') }}">Cerrar sesión</a></li>
                 </ul>
 
-            </div>
-            {% else %}
-
-            <div class="text-end">
-                <a href="{{ url_for('auth_login') }}" class="btn btn-outline-light me-2">Iniciar sesión</a>
             </div>
             {% endif %}
         </div>

@@ -1,0 +1,125 @@
+{% extends "layout.html" %}
+{% block title %}Mis estudios{% endblock %}
+{% block head %}
+{{ super() }}
+<!-- DataTables -->
+<link rel="stylesheet" href="/static/assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+<link rel="stylesheet" href="/static/assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+<link rel="stylesheet" href="/static/assets/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+<!-- Theme style -->
+<link rel="stylesheet" href="/static/assets/css/adminlte.min.css">
+{% endblock %}
+{% block body_class %} sidebar-mini sidebar-collapse{% endblock body_class %}
+{% block content %}
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <h1>Mis estudios</h1>
+    </div>
+    <section class="">
+        <div class="">
+            <div class="row">
+                <div class="col-11">
+                    <div class="card">
+                        <div class="card-header">
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <table id="table2" class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Tipo de Estudio</th>
+                                        <th scope="col">Fecha Inicio</th>
+                                        <th scope="col">Estado/Esperando..</th>
+                                        <th scope="col">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for estudio,tipoEstudio in estudios %}
+
+                                    <tr>
+                                        <td scope="row">{{ estudio.id }}</td>
+                                        <td>{{ tipoEstudio.nombre }}</td>
+                                        <td>{{ estudio.fecha }}</td>
+                                        {% if estudio.anulado %}
+                                        <td>{{ "Anulado" }}</td>
+                                        {% elif estudio.estadoActual == 1 %}
+                                        <td>{{ "Comprobante de pago" }}</td>
+                                        {% elif estudio.estadoActual == 2 %}
+                                        <td>{{ "Consentimiento firmado" }}</td>
+                                        {% elif estudio.estadoActual == 3 %}
+                                        <td>{{ "Selección de turno" }}</td>
+                                        {% elif estudio.estadoActual == 4 %}
+                                        <td>{{ "Toma de muestra" }}</td>
+                                        {% elif estudio.estadoActual == 5 %}
+                                        <td>{{ "Esperando resultado" }}</td>
+                                        {% elif estudio.estadoActual == 6 %}
+                                        <td>{{ "Esperando resultado" }}</td>
+                                        {% elif estudio.estadoActual == 7 %}
+                                        <td>{{ "Esperando resultado" }}</td>
+                                        {% elif estudio.estadoActual == 8 %}
+                                        <td>{{ "Esperando resultado" }}</td>
+                                        {% elif estudio.estadoActual == 9 %}
+                                        <td>{{ "Esperando resultado" }}</td>
+                                        {% elif estudio.estadoActual == 10 %}
+                                        <td>{{ "Resultado completo" }}</td>
+                                        {% endif %}
+                                        <td>
+                                            {% if not estudio.anulado %}
+                                            <a href="{{ url_for('estudio_ver', id=estudio.id )}}"
+                                                class="btn btn-primary btn-sm">Ver</a>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}
+
+{% block scripts %}
+
+
+<!-- DataTables  & Plugins -->
+<script src="/static/assets/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="/static/assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="/static/assets/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="/static/assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+<script src="/static/assets/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+<script src="/static/assets/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+<script src="/static/assets/plugins/jszip/jszip.min.js"></script>
+<script src="/static/assets/plugins/pdfmake/pdfmake.min.js"></script>
+<script src="/static/assets/plugins/pdfmake/vfs_fonts.js"></script>
+<script src="/static/assets/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+<script src="/static/assets/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+<script src="/static/assets/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+<!-- Page specific script -->
+<script>
+    $(function () {
+        $("#tabla").DataTable({
+            "responsive": true, "lengthChange": false, "autoWidth": false,
+            "buttons": ["copy", "pdf"]
+        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+        $('#table2').DataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
+            },
+            "paging": true,
+            "lengthChange": false,
+            "searching": true,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false,
+            "responsive": true,
+        });
+    });
+
+</script>
+{% endblock %}

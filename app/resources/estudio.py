@@ -56,6 +56,28 @@ def index():
     return render_template("estudio/index.html", estudios=estudios)
 
 
+def misEstudios():
+    """listado de estudios"""
+
+    if not authenticated(session):
+        abort(401)
+
+    if not (session["rol"] == 3):
+        abort(401)
+
+    estudios = (
+        db.session.query(Estudio, TipoEstudio)
+        .filter(
+            and_(
+                Estudio.tipoEstudio == TipoEstudio.id, Estudio.paciente == session["id"]
+            )
+        )
+        .all()
+    )
+
+    return render_template("paciente/home.html", estudios=estudios)
+
+
 def listar():
     if not authenticated(session):
         abort(401)

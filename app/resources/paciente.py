@@ -46,6 +46,51 @@ def new_paciente():
     return render_template("estudio/alta_paciente.html", obrasSociales=obrasSociales)
 
 
+def registrarPaciente():
+
+    obrasSociales = ObraSocial.query.all()
+
+    return render_template("paciente/registrar.html", obrasSociales=obrasSociales)
+
+
+def registro_paciente():
+
+    params = request.form
+    paciente = Paciente.query.filter(Paciente.dni == params["dni"]).first()
+    if paciente:
+        flash("Ya existe un paciente con el DNI ingresado")
+        return redirect(url_for("nuevoPaciente"))
+
+    new_paciente = Paciente(
+        params["nombre"],
+        params["apellido"],
+        params["dni"],
+        params["fechaNacimiento"],
+    )
+
+    new_paciente.password = params["password"]
+
+    if params["obraSocial"] != "0":
+        new_paciente.obraSocial = params["obraSocial"]
+        new_paciente.nroAfiliado = params["nroAfiliado"]
+
+    if params["nombreTutor"] != None:
+        new_paciente.nombre_tutor = params["nombreTutor"]
+        new_paciente.apellido_tutor = params["apellidoTutor"]
+        new_paciente.telefono = params["telefonoTutor"]
+        new_paciente.direccion = params["direccionTutor"]
+        new_paciente.email = params["emailTutor"]
+    else:
+        new_paciente.telefono = params["telefono"]
+        new_paciente.direccion = params["direccion"]
+        new_paciente.email = params["email"]
+
+    db.session.add(new_paciente)
+    db.session.commit()
+
+    return redirect(url_for("auth_loginPaciente"))
+
+
 def create_paciente():
 
     """función para alta de paciente"""
@@ -68,10 +113,13 @@ def create_paciente():
         params["apellido"],
         params["dni"],
         params["fechaNacimiento"],
-        params["email"],
-        params["telefono"],
-        params["resumenHC"],
     )
+
+    new_paciente.email = params["email"]
+    new_paciente.telefono = params["telefono"]
+    new_paciente.resumenHC = params["resumenHC"]
+    new_paciente.password = params["dni"]
+
     if params["obraSocial"] != "0":
         new_paciente.obraSocial = params["obraSocial"]
         new_paciente.nroAfiliado = params["nroAfiliado"]

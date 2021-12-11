@@ -1,0 +1,61 @@
+{% extends "layout.html" %}
+{% block title %}Login{% endblock %}
+{% block head %}
+{{ super() }}
+{% endblock %}
+{% block navbar %}{% endblock %}
+{% block body_class %} login-page {% endblock body_class %}
+{% block content %}
+
+
+<div class="login-box m-auto pt-5">
+    <div class="login-logo">
+        <a href="/"><b>LAB</b>ttps</a>
+    </div>
+    <!-- /.login-logo -->
+    <div class="card">
+        <div class="card-body login-card-body">
+            <p class="login-box-msg">Inicia sesión para acceder al sistema</p>
+
+            <form action="{{ url_for('auth_authenticatePaciente') }}" method="post">
+                <div class="input-group mb-3">
+                    <input name="dni" class="form-control" placeholder="DNI" required>
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fa fa-user-tie"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <input type="password" class="form-control" placeholder="Password" name="password">
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-lock"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+                </div>
+            </form>
+            <div>
+                <div class="col-8">
+                    <a href="{{ url_for('nuevoPaciente') }}" class="btn btn-outline-primary btn-block"
+                        style="width: 305px;">Registrarme</a>
+                </div>
+            </div>
+
+
+
+
+        </div>
+        <!-- /.login-card-body -->
+    </div>
+</div>
+<!-- /.login-box -->
+
+
+
+
+{% endblock %}
