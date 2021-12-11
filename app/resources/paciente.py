@@ -46,6 +46,13 @@ def new_paciente():
     return render_template("estudio/alta_paciente.html", obrasSociales=obrasSociales)
 
 
+def registrarPaciente():
+
+    obrasSociales = ObraSocial.query.all()
+
+    return render_template("paciente/registrar.html", obrasSociales=obrasSociales)
+
+
 def create_paciente():
 
     """función para alta de paciente"""

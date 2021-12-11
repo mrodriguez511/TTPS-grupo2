@@ -65,9 +65,27 @@ def create_app(environment="development"):
 
     # Autenticación
     app.add_url_rule("/iniciar_sesion", "auth_login", auth.login)
+    app.add_url_rule(
+        "/iniciar_sesion_paciente", "auth_loginPaciente", auth.loginPaciente
+    )
     app.add_url_rule("/cerrar_sesion", "auth_logout", auth.logout)
     app.add_url_rule(
         "/autenticacion", "auth_authenticate", auth.authenticate, methods=["POST"]
+    )
+    app.add_url_rule(
+        "/autenticacionPaciente",
+        "auth_authenticatePaciente",
+        auth.authenticatePaciente,
+        methods=["POST"],
+    )
+    app.add_url_rule(
+        "/paciente/registrarme", "nuevoPaciente", paciente.registrarPaciente
+    )
+    app.add_url_rule(
+        "/registrarPaciente",
+        "registrarPaciente",
+        paciente.create_paciente,
+        methods=["POST"],
     )
 
     # Rutas de Admin
@@ -104,6 +122,8 @@ def create_app(environment="development"):
         paciente.create_paciente,
         methods=["POST"],
     )
+    app.add_url_rule("/paciente", "paciente_home", estudio.misEstudios)
+
     app.add_url_rule(
         "/empleado/edit_paciente",
         "paciente_editar",

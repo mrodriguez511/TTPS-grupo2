@@ -25,6 +25,7 @@ class Paciente(db.Model):
     nroAfiliado = Column(Integer, unique=True, nullable=True)
     obraSocial = Column(Integer, ForeignKey("obrasSociales.id"), nullable=True)
     estudios = relationship("Estudio")
+    rol = Column(Integer, ForeignKey("roles.id"))
 
     def __init__(
         self,
@@ -44,3 +45,4 @@ class Paciente(db.Model):
         self.telefono = telefono
         self.resumenHC = resumenHC
         self.password = dni
+        self.rol = 3

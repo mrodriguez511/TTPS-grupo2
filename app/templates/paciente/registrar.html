@@ -1,0 +1,131 @@
+{% extends "layout.html" %}
+{% block title %}Registrarme{% endblock %}
+{% block head %}
+{{ super() }}
+{% endblock %}
+{% block content %}
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <h1>Registrarme</h1>
+    </div>
+    <div class="row">
+        <div class="col-10">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Registrarme como paciente</h3>
+                </div>
+                <div class="card-body">
+                    <form class="row g-3" action="{{ url_for('paciente_create') }}" method="POST">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="inputEmail4" class="form-label">Nombre</label>
+                                    <input type="text" name="nombre" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="inputEmail4" class="form-label">Apellido</label>
+                                    <input type="text" name="apellido" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="inputEmail4" class="form-label">DNI</label>
+                                    <input type="number" name="dni" class="form-control" maxlength="8" required>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="inputEmail4" class="form-label">Fecha de nacimiento</label>
+                                    <input type="date" name="fechaNacimiento" id="datefield" class="form-control"
+                                        min='1900-01-01' required>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="inputEmail4" class="form-label">Email</label>
+                                    <input type="email" name="email" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="inputEmail4" class="form-label">Telefono</label>
+                                    <input type="tel" name="telefono" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="inputState" class="form-label">Obra Social</label>
+
+                                    <select name="obraSocial" id="obra" class="form-control">
+                                        <option selected value="0">Seleccionar</option>
+                                        <option value="0">no posee</option>
+                                        {% for obra in obrasSociales %}
+                                        <option value={{obra.id}}> {{obra.nombre}} </option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="inputEmail4" class="form-label">Numero de afiliado</label>
+                                    <input type="number" id="num" name="nroAfiliado" class="form-control" disabled>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-primary">Alta de paciente</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <a href="{{ url_for('auth_loginPaciente') }}" class="btn btn-outline-secondary">Volver</a>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+{% endblock %}
+
+
+
+{% block scripts %}
+
+<script>
+    let obra = document.getElementById("obra")
+    let num = document.getElementById("num")
+    obra.addEventListener("change", function () {
+        if (obra.value) {
+            num.disabled = false;
+            num.requerid = true;
+        }
+        else {
+            num.disabled = true;
+            num.requerid = false;
+        }
+
+    });
+
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth() + 1; //January is 0!
+    var yyyy = today.getFullYear();
+
+    if (dd < 10) {
+        dd = '0' + dd;
+    }
+
+    if (mm < 10) {
+        mm = '0' + mm;
+    }
+
+    today = yyyy + '-' + mm + '-' + dd;
+    document.getElementById("datefield").setAttribute("max", today);</script>
+{% endblock %}

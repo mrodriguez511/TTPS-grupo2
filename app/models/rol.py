@@ -9,6 +9,7 @@ class Rol(db.Model):
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String(30), unique=True)
     usuarios = relationship("User")
+    pacientes = relationship("Paciente")
 
     def __init__(self, name=None):
         self.name = name

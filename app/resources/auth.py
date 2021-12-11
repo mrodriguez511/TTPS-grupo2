@@ -2,12 +2,18 @@ from flask import redirect, render_template, request, url_for, abort, session, f
 from app.helpers.auth import authenticated
 from app.models.user import User
 from app.models.rol import Rol
+from app.models.paciente import Paciente
 from app.db import db
+from operator import and_
 
 
 def login():
 
     return render_template("auth/login.html")
+
+
+def loginPaciente():
+    return render_template("auth/loginPaciente.html")
 
 
 def home():
@@ -64,10 +70,31 @@ def authenticate():
     return redirect(url_for("empleado_home"))
 
 
+def authenticatePaciente():
+
+    params = request.form
+    pac = Paciente.query.filter(
+        and_(Paciente.dni == params["dni"], Paciente.password == params["password"])
+    ).first()
+
+    # le pido la primer tupla que machee
+    if not pac:
+        flash("Usuario o clave incorrecto.")
+        return redirect(url_for("auth_loginPaciente"))
+
+    session["rol"] = pac.rol
+    session["dni"] = pac.dni
+    session["id"] = pac.id
+    db.session.commit()
+    flash("La sesión se inició correctamente.")
+
+    return redirect(url_for("paciente_home"))
+
+
 def logout():
     del session["rol"]
     del session["id"]
     session.clear()
     flash("La sesión se cerró correctamente.")
 
-    return redirect(url_for("auth_login"))
+    return redirect(url_for("home"))

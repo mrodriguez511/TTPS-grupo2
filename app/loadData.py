@@ -27,9 +27,11 @@ def carga():
 
     rol1 = Rol(name="administrador")
     rol2 = Rol(name="empleado")
+    rol3 = Rol(name="paciente")
 
     db.session.add(rol1)
     db.session.add(rol2)
+    db.session.add(rol3)
 
     usuario1 = User(
         first_name="admin",
