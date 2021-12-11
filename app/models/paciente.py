@@ -1,11 +1,5 @@
 from app.models.rol import Rol
-from sqlalchemy import (
-    Column,
-    Integer,
-    String,
-    ForeignKey,
-    Date,
-)
+from sqlalchemy import Column, Integer, String, ForeignKey, Date, Boolean
 from datetime import datetime
 from app.db import db
 from sqlalchemy.orm import relationship
@@ -19,9 +13,13 @@ class Paciente(db.Model):
     fechaNacimiento = Column(Date, unique=False)
     email = Column(String(30), unique=True)
     dni = Column(Integer, unique=True)
-    telefono = Column(String(30), unique=True)
-    resumenHC = Column(String(300), unique=True)
+    telefono = Column(String(30))
+    resumenHC = Column(String(300))
+    direccion = Column(String(300))
     password = Column(String(30), unique=False)
+    nombre_tutor = Column(String(30), unique=False, nullable=True)
+    apellido_tutor = Column(String(30), unique=False, nullable=True)
+    menor = Column(Boolean)
     nroAfiliado = Column(Integer, unique=True, nullable=True)
     obraSocial = Column(Integer, ForeignKey("obrasSociales.id"), nullable=True)
     estudios = relationship("Estudio")
@@ -33,16 +31,9 @@ class Paciente(db.Model):
         apellido=None,
         dni=None,
         fechaNacimiento=None,
-        email=None,
-        telefono=None,
-        resumenHC=None,
     ):
         self.nombre = nombre
         self.apellido = apellido
         self.dni = dni
         self.fechaNacimiento = fechaNacimiento
-        self.email = email
-        self.telefono = telefono
-        self.resumenHC = resumenHC
-        self.password = dni
         self.rol = 3
