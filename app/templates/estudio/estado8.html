@@ -24,8 +24,14 @@
                     {% if estudio.estadoActual > 8 %}
                     <h6><strong>Resultado</strong> {% if resultado.valor %} positivo {% else %} negativo {% endif %}
                     </h6>
-                    <button id="btn-descargar" class="btn btn-outline-primary mt-5" type="button">Descargar
+                    <h6><strong>Medico informante</strong> agregar medico informante</h6>
+                    <button id="descargarCargado" class="btn btn-outline-primary mt-5" type="button">Descargar
                         informe</button>
+
+                    <div id="print" class="d-none">
+                        {{resultado.detalle}}
+                    </div>
+                    <div id="elementF"></div>
                     {% else %}
 
                     <form class="row g-3 align-items-end" id="formulario"
@@ -68,6 +74,8 @@
     {% include 'includes/workflow.html' %}
 
     <a href="{{ url_for('empleado_home') }}" class="btn btn-outline-secondary mt-5">Volver a home</a>
+
+    <div id="newInfo"></div>
 </div>
 
 
@@ -100,13 +108,31 @@
 
 </script>
 
-
-
-
 <script>
 
     $(document).ready(function () {
 
+        //informe ya cargado
+        document.querySelector('#print').innerHTML = document.querySelector('#print').innerText
+        let btnDescargaCargado = document.querySelector('#descargarCargado')
+        btnDescargaCargado.addEventListener('click',
+            function descargarInformeGuardado() {
+                console.log('asdasdasdasd')
+
+                var doc = new jsPDF();
+                var elementHTML = $('#print').html();
+                var specialElementHandlers = {
+                    '#elementF': function (element, renderer) {
+                        return true;
+                    }
+                };
+                doc.fromHTML(elementHTML, 15, 15, {
+                    'width': 700,
+                    'elementHandlers': specialElementHandlers
+                });
+                doc.save('consentimiento.pdf');
+            }
+        )
 
 
         var informe = document.getElementById('summernote');
@@ -124,7 +150,8 @@
             } else {
                 submit.disabled = false;
                 descarga.hidden = false;
-                document.getElementById('input-informe').value = document.querySelector('.note-editable').innerHTML
+                document.getElementById('input-informe').value = document.querySelector('.note-editable').innerHTML.trim()
+                //document.querySelector('#newInfo').innerHTML = document.getElementById('input-informe').value
             }
         });
 
@@ -142,7 +169,6 @@
                 'width': 500,
                 'elementHandlers': specialElementHandlers
             });
-
             // Save the PDF
             doc.save('informe-estudio{{estudio.id}}.pdf');
         })
@@ -156,6 +182,7 @@
         })
 
         let validar = () => ((informe.value.length > 50) && (resul != -1))
+
 
 
 

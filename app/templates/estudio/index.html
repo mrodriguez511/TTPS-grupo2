@@ -48,7 +48,8 @@
                                     <tr>
                                         <td scope="row">{{ estudio.id }}</td>
                                         <td>{{ tipoEstudio.nombre }}</td>
-                                        <td>{{ estudio.fecha }}</td>
+                                        <td>{{ estudio.fecha.strftime('%d/%m/%Y ') }}</td>
+
                                         <td>{{ paciente.nombre }} {{ paciente.apellido }}</td>
                                         {% if not (estudio.retrasado) %}
                                         <td>{{ "No" }}</td>

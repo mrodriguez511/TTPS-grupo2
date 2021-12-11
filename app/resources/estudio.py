@@ -458,9 +458,10 @@ def estudio_estado8_carga():
     estudio = Estudio.query.filter(Estudio.id == id_estudio).first()
 
     resultado = Resultado(int(valor), informe)
+
     db.session.add(resultado)
     db.session.commit()
-    # estudio.resultado_id = resultado.id
+    estudio.resultado_id = resultado.id
     estudio.estadoActual += 1
 
     db.session.commit()
@@ -488,6 +489,18 @@ def estudio_estado9():
     medico = MedicoDerivante.query.filter(
         MedicoDerivante.id == estudio.medicoDerivante
     ).first()
+
+    if estudio.estadoActual > 9:
+        fecha_envio = Estado.query.filter(
+            and_(Estado.estudio == estudio_id, Estado.numero == 9)
+        ).one()
+        return render_template(
+            "estudio/estado9.html",
+            estudio=estudio,
+            resultado=resultado,
+            medico=medico,
+            fecha=fecha_envio,
+        )
 
     return render_template(
         "estudio/estado9.html", estudio=estudio, resultado=resultado, medico=medico
