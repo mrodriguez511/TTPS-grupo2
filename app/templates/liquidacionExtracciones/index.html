@@ -23,12 +23,39 @@
                 <div class="row">
                     <div class="col-11">
                         <div class="card">
+                            <div class="modal fade" id="modalPago">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title">Pago de extracciones</h4>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+
+                                        <div class="modal-body">
+                                            <p>Monto a abonar: <strong id="montoPago">$</strong> </p>
+
+                                        </div>
+                                        <div class="modal-footer justify-content-between">
+                                            <button type="button" class="btn btn-outline-danger" data-dismiss="modal"
+                                                aria-label="Close">
+                                                <span aria-hidden="true">Cancelar</span>
+                                            </button>
+
+                                            <button type="submit" class="btn btn-success">
+                                                Pagar</button>
+                                        </div>
+
+                                    </div>
+                                    <!-- /.modal-content -class="btn btn-outline-danger"-->
+                                </div>
+                                <!-- /.modal-dialog -->
+                            </div>
+                            <!-- /.modal -->
                             <div class="card-header">
-
-
                             </div>
                             <!-- /.card-header -->
-
                             <div class="card-body">
                                 <table id="table2" class="table table-bordered table-striped">
                                     <thead>
@@ -43,8 +70,6 @@
                                     </thead>
                                     <tbody>
                                         {% for estudio,paciente,tipoEstudio in estudios %}
-
-
                                         <tr>
                                             <td scope="row">{{ estudio.id }}</td>
                                             <td>{{ paciente.nombre }} {{ paciente.apellido }}</td>
@@ -53,16 +78,15 @@
                                             <td>{{ "$800" }}</td>
                                             <td>
                                                 <div class="form-check w-100 mx-auto">
-                                                    <input class="form-check-input" name="check_liquidar"
-                                                        type="checkbox" value="{{estudio.id}}" id="check">
-
+                                                    <input class="form-check-input" name="checkbox" type="checkbox"
+                                                        value="{{estudio.id}}" id="check">
                                                 </div>
                                             </td>
                                         </tr>
                                         {% endfor %}
                                         <div class="container py-5">
-                                            <input type="submit" class="btn btn-success" value="Liquidar extracciones"
-                                                id="btn-enviar">
+                                            <input type="button" class="btn btn-success" value="Liquidar extracciones"
+                                                data-toggle="modal" data-target="#modalPago" id="btn-abrir" disabled>
                                             <input type="text" name="estudios" hidden id="estudios">
                                         </div>
 
@@ -120,37 +144,28 @@
 
 
 <script>
-    var submit = document.getElementById('btn-enviar');
+    document.addEventListener("DOMContentLoaded", function (event) {
 
+        let btnAbrir = document.querySelector('#btn-abrir');
+        let form = document.querySelector('form')
+        let checks = form.checkbox
+        console.log(checks)
+        let contPago = 0;
 
-    $('input.form-check-input').change(function () {
-        if ($("input:checked").length > 0) {
-            $("input[type=checkbox]").each(function () {
-                submit.disabled = false
-            });
-        } else {
-            $("input[type=checkbox]").each(function () {
-                submit.disabled = true
-            });
-        }
-    });
-
-
-    let form = document.getElementById('formulario')
-
-    form.addEventListener("submit", function (e) {
-        let estudios = ''
-        $("input[type=checkbox]").each(function () {
-            if ($(this).is(":checked")) {
-                estudios += this.value + ','
-            }
+        checks.forEach(check => {
+            check.addEventListener('change', (event) => {
+                event.target.checked ? contPago++ : contPago--
+                btnAbrir.disabled = contPago === 0
+            })
         });
-        estudios = estudios.substr(0, estudios.length - 1);
-        document.getElementById('estudios').value = estudios
+
+        btnAbrir.addEventListener('click', () => {
+            if (contPago > 0)
+                document.querySelector('#montoPago').innerText = '$' + (contPago * 800);
+        })
+
 
     });
-
-
 
 </script>
 {% endblock %}

@@ -1,4 +1,5 @@
 from flask import redirect, render_template, session, abort, request, url_for
+from flask.helpers import flash
 from sqlalchemy.sql.operators import and_
 from app.models.estudio import Estudio
 from app.models.paciente import Paciente
@@ -40,8 +41,8 @@ def abonar():
     if not (session["rol"] == 2):
         abort(401)
 
-    estudios_id = request.form.getlist("check_liquidar")
-
+    estudios_id = request.form.getlist("checkbox")
+    flash("Extracciones abonadas")
     for estudio_id in estudios_id:
         estudio = Estudio.query.filter(Estudio.id == estudio_id).first()
         estudio.extraccionAbonada = True
