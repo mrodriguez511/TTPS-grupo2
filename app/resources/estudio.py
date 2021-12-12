@@ -18,6 +18,7 @@ from app.helpers.estados import cargarNuevoEstado
 from app.models.estado import Estado
 from app.models.estudio import Estudio
 from app.models.estado import Estado
+from app.models.medicoInformante import MedicoInformante
 from app.models.user import User
 from app.models.resultado import Resultado
 from app.models.lote import Lote
@@ -454,17 +455,21 @@ def estudio_estado8():
 
     estudio_id = request.args.get("estudio")
     estudio = Estudio.query.filter(Estudio.id == estudio_id).first()
+    medicos = MedicoInformante.query.all()
 
     if estudio.estadoActual < 8:
         flash("no puede acceder a un estado futuro")
         return redirect(url_for("home"))
     elif estudio.estadoActual > 8:
         resultado = Resultado.query.filter(Resultado.id == estudio.resultado_id).first()
+        medico = MedicoInformante.query.filter(
+            MedicoInformante.id == estudio.medicoInformante
+        ).first()
         return render_template(
-            "estudio/estado8.html", estudio=estudio, resultado=resultado
+            "estudio/estado8.html", estudio=estudio, resultado=resultado, medico=medico
         )
 
-    return render_template("estudio/estado8.html", estudio=estudio)
+    return render_template("estudio/estado8.html", estudio=estudio, medicos=medicos)
 
 
 def estudio_estado8_carga():
@@ -475,10 +480,12 @@ def estudio_estado8_carga():
 
     informe = request.form["informe"]
     valor = request.form["resultado"]
+    medico = request.form["medicoInformante"]
 
     id_estudio = request.args.get("estudio")
     estudio = Estudio.query.filter(Estudio.id == id_estudio).first()
 
+    estudio.medicoInformante = medico
     resultado = Resultado(int(valor), informe)
     db.session.add(resultado)
     db.session.commit()

@@ -4,34 +4,30 @@ from app.helpers.auth import authenticated
 from app.db import db
 
 
-def edit():
-    """permite acceder al formulario para editar usuario"""
+def index():
     if not authenticated(session):
         abort(401)
-    if not (session["rol"] == 3):
+
+    if not (session["rol"] == 4):
         abort(401)
 
     config = Configuracion.query.first()
 
-    return render_template("settings/settings.html", config=config)
+    return render_template("configurador/home.html", config=config)
 
 
-def update():
+def configurar():
     if not authenticated(session):
         abort(401)
 
-    if not (session["rol"] == 3):
+    if not (session["rol"] == 4):
         abort(401)
 
-    params = request.form
+    params = request.form["config"]
     config = Configuracion.query.first()
 
-    config.paginado = params["paginado"]
-    config.paleta_AppPublica = params["paleta_AppPublica"]
-    config.paleta_AppPrivada = params["paleta_AppPrivada"]
-
-    config.ordenacion = int(params["ordenacion"])
+    config.pacienteObligado = int(params)
 
     db.session.commit()
 
-    return redirect(url_for("home"))
+    return redirect(url_for("configurador_home"))

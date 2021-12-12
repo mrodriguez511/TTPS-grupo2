@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+{% block title %}Configuracion del sistema{% endblock %}
+{% block head %}
+{{ super() }}
+
+{% endblock %}
+{% block content %}
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <h4>Configuracion del sistema</h4>
+    </div>
+    <div class="row">
+        <div class="col-10">
+            <div class="card">
+                <div class="card-header">
+                    <h6><strong>Modo actual: </strong> {% if config.pacienteObligado %} Paciente obligado {% else %}
+                        Paciente NO obligado {%
+                        endif %}</h6>
+                </div>
+                <div class="card-body">
+                    <form class="row g-3" action="{{ url_for('configurador_edit') }}" method="POST">
+                        <div class="row">
+                            <div class="col-sm-10">
+                                <div class="form-group">
+                                    <label for="inputState" class="form-label">Cambiar Modo</label>
+                                    <select name="config" class="form-control" required>
+                                        <option disabled selected value="">Seleccionar</option>
+                                        <option value={{1}}> Paciente Obligado </option>
+                                        <option value={{0}}> Paciente NO obligado </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-primary">Guardar cambio</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+{% endblock %}
