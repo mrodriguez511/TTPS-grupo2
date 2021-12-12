@@ -24,7 +24,8 @@
                     {% if estudio.estadoActual > 8 %}
                     <h6><strong>Resultado</strong> {% if resultado.valor %} positivo {% else %} negativo {% endif %}
                     </h6>
-                    <h6><strong>Medico informante</strong> agregar medico informante</h6>
+                    <h6><strong>Interpretado por:</strong> {{ medico.nombre }} {{ medico.apellido }}
+                    </h6>
                     <button id="descargarCargado" class="btn btn-outline-primary mt-5" type="button">Descargar
                         informe</button>
 
@@ -44,6 +45,18 @@
                                         <option disabled selected value="">Seleccionar</option>
                                         <option value={{1}}> Positivo </option>
                                         <option value={{0}}> Negativo </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="inputState" class="form-label">Medico Informante</label>
+
+                                    <select name="medicoInformante" id="medicoInformante" class="form-control">
+                                        <option selected value="0">Seleccionar</option>
+                                        {% for medico in medicos %}
+                                        <option value={{medico.id}}> {{medico.nombre}} {{medico.apellido}} </option>
+                                        {% endfor %}
                                     </select>
                                 </div>
                             </div>

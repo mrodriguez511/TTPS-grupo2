@@ -88,6 +88,15 @@ def create_app(environment="development"):
         methods=["POST"],
     )
 
+    # Rutas del Configurador
+    app.add_url_rule("/configurador", "configurador_home", configuracion.index)
+    app.add_url_rule(
+        "/configurador/editar",
+        "configurador_edit",
+        configuracion.configurar,
+        methods=["POST"],
+    )
+
     # Rutas de Admin
     app.add_url_rule("/admin", "empleado_index", empleado.index)
     app.add_url_rule("/admin", "empleado_create", empleado.create, methods=["POST"])
@@ -259,10 +268,6 @@ def create_app(environment="development"):
 
     # Rutas de configuracion
     app.add_url_rule("/descarga", "download", estudio.download)
-    app.add_url_rule("/configuracion", "settings_edit", configuracion.edit)
-    app.add_url_rule(
-        "/configuracion", "settings_update", configuracion.update, methods=["POST"]
-    )
 
     # Ruta para el Home (usando decorator)
     app.add_url_rule("/", "home", auth.home)

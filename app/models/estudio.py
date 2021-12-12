@@ -19,6 +19,7 @@ class Estudio(db.Model):
     anulado = Column(Boolean)
     tipoEstudio = Column(Integer, ForeignKey("tiposEstudios.id"))
     medicoDerivante = Column(Integer, ForeignKey("medicosDerivantes.id"))
+    medicoInformante = Column(Integer, ForeignKey("medicosInformantes.id"))
     paciente = Column(Integer, ForeignKey("pacientes.id"))
     empleado = Column(Integer, ForeignKey("users.id"))
     diagnosticoPresuntivo = Column(Integer, ForeignKey("diagnosticosPresuntivos.id"))

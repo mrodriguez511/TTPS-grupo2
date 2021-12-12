@@ -6,6 +6,7 @@ import csv
 from app.models.diagnosticoPresuntivo import DiagnosticoPresuntivo
 from app.models.resultado import Resultado
 from app.models.medicoDerivante import MedicoDerivante
+from app.models.medicoInformante import MedicoInformante
 from app.models.estado import Estado
 from app.models.lote import Lote
 from app.models.obraSocial import ObraSocial
@@ -28,10 +29,12 @@ def carga():
     rol1 = Rol(name="administrador")
     rol2 = Rol(name="empleado")
     rol3 = Rol(name="paciente")
+    rol4 = Rol(name="configurador")
 
     db.session.add(rol1)
     db.session.add(rol2)
     db.session.add(rol3)
+    db.session.add(rol4)
 
     usuario1 = User(
         first_name="admin",
@@ -51,12 +54,23 @@ def carga():
         rol=2,
     )
 
+    usuario3 = User(
+        first_name="configurador",
+        last_name="uno",
+        dni=55555555,
+        email="config@gmail.com",
+        password="123",
+        rol=4,
+    )
+
     db.session.add(usuario1)
     db.session.add(usuario2)
+    db.session.add(usuario3)
     cargarConfig()
     cargarObrasSociales()
     cargarPacientes()
     cargarMedicosDerivantes()
+    cargarMedicosInformantes()
     cargarTiposDeEstudio()
     cargarDiagonosticos()
     cargarEstudios()
@@ -67,9 +81,7 @@ def carga():
 def cargarConfig():
     from app.models.configuracion import Configuracion
 
-    config = Configuracion(
-        paginado=10, paleta_AppPublica=1, paleta_AppPrivada=1, ordenacion=True
-    )
+    config = Configuracion(True)
     db.session.add(config)
     db.session.commit()
 
@@ -85,6 +97,19 @@ def cargarMedicosDerivantes():
     ]
 
     for medico in medicosDerivantes:
+        db.session.add(medico)
+    db.session.commit()
+
+
+def cargarMedicosInformantes():
+    medicosInformantes = [
+        MedicoInformante("medicoInformante1", "uno", 1234),
+        MedicoInformante("medicoInformante2", "dos", 2345),
+        MedicoInformante("medicoInformante3", "tres", 3456),
+        MedicoInformante("medicoInformante4", "cuatro", 4567),
+    ]
+
+    for medico in medicosInformantes:
         db.session.add(medico)
     db.session.commit()
 
@@ -106,29 +131,27 @@ def cargarPacientes():
     fecha1 = datetime.date(2000, 5, 17)
     fecha2 = datetime.date(2005, 6, 10)
 
-    pacientes = [
-        Paciente(
-            "Paciente1",
-            "uno",
-            4444,
-            fecha1,
-            "paciente1@gmail.com",
-            1111,
-            "El paciente presenta multiples fracturas desde niño",
-        ),
-        Paciente(
-            "Paciente2",
-            "dos",
-            2222,
-            fecha2,
-            "paciente2@gmail.com",
-            54321,
-            "El paciente presenta alteraciones detectadas en su primer año de vida",
-        ),
-    ]
+    p1 = Paciente("Paciente1", "uno", 4444, fecha1)
 
-    for paciente in pacientes:
-        db.session.add(paciente)
+    p2 = Paciente(
+        "Paciente2",
+        "dos",
+        2222,
+        fecha2,
+    )
+
+    p1.email = "paciente1@gmail.com"
+    p1.telefono = 1111
+    p1.resumenHC = "El paciente presenta multiples fracturas desde niño"
+
+    p2.email = "paciente2@gmail.com"
+    p2.telefono = 54321
+    p2.resumenHC = (
+        "El paciente presenta alteraciones detectadas en su primer año de vida"
+    )
+
+    db.session.add(p1)
+    db.session.add(p2)
     db.session.commit()
 
 

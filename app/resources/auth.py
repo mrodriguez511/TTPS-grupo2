@@ -66,6 +66,8 @@ def authenticate():
     if user.rol == 1:
         return redirect(url_for("empleado_index"))
 
+    if user.rol == 4:
+        return redirect(url_for("configurador_home"))
     # return redirect(url_for("estudio_index"))
     return redirect(url_for("empleado_home"))
 
