@@ -1,5 +1,5 @@
 {% extends "layout.html" %}
-{% block title %}Estudios esperando formar lote{% endblock %}
+{% block title %}Procesar Lote{% endblock %}
 {% block head %}
 {{ super() }}
 <!-- DataTables -->
@@ -11,24 +11,53 @@
 {% endblock %}
 {% block body_class %} sidebar-mini sidebar-collapse{% endblock body_class %}
 {% block content %}
-<form id="formulario" action="{{ url_for('estudiosParaCrearLote_formarLote') }}" method="POST">
+<form id="formulario" action="{{ url_for('lote_enProcesamiento_agregarURL', id=lote) }}" method="POST">
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
 
         <div class="content-header">
-            <h1>Estudios esperando formar lote</h1>
+            <h1>Estudios del lote #{{lote}}</h1>
         </div>
         <section class="">
             <div class="">
                 <div class="row">
                     <div class="col-11">
                         <div class="card">
+                            <div class="modal fade" id="modalPago">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title">Ingresar URL</h4>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+
+                                        <div class="modal-body">
+                                            <input type="text" name="url" id="url" class="w-100"
+                                                placeholder="Ingrese url del lote" required>
+
+                                        </div>
+                                        <div class="modal-footer justify-content-between">
+                                            <button type="button" class="btn btn-outline-danger" data-dismiss="modal"
+                                                aria-label="Close">
+                                                <span aria-hidden="true">Cancelar</span>
+                                            </button>
+
+                                            <button type="submit" class="btn btn-success">
+                                                Agregar URL</button>
+                                        </div>
+
+                                    </div>
+                                    <!-- /.modal-content -class="btn btn-outline-danger"-->
+                                </div>
+                                <!-- /.modal-dialog -->
+                            </div>
+                            <!-- /.modal -->
                             <div class="card-header">
-
-
+                                <h6>*Seleccionar estudios cuya muestra haya sido correcta y/o suficiente</h6>
                             </div>
                             <!-- /.card-header -->
-
                             <div class="card-body">
                                 <table id="table2" class="table table-bordered table-striped">
                                     <thead>
@@ -36,36 +65,30 @@
                                             <th scope="col">Estudio#</th>
                                             <th scope="col">Paciente</th>
                                             <th scope="col">Tipo de estudio</th>
-                                            <th scope="col">Toma de muestra</th>
+                                            <th scope="col">Fecha Inicio</th>
                                             <th scope="col">Seleccionar</th>
                                         </tr>
                                     </thead>
-
-
                                     <tbody>
-                                        {% for estudio,paciente,tipoEstudio in estudios %}
+                                        {% for estudio,tipoEstudio,paciente in estudios %}
                                         <tr>
                                             <td scope="row">{{ estudio.id }}</td>
                                             <td>{{ paciente.nombre }} {{ paciente.apellido }}</td>
                                             <td>{{ tipoEstudio.nombre }}</td>
-                                            <td>{{ estudio.turno.strftime('%d/%m/%Y - %H:%M') }}</td>
+                                            <td>{{ estudio.fecha.strftime('%d/%m/%Y - %H:%M') }}</td>
                                             <td>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" name="check_formarLote"
-                                                        type="checkbox" value="{{estudio.id}}" id="check">
-                                                    <label class="form-check-label" for="flexCheckDefault">
-                                                    </label>
+                                                <div class="form-check w-100 mx-auto">
+                                                    <input class="form-check-input" name="checkbox" type="checkbox"
+                                                        value="{{estudio.id}}" id="check">
                                                 </div>
                                             </td>
                                         </tr>
                                         {% endfor %}
-
                                         <div class="container py-5">
-                                            <button id="btn-enviar" type="submit" class="btn btn-primary "
-                                                disabled>Formar Lote</button>
+                                            <input type="button" class="btn btn-success" value="Ingresar URL"
+                                                data-toggle="modal" data-target="#modalPago" id="btn-abrir" disabled>
                                             <input type="text" name="estudios" hidden id="estudios">
                                         </div>
-
 
                                     </tbody>
                                 </table>
@@ -90,13 +113,14 @@
 <script src="/static/assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
 <script src="/static/assets/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
 <script src="/static/assets/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+<script src="/static/assets/plugins/jszip/jszip.min.js"></script>
+<script src="/static/assets/plugins/pdfmake/pdfmake.min.js"></script>
+<script src="/static/assets/plugins/pdfmake/vfs_fonts.js"></script>
 <script src="/static/assets/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
 <script src="/static/assets/plugins/datatables-buttons/js/buttons.print.min.js"></script>
 <script src="/static/assets/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
 <!-- Page specific script -->
 <script>
-
-
     $(function () {
         $("#tabla").DataTable({
             "responsive": true, "lengthChange": false, "autoWidth": false,
@@ -119,42 +143,30 @@
 </script>
 
 
-<script type="text/javascript">
-    var submit = document.getElementById('btn-enviar');
-    var limite = 2;
+<script>
+    document.addEventListener("DOMContentLoaded", function (event) {
+        console.log(document.querySelector('#url'))
 
-    $('input.form-check-input').change(function () {
-        if ($("input:checked").length == limite) {
-            $("input[type=checkbox]").each(function () {
-                if (!$(this).is(":checked")) {
-                    this.disabled = true;
-                }
-                submit.disabled = false
-            });
-        } else {
-            $("input[type=checkbox]").each(function () {
-                if (!$(this).is(":checked")) {
-                    this.disabled = false;
-                }
-                submit.disabled = true
-            });
-        }
-    });
+        let btnAbrir = document.querySelector('#btn-abrir');
+        let form = document.querySelector('form')
+        let checks = form.checkbox
+        console.log(checks)
+        let contPago = 0;
 
-
-    let form = document.getElementById('formulario')
-
-    form.addEventListener("submit", function (e) {
-
-        let estudios = ''
-        $("input[type=checkbox]").each(function () {
-            if ($(this).is(":checked")) {
-                estudios += this.value + ','
-            }
+        checks.forEach(check => {
+            check.addEventListener('change', (event) => {
+                event.target.checked ? contPago++ : contPago--
+                btnAbrir.disabled = contPago === 0
+            })
         });
-        estudios = estudios.substr(0, estudios.length - 1);
-        document.getElementById('estudios').value = estudios
+
+        btnAbrir.addEventListener('click', () => {
+            if (contPago > 0)
+                document.querySelector('#montoPago').innerText = '$' + (contPago * 800);
+        })
+
 
     });
+
 </script>
 {% endblock %}

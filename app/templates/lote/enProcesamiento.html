@@ -33,13 +33,18 @@
                                 <thead>
                                     <tr>
                                         <th scope="col">Lote #</th>
-                                        <th scope="col">Procesamiento</th>
+                                        <th scope="col">Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {% for lote in lotes %}
                                     <tr>
                                         <td scope="row">{{ lote.id }}</td>
+                                        <td>
+                                            <a href="{{ url_for('lote_enProcesamiento_verEstudios', id=lote.id)}}"
+                                                class="btn btn-primary btn-sm">Ver
+                                                estudios</a>
+                                        </td>
                                         <td>
                                             <div class="modal fade" id="url{{lote.id}}">
                                                 <div class="modal-dialog">

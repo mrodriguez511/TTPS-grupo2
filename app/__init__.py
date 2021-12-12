@@ -168,6 +168,10 @@ def create_app(environment="development"):
     )
 
     app.add_url_rule(
+        "/lotes/verEstudios", "lote_enProcesamiento_verEstudios", lote.verEstudios
+    )
+
+    app.add_url_rule(
         "/lotes/lotesEnProcesamiento/URL",
         "lote_enProcesamiento_agregarURL",
         lote.agregarURL,
