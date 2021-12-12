@@ -45,48 +45,6 @@
                                                 class="btn btn-primary btn-sm">Ver
                                                 estudios</a>
                                         </td>
-                                        <td>
-                                            <div class="modal fade" id="url{{lote.id}}">
-                                                <div class="modal-dialog">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h4 class="modal-title">Agregar URL</h4>
-                                                            <button type="button" class="close" data-dismiss="modal"
-                                                                aria-label="Close">
-                                                                <span aria-hidden="true">&times;</span>
-                                                            </button>
-                                                        </div>
-                                                        <form
-                                                            action="{{ url_for('lote_enProcesamiento_agregarURL',id=lote.id) }}"
-                                                            method="POST">
-                                                            <div class="modal-body">
-                                                                <input type="text" name="lote" id="lote"
-                                                                    value={{lote.id}} hidden>
-                                                                <input type="text" name="url" id="url" class="w-100"
-                                                                    placeholder="Ingrese url del lote" required>
-                                                            </div>
-                                                            <div class="modal-footer justify-content-between">
-                                                                <button type="button" class="btn btn-outline-danger"
-                                                                    data-dismiss="modal" aria-label="Close">
-                                                                    <span aria-hidden="true">Cancelar</span>
-                                                                </button>
-
-                                                                <button type="submit" class="btn btn-success">
-                                                                    Guardar URL</button>
-                                                            </div>
-                                                        </form>
-                                                    </div>
-                                                    <!-- /.modal-content -class="btn btn-outline-danger"-->
-                                                </div>
-                                                <!-- /.modal-dialog -->
-                                            </div>
-                                            <!-- /.modal -->
-
-                                            <a class="btn btn-success btn-sm" id="customSwitch3" data-toggle="modal"
-                                                data-target="#url{{lote.id}}"> Ingresar URL
-                                            </a>
-
-                                        </td>
 
                                     </tr>
                                     {% endfor %}

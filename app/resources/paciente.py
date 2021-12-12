@@ -136,7 +136,7 @@ def editar_paciente():
 
     if not authenticated(session):
         abort(401)
-    if not (session["rol"] == 2):
+    if not (session["rol"] == 2) and not (session["rol"] == 3):
         abort(401)
 
     paciente_id = request.args.get("id")
@@ -155,7 +155,7 @@ def update_paciente():
 
     if not authenticated(session):
         abort(401)
-    if not (session["rol"] == 2):
+    if not (session["rol"] == 2) and not (session["rol"] == 3):
         abort(401)
 
     paciente_id = request.args.get("id")
