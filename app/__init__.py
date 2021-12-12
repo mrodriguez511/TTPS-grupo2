@@ -236,6 +236,19 @@ def create_app(environment="development"):
         estudio.estudio_estado2_carga,
         methods=["POST"],
     )
+
+    app.add_url_rule(
+        "/paciente/estudio2",
+        "paciente_estudio_estado2",
+        estudio_paciente.estudio_estado2,
+    )
+    app.add_url_rule(
+        "/paciente/estudio2",
+        "paciente_estudio_estado2_carga",
+        estudio_paciente.estudio_estado2_carga,
+        methods=["POST"],
+    )
+
     app.add_url_rule("/empleado/estudio3", "estudio_estado3", estudio.estudio_estado3)
     app.add_url_rule(
         "/empleado/estudio3",
@@ -243,15 +256,38 @@ def create_app(environment="development"):
         estudio.estudio_estado3_carga,
         methods=["POST"],
     )
+
+    app.add_url_rule(
+        "/paciente/estudio3",
+        "paciente_estudio_estado3",
+        estudio_paciente.estudio_estado3,
+    )
+    app.add_url_rule(
+        "/paciente/estudio3",
+        "paciente_estudio_estado3_carga",
+        estudio_paciente.estudio_estado3_carga,
+        methods=["POST"],
+    )
+
     app.add_url_rule("/empleado/estudio4", "estudio_estado4", estudio.estudio_estado4)
     app.add_url_rule(
         "/empleado/cancelarturno", "cancelar_turno", estudio.cancelar_turno
+    )
+    app.add_url_rule(
+        "/paciente/cancelarturno",
+        "paciente_cancelar_turno",
+        estudio_paciente.cancelar_turno,
     )
     app.add_url_rule(
         "/empleado/estudio4",
         "estudio_estado4_carga",
         estudio.estudio_estado4_carga,
         methods=["POST"],
+    )
+    app.add_url_rule(
+        "/paciente/estudio4",
+        "paciente_estudio_estado4",
+        estudio_paciente.estudio_estado4,
     )
 
     app.add_url_rule("/empleado/estudio5", "estudio_estado5", estudio.estudio_estado5)
@@ -279,6 +315,17 @@ def create_app(environment="development"):
     app.add_url_rule("/empleado/estudio9", "estudio_estado9", estudio.estudio_estado9)
     app.add_url_rule(
         "/empleado/estudio10", "estudio_estado10", estudio.estudio_estado10
+    )
+
+    app.add_url_rule(
+        "/paciente/estudio5",
+        "paciente_estudio_estado5",
+        estudio_paciente.estudio_estado5,
+    )
+    app.add_url_rule(
+        "/paciente/estudiofin",
+        "paciente_estudio_estado10",
+        estudio_paciente.estudio_finalizado,
     )
 
     app.add_url_rule(

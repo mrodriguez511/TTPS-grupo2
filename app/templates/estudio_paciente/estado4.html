@@ -19,8 +19,7 @@
                     <h3 class="card-title">Esperando extracción de muestra</h3>
                 </div>
                 <div class="card-body">
-                    {% if estudio.estadoActual <= 4 %} <form class="row g-3 align-items-end"
-                        action="{{ url_for('estudio_estado4_carga' , estudio=estudio.id) }}" method="POST">
+                    {% if estudio.estadoActual <= 4 %} 
                         <div class="col-md-8">
                             <div class="modal fade" id="cancelarturno">
                                 <div class="modal-dialog">
@@ -37,7 +36,7 @@
                                         </div>
                                         <div class="modal-footer justify-content-between">
                                             <a type="button" class="btn btn-danger"
-                                                href="{{ url_for('cancelar_turno', estudio=estudio.id)}}">Cancelar
+                                                href="{{ url_for('paciente_cancelar_turno', estudio=estudio.id)}}">Cancelar
                                                 turno</a>
                                             <button type="button" class="btn btn-default"
                                                 data-dismiss="modal">Close</button>
@@ -49,32 +48,12 @@
                             </div>
                             <!-- /.modal -->
                             <h4>Turno agendado para el {{ estudio.turno.strftime('%d/%m/%Y a las %H:%M') }}</h4>
-                            <a class="btn btn-outline-danger btn-sm" data-toggle="modal"
+                            <a class="btn btn-outline-danger btn-sm" id="btn-cancelar" data-toggle="modal"
                                 data-target="#cancelarturno">Cancelar
                                 turno </a>
                         </div>
-                        <div class="row col-md-8 mt-5">
-                            <div class="col-sm-4">
-                                <div class="form-group">
-                                    <label for="inputEmail4" class="form-label">Tamaño de muestra (ml)</label>
 
-                                    <input type="number" name="muestra" id="muestra" class="form-control" min="5"
-                                        max="12.5" step="0.01" autocomplete="off" required>
-                                </div>
-                            </div>
-                            <p></p>
-                            <div class="col-sm-4">
-                                <div class="form-group">
-                                    <label for="inputEmail4" class="form-label">Numero de freezer</label>
-                                    <input type="number" name="freezer" id="freezer" class="form-control"
-                                        autocomplete="off" required>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <button id="btn-enviar" type="submit" class="btn btn-primary mt-5"
-                                disabled>Siguiente</button>
-                        </div>
+                        
                         </form>
                         {% else %}
                         <h4>Extracción realizada el {{ estudio.turno.strftime('%d/%m/%Y a las %H:%M') }}</h4>
@@ -84,7 +63,8 @@
             </div>
         </div>
     </div>
-    {% include 'includes/workflow.html' %}
+    {% include 'includes/workflow_paciente.html' %}
+
 
     <a href="{{ url_for('empleado_home') }}" class="btn btn-outline-secondary mt-5">Volver a home</a>
 </div>
@@ -107,19 +87,16 @@
 
 <script type="text/javascript">
 
-    var freezer = document.getElementById('muestra');
-    var muestra = document.getElementById('freezer');
+    var cancelar = document.getElementById('btn-cancelar');
     var submit = document.getElementById('btn-enviar');
 
     let validarfecha = () => {
         turno = new Date('{{estudio.turno}}')
 
-        if (turno > new Date()) {
-            freezer.disabled = true
-            muestra.disabled = true
+        if (turno < new Date()) {
+            cancelar.disabled = true
+            cancelar.hidden = true
         }
-        console.log(turno)
-
     }
     validarfecha()
 

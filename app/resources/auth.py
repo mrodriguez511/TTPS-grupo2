@@ -8,7 +8,6 @@ from operator import and_
 
 
 def login():
-
     return render_template("auth/login.html")
 
 
@@ -22,6 +21,9 @@ def home():
 
     if session["rol"] == 1:
         return redirect(url_for("empleado_index"))
+
+    if session["rol"] == 3:
+        return redirect(url_for("paciente_home"))
 
     return redirect(url_for("empleado_home"))
 

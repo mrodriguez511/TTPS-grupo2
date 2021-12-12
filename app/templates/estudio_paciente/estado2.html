@@ -21,7 +21,7 @@
                 <div class="card-body">
                     {% if estudio.estadoActual <= 2 %} <form class="row g-3 align-items-end"
                         enctype="multipart/form-data"
-                        action="{{ url_for('estudio_estado2_carga' , estudio=estudio.id) }}" method="POST">
+                        action="{{ url_for('paciente_estudio_estado2_carga' , estudio=estudio.id) }}" method="POST">
 
                         <div class="col-md-8">
 
@@ -67,23 +67,23 @@
                                 disabled>Siguiente</button>
                         </div>
                         </form>
-                        
+
                         {% else %}
-                    <div class="col-md-8">
-                        <a href="{{ url_for('download', filename=firmado) }}" target="_blank"
-                            class="btn btn-outline-secondary btn-sm">Descargar archivo consentimiento firmado</a>
-                    </div>
+                        <div class="col-md-8">
+                            <a href="{{ url_for('download', filename=firmado) }}" target="_blank"
+                                class="btn btn-outline-secondary btn-sm">Descargar archivo consentimiento firmado</a>
+                        </div>
 
 
-                    {% endif %}
+                        {% endif %}
 
                 </div>
             </div>
         </div>
     </div>
-    {% include 'includes/workflow.html' %}
+    {% include 'includes/workflow_paciente.html' %}
 
-    <a href="{{ url_for('empleado_home') }}" class="btn btn-outline-secondary mt-5">Volver a home</a>
+    <a href="{{ url_for('home') }}" class="btn btn-outline-secondary mt-5">Volver a home</a>
 </div>
 
 

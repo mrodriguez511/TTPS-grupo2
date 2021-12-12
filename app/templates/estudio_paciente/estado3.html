@@ -22,10 +22,10 @@
                 </div>
                 <div class="card-body">
                     {% if estudio.estadoActual <= 3 %} <form class="row g-3 align-items-start justify-content-around"
-                        id="formulario" action="{{ url_for('estudio_estado3_carga' , estudio=estudio.id) }}"
+                        id="formulario" action="{{ url_for('paciente_estudio_estado3_carga' , estudio=estudio.id) }}"
                         method="POST">
                         <div class="col-4 form-group">
-                            <label>Asignar turno:</label>
+                            <label>Mira la agenda y seleccioná tu turno:</label>
                             <div class="row ml-1">
                                 <input type="date" id="fecha" name="fecha" value=""
                                     min="{ (datetime.datetime.today().date()-object.date_due).days }">
@@ -68,7 +68,7 @@
             </div>
         </div>
     </div>
-    {% include 'includes/workflow.html' %}
+    {% include 'includes/workflow_paciente.html' %}
     <a href="{{ url_for('empleado_home') }}" class="btn btn-outline-secondary mt-5">Volver a home</a>
 </div>
 
