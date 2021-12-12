@@ -8,6 +8,7 @@ from app import db
 from app.resources import (
     empleado,
     estudio,
+    estudio_paciente,
     lote,
     liquidacionExtracciones,
     paciente,
@@ -115,6 +116,9 @@ def create_app(environment="development"):
         "/empleado/estudios/actualizarEstados", "estudio_actualizar", estudio.actualizar
     )
     app.add_url_rule("/empleado/estudios/ver_estudio", "estudio_ver", estudio.ver)
+    app.add_url_rule(
+        "/paciente/estudios/ver_estudio", "paciente_estudio_ver", estudio_paciente.ver
+    )
 
     # estudio estado 0
     app.add_url_rule("/empleado/nuevo_estudio", "estudio_new", estudio.new_estudio)
@@ -131,7 +135,7 @@ def create_app(environment="development"):
         paciente.create_paciente,
         methods=["POST"],
     )
-    app.add_url_rule("/paciente", "paciente_home", estudio.misEstudios)
+    app.add_url_rule("/paciente", "paciente_home", estudio_paciente.misEstudios)
 
     app.add_url_rule(
         "/empleado/edit_paciente",
@@ -205,11 +209,26 @@ def create_app(environment="development"):
     # estudio estado 1
     app.add_url_rule("/empleado/estudio1", "estudio_estado1", estudio.estudio_estado1)
     app.add_url_rule(
+        "/empleado/validarComprobante", "validarComprobante", estudio.validarComprobante
+    )
+    app.add_url_rule(
         "/empleado/estudio1",
         "estudio_estado1_carga",
         estudio.estudio_estado1_carga,
         methods=["POST"],
     )
+    app.add_url_rule(
+        "/paciente/estudio1",
+        "paciente_estudio_estado1",
+        estudio_paciente.estudio_estado1,
+    )
+    app.add_url_rule(
+        "/paciente/estudio1",
+        "paciente_estudio_estado1_carga",
+        estudio_paciente.estudio_estado1_carga,
+        methods=["POST"],
+    )
+
     app.add_url_rule("/empleado/estudio2", "estudio_estado2", estudio.estudio_estado2)
     app.add_url_rule(
         "/empleado/estudio2",

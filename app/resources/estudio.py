@@ -57,28 +57,6 @@ def index():
     return render_template("estudio/index.html", estudios=estudios)
 
 
-def misEstudios():
-    """listado de estudios"""
-
-    if not authenticated(session):
-        abort(401)
-
-    if not (session["rol"] == 3):
-        abort(401)
-
-    estudios = (
-        db.session.query(Estudio, TipoEstudio)
-        .filter(
-            and_(
-                Estudio.tipoEstudio == TipoEstudio.id, Estudio.paciente == session["id"]
-            )
-        )
-        .all()
-    )
-
-    return render_template("paciente/home.html", estudios=estudios)
-
-
 def listar():
     if not authenticated(session):
         abort(401)
@@ -177,6 +155,29 @@ def estudio_estado1():
         estudio=estudio,
         filename=estudio.archivoPresupuesto,
     )
+
+
+def validarComprobante():
+    if not authenticated(session):
+        abort(401)
+    if not (session["rol"] == 2):
+        abort(401)
+
+    id_estudio = request.args.get("estudio")
+    validacion = request.args.get("value")
+    estudio = Estudio.query.filter(Estudio.id == id_estudio).first()
+
+    if validacion == "1":
+        estudio.estadoActual += 1
+        estudio.comprobanteValido = 1
+        db.session.commit()
+        cargarNuevoEstado(estudio)
+        return redirect(url_for("estudio_estado2", estudio=estudio.id))
+
+    else:
+        estudio.comprobanteDePago = None
+        db.session.commit()
+        return redirect(url_for("estudio_estado1", estudio=estudio.id))
 
 
 def estudio_estado1_carga():

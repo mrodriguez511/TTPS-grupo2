@@ -1,0 +1,89 @@
+{% extends "layout.html" %}
+{% block title %}Usuarios{% endblock %}
+{% block head %}
+{{ super() }}
+
+
+{% endblock %}
+{% block content %}
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <h3>Estudio #{{estudio.id}}</h3>
+    </div>
+    <div class="row">
+        <div class="col-10">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Estudio finalizado</h3>
+                </div>
+                <div class="card-body my-5 text-center">
+
+                    <div class="mx-auto">
+                        <h3> <i class="fas fa-check"></i> Resultado Enviado
+                        </h3>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    {% include 'includes/workflow.html' %}
+
+    <a href="{{ url_for('empleado_home') }}" class="btn btn-outline-secondary mt-5">Volver a home</a>
+</div>
+
+
+
+
+
+{% endblock %}
+
+{% block scripts %}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.min.js"></script>
+
+
+<script>
+
+    $(document).ready(function () {
+
+
+        var check = document.getElementById('enviado');
+        var guardar = document.getElementById('btn-guardar');
+        var descarga = document.getElementById('btn-descargar')
+
+
+        check.addEventListener("click", function () {
+            if (informe.value)
+                submit.disabled = false;
+
+        });
+
+        descarga.addEventListener("click", function () {
+            let contenido = '{{resultado.detalle}}'
+
+            var doc = new jsPDF();
+            var elementHTML = contenido
+            var specialElementHandlers = {
+                '#elementH': function (element, renderer) {
+                    return true;
+                }
+            };
+            doc.fromHTML(elementHTML, 15, 15, {
+                'width': 700,
+                'elementHandlers': specialElementHandlers
+            });
+
+            // Save the PDF
+            doc.save('informe-estudio{{estudio.id}}.pdf');
+        })
+
+    })
+
+
+</script>
+
+{% endblock %}

@@ -1,0 +1,138 @@
+{% extends "layout.html" %}
+{% block title %}Usuarios{% endblock %}
+{% block head %}
+{{ super() }}
+
+
+{% endblock %}
+{% block content %}
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <h3>Estudio #{{estudio.id}}</h3>
+    </div>
+    <div class="row">
+        <div class="col-10">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Esperando extracción de muestra</h3>
+                </div>
+                <div class="card-body">
+                    {% if estudio.estadoActual <= 4 %} <form class="row g-3 align-items-end"
+                        action="{{ url_for('estudio_estado4_carga' , estudio=estudio.id) }}" method="POST">
+                        <div class="col-md-8">
+                            <div class="modal fade" id="cancelarturno">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title"></h4>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>¿Desea cancelar el turno para la extracción de muestra?</p>
+                                            <strong>{{ estudio.turno.strftime('%Y-%m-%d a las %H:%M') }} </strong>
+                                        </div>
+                                        <div class="modal-footer justify-content-between">
+                                            <a type="button" class="btn btn-danger"
+                                                href="{{ url_for('cancelar_turno', estudio=estudio.id)}}">Cancelar
+                                                turno</a>
+                                            <button type="button" class="btn btn-default"
+                                                data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                    <!-- /.modal-content -->
+                                </div>
+                                <!-- /.modal-dialog -->
+                            </div>
+                            <!-- /.modal -->
+                            <h4>Turno agendado para el {{ estudio.turno.strftime('%d/%m/%Y a las %H:%M') }}</h4>
+                            <a class="btn btn-outline-danger btn-sm" data-toggle="modal"
+                                data-target="#cancelarturno">Cancelar
+                                turno </a>
+                        </div>
+                        <div class="row col-md-8 mt-5">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="inputEmail4" class="form-label">Tamaño de muestra (ml)</label>
+
+                                    <input type="number" name="muestra" id="muestra" class="form-control" min="5"
+                                        max="12.5" step="0.01" autocomplete="off" required>
+                                </div>
+                            </div>
+                            <p></p>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="inputEmail4" class="form-label">Numero de freezer</label>
+                                    <input type="number" name="freezer" id="freezer" class="form-control"
+                                        autocomplete="off" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <button id="btn-enviar" type="submit" class="btn btn-primary mt-5"
+                                disabled>Siguiente</button>
+                        </div>
+                        </form>
+                        {% else %}
+                        <h4>Extracción realizada el {{ estudio.turno.strftime('%d/%m/%Y a las %H:%M') }}</h4>
+                        {% endif %}
+
+                </div>
+            </div>
+        </div>
+    </div>
+    {% include 'includes/workflow.html' %}
+
+    <a href="{{ url_for('empleado_home') }}" class="btn btn-outline-secondary mt-5">Volver a home</a>
+</div>
+
+
+
+
+
+
+
+
+{% endblock %}
+{% block scripts %}
+
+
+
+<!-- bs-custom-file-input -->
+<script src="/static/assets/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
+
+
+<script type="text/javascript">
+
+    var freezer = document.getElementById('muestra');
+    var muestra = document.getElementById('freezer');
+    var submit = document.getElementById('btn-enviar');
+
+    let validarfecha = () => {
+        turno = new Date('{{estudio.turno}}')
+
+        if (turno > new Date()) {
+            freezer.disabled = true
+            muestra.disabled = true
+        }
+        console.log(turno)
+
+    }
+    validarfecha()
+
+
+    freezer.addEventListener('change', function () {
+        submit.disabled = (freezer.value && muestra.value) ? false : true
+    });
+    muestra.addEventListener('change', function () {
+        submit.disabled = (freezer.value && muestra.value) ? false : true
+    });
+
+
+
+</script>
+
+{% endblock %}

@@ -19,31 +19,29 @@
                     <h3 class="card-title">Esperando comprobante de pago</h3>
                 </div>
                 <div class="card-body">
-                    {% if estudio.estadoActual == 1 and not(estudio.comprobanteDePago) %}
+                    {% if (estudio.estadoActual == 1) and not(estudio.comprobanteDePago) %}
                     <form class="row g-3 align-items-end" enctype="multipart/form-data"
-                        action="{{ url_for('estudio_estado1_carga' , estudio=estudio.id) }}" method="POST">
+                        action="{{ url_for('paciente_estudio_estado1_carga' , estudio=estudio.id) }}" method="POST">
                         <div class="col-md-8">
 
                             <a class="btn btn-outline-secondary btn-sm" target="_blank"
                                 href="{{ url_for('download',ruta=ruta,  filename=filename) }}">Descargar
                                 presupuesto </a>
                         </div>
-                        {% if true %}
-                        {# CHECKEAR CONFIGURACION #}
                         <div class="col-md-8 mt-5">
                             <div class="custom-file">
                                 <input type="file" class="custom-file-input" name="file" id="customFile"
                                     data-buttonText="consentimiento informado firmado">
-                                <label class="custom-file-label" for="customFile">Cargar comprobante de pago enviado por
-                                    el paciente...</label>
+                                <label class="custom-file-label" for="customFile">Cargar comprobante de pago...</label>
                             </div>
                         </div>
-                        {% endif %}
+
                         <div class="col-12">
                             <button id="btn-enviar" type="submit" class="btn btn-primary mt-5"
                                 disabled>Siguiente</button>
                         </div>
                     </form>
+
                     {% else %}
 
                     <div class="col-md-8">
@@ -52,18 +50,15 @@
                             presupuesto </a>
                         <a href="{{ url_for('download', filename=comprobante) }}" target="_blank"
                             class="btn btn-outline-secondary btn-sm">Descargar
-                            comprobante de pago </a>
-                        {% if estudio.estadoActual == 1 and (estudio.comprobanteDePago) %}
-                        <div class="col-12">
-                            <a href="{{ url_for('validarComprobante', estudio=estudio.id,value=1) }}"
-                                class="btn btn-primary mt-5">Marcar comprobante
-                                como válido</a>
-                            <a href="{{ url_for('validarComprobante', estudio=estudio.id,value=0) }}"
-                                class="btn btn-danger mt-5">Denegar
-                                comprobante</a>
-                        </div>
-                        {% endif %}
+                            comprobante de pago enviado </a>
                     </div>
+                    <p class="mt-5 text-center">
+                        {% if not(estudio.comprobanteValido) %}
+                        Esperando validación de comprobante.
+                        {% else %}
+                        Comprobante válido.
+                        {% endif %}
+                    </p>
 
                     {% endif %}
 

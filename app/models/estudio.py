@@ -17,6 +17,7 @@ class Estudio(db.Model):
     mes = Column(Integer)
     retrasado = Column(Boolean)
     anulado = Column(Boolean)
+    comprobanteValido = Column(Boolean)
     tipoEstudio = Column(Integer, ForeignKey("tiposEstudios.id"))
     medicoDerivante = Column(Integer, ForeignKey("medicosDerivantes.id"))
     medicoInformante = Column(Integer, ForeignKey("medicosInformantes.id"))
@@ -60,6 +61,7 @@ class Estudio(db.Model):
         self.anulado = False
         self.extraccionAbonada = False
         self.resultadoEnviado = False
+        self.comprobanteValido = False
         self.estadoActual = 1
         if authenticated(session):
             id = session["id"]

@@ -1,0 +1,240 @@
+{% extends "layout.html" %}
+{% block title %}Usuarios{% endblock %}
+{% block head %}
+{{ super() }}
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+<link href="/static/assets/summernote.min.css" rel="stylesheet">
+
+
+
+{% endblock %}
+{% block content %}
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <h3>Estudio #{{estudio.id}}</h3>
+    </div>
+    <div class="row">
+        <div class="col-10">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Interpretación de resultado</h3>
+                </div>
+                <div class="card-body  ">
+                    {% if estudio.estadoActual > 8 %}
+                    <h6><strong>Resultado</strong> {% if resultado.valor %} positivo {% else %} negativo {% endif %}
+                    </h6>
+                    <h6><strong>Interpretado por:</strong> {{ medico.nombre }} {{ medico.apellido }}
+                    </h6>
+                    <button id="descargarCargado" class="btn btn-outline-primary mt-5" type="button">Descargar
+                        informe</button>
+
+                    <div id="print" class="d-none">
+                        {{resultado.detalle}}
+                    </div>
+                    <div id="elementF"></div>
+                    {% else %}
+
+                    <form class="row g-3 align-items-end" id="formulario"
+                        action="{{ url_for('estudio_estado8_carga' , estudio=estudio.id) }}" method="POST">
+                        <div class="card-body">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="inputState" class="form-label">Resultado</label>
+                                    <select name="resultado" class="form-control" required>
+                                        <option disabled selected value="">Seleccionar</option>
+                                        <option value={{1}}> Positivo </option>
+                                        <option value={{0}}> Negativo </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="inputState" class="form-label">Medico Informante</label>
+
+                                    <select name="medicoInformante" id="medicoInformante" class="form-control">
+                                        <option selected value="0">Seleccionar</option>
+                                        {% for medico in medicos %}
+                                        <option value={{medico.id}}> {{medico.nombre}} {{medico.apellido}} </option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <label for="summernote">Interpretación del resultado biotecnológico</label>
+                            <textarea id="summernote">
+                            {% if informe %}{{informe}}{% else %}<em>Complete Interpretación de resultado...</em>{% endif %}
+                            </textarea>
+                            <div class="d-none" id="elementH"></div>
+
+                            <button id="btn-guardar" class="btn btn-success mt-5" type="button">Guardar</button>
+                            <button id="btn-descargar" class="btn btn-primary mt-5" type="button"
+                                hidden>Descargar</button>
+                        </div>
+                        <textarea type="text" id="input-informe" name="informe" hidden> </textarea>
+
+
+
+                        <div class="col-12">
+                            <button id="btn-enviar" type="submit" class="btn btn-primary mt-5">Siguiente</button>
+
+                        </div>
+                    </form>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% include 'includes/workflow.html' %}
+
+    <a href="{{ url_for('empleado_home') }}" class="btn btn-outline-secondary mt-5">Volver a home</a>
+
+    <div id="newInfo"></div>
+</div>
+
+
+
+{% endblock %}
+
+{% block scripts %}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+
+<script>
+
+    $("#summernote").summernote({
+        tooltip: false,
+        height: 300,
+        toolbar: [
+            ['style', ['style']],
+            ['font', ['bold', 'italic', 'underline', 'strikethrough', 'superscript', 'subscript', 'clear']],
+            ['fontname', ['fontname']],
+            ['fontsize', ['fontsize']],
+            ['color', ['color']],
+            ['para', ['ol', 'ul', 'paragraph', 'height']],
+            ['table', ['table']],
+            ['insert', ['link']],
+            ['view', ['undo', 'redo', 'fullscreen', 'codeview']]
+        ]
+    });
+
+</script>
+
+<script>
+
+    $(document).ready(function () {
+
+        //informe ya cargado
+        document.querySelector('#print').innerHTML = document.querySelector('#print').innerText
+        let btnDescargaCargado = document.querySelector('#descargarCargado')
+        btnDescargaCargado.addEventListener('click',
+            function descargarInformeGuardado() {
+                console.log('asdasdasdasd')
+
+                var doc = new jsPDF();
+                var elementHTML = $('#print').html();
+                var specialElementHandlers = {
+                    '#elementF': function (element, renderer) {
+                        return true;
+                    }
+                };
+                doc.fromHTML(elementHTML, 15, 15, {
+                    'width': 700,
+                    'elementHandlers': specialElementHandlers
+                });
+                doc.save('consentimiento.pdf');
+            }
+        )
+
+
+        var informe = document.getElementById('summernote');
+        var resul = document.getElementById('resultado');
+        var form = document.getElementById('formulario');
+        var submit = document.getElementById('btn-enviar');
+        var guardar = document.getElementById('btn-guardar');
+        var descarga = document.getElementById('btn-descargar')
+
+
+        guardar.addEventListener("click", function () {
+            if (informe.value.length < 50) {
+                alert('El cuerpo del informe debe ser más largo.')
+                descarga.hidden = true;
+            } else {
+                submit.disabled = false;
+                descarga.hidden = false;
+                document.getElementById('input-informe').value = document.querySelector('.note-editable').innerHTML.trim()
+                //document.querySelector('#newInfo').innerHTML = document.getElementById('input-informe').value
+            }
+        });
+
+        descarga.addEventListener("click", function () {
+            let contenido = document.querySelector('.note-editable');
+
+            var doc = new jsPDF();
+            var elementHTML = contenido
+            var specialElementHandlers = {
+                '#elementH': function (element, renderer) {
+                    return true;
+                }
+            };
+            doc.fromHTML(elementHTML, 15, 15, {
+                'width': 500,
+                'elementHandlers': specialElementHandlers
+            });
+            // Save the PDF
+            doc.save('informe-estudio{{estudio.id}}.pdf');
+        })
+
+        form.addEventListener("submit", function (e) {
+            if (!validar()) {
+                alert('Error al completar campos')
+                e.preventDefault();
+            } //stop form from submitting
+
+        })
+
+        let validar = () => ((informe.value.length > 50) && (resul != -1))
+
+
+
+
+
+
+    })
+
+
+</script>
+
+
+
+{% endblock scripts %}
+
+{#
+
+
+$("#summernote").summernote({
+height: 300,
+toolbar: [
+['style', ['style']],
+['font', ['bold', 'italic', 'underline', 'strikethrough', 'superscript', 'subscript', 'clear']],
+['fontname', ['fontname']],
+['fontsize', ['fontsize']],
+['color', ['color']],
+['para', ['ol', 'ul', 'paragraph', 'height']],
+['table', ['table']],
+['insert', ['link']],
+['view', ['undo', 'redo', 'fullscreen', 'codeview']]
+]
+});
+
+var informe = document.getElementById('summernote');
+var submit = document.getElementById('btn-enviar');
+
+
+
+informe.addEventListener('change', function () {
+submit.disabled = (informe.value.length > 50)
+})
+
+#}
