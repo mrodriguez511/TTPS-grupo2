@@ -1,0 +1,85 @@
+<div class="steps col-10 d-flex flex-wrap flex-sm-nowrap justify-content-between pt-5 pb-2">
+
+    <div class="step completed">
+        <div class="step-icon-wrap">
+            <div class="step-icon"><i class="fa fa-check"></i></div>
+        </div>
+        <a href="{{ url_for('paciente_estudio_estado1',estudio=estudio.id)}}">
+            <h4 class="step-title">Comprobante de pago</h4>
+        </a>
+    </div>
+    <div class="step {% if estudio.estadoActual >= 2 %} completed {% endif %} ">
+        <div class="step-icon-wrap">
+            <div class="step-icon"><i class="fa fa-check"></i></div>
+        </div>
+        {% if estudio.estadoActual >= 2 %} <a href="{{ url_for('paciente_estudio_estado2',estudio=estudio.id)}}">
+            {% endif %} <h4 class="step-title">Consentimiento </br>firmado</h4>
+        </a>
+    </div>
+    <div class="step {% if estudio.estadoActual >= 3 %} completed {% endif %}">
+        <div class="step-icon-wrap">
+            <div class="step-icon"><i class="fa fa-check"></i></div>
+        </div>
+        {% if estudio.estadoActual >= 3 %} <a href="{{ url_for('paciente_estudio_estado3',estudio=estudio.id)}}">
+            {% endif %} <h4 class="step-title">Selección </br>de turno</h4>
+        </a>
+    </div>
+    <div class="step {% if estudio.estadoActual >= 4 %} completed {% endif %}">
+        <div class="step-icon-wrap">
+            <div class="step-icon"><i class="fa fa-check"></i></div>
+        </div>
+        {% if estudio.estadoActual >= 4 %} <a href="{{ url_for('paciente_estudio_estado4',estudio=estudio.id)}}">
+            {% endif %} <h4 class="step-title">Toma </br>de muestra</h4>
+        </a>
+    </div>
+    <div class="step {% if estudio.estadoActual >= 5 %} completed {% endif %}">
+        <div class="step-icon-wrap">
+            <div class="step-icon"><i class="fa fa-check"></i></div>
+        </div>
+        {% if estudio.estadoActual >= 5 %} <a href="{{ url_for('paciente_estudio_estado5',estudio=estudio.id)}}">
+            {% endif %} <h4 class="step-title">Esperando resultado</h4>
+        </a>
+    </div>
+    {#
+    <div class="step {% if estudio.estadoActual >= 6 %} completed {% endif %}">
+        <div class="step-icon-wrap">
+            <div class="step-icon"><i class="fa fa-check"></i></div>
+        </div>
+        {% if estudio.estadoActual >= 6 %} <a href="{{ url_for('paciente_estudio_estado6',estudio=estudio.id)}}">
+            {% endif %} <h4 class="step-title">Formar lote</h4>
+        </a>
+    </div>
+    <div class="step {% if estudio.estadoActual >= 7 %} completed {% endif %}">
+        <div class="step-icon-wrap">
+            <div class="step-icon"><i class="fa fa-check"></i></div>
+        </div>
+        {% if estudio.estadoActual >= 7 %} <a href="{{ url_for('paciente_estudio_estado7',estudio=estudio.id)}}">
+            {% endif %} <h4 class="step-title">Resultado</br> biotecnologico</h4>
+        </a>
+    </div>
+    <div class="step {% if estudio.estadoActual >= 8 %} completed {% endif %}">
+        <div class="step-icon-wrap">
+            <div class="step-icon"><i class="fa fa-check"></i></div>
+        </div>
+        {% if estudio.estadoActual >= 8 %} <a href="{{ url_for('paciente_estudio_estado8',estudio=estudio.id)}}">
+            {% endif %} <h4 class="step-title">Interpretación</br> de resultado</h4>
+        </a>
+    </div>
+    <div class="step {% if estudio.estadoActual >= 9 %} completed {% endif %}">
+        <div class="step-icon-wrap">
+            <div class="step-icon"><i class="fa fa-check"></i></div>
+        </div>
+        {% if estudio.estadoActual >= 9 %} <a href="{{ url_for('paciente_estudio_estado9',estudio=estudio.id)}}">
+            {% endif %} <h4 class="step-title">Entrega</br> de resultado</h4>
+        </a>
+    </div>#}
+    <div class="step {% if estudio.estadoActual == 10 %} completed {% endif %}">
+        <div class="step-icon-wrap">
+            <div class="step-icon"><i class="fa fa-check"></i></div>
+        </div>
+        {% if estudio.estadoActual >= 10 %}<a href="{{ url_for('paciente_estudio_estado10',estudio=estudio.id)}}"> {%
+            endif %}
+            <h4 class="step-title">Resultado </br>entregado</h4>
+        </a>
+    </div>
+</div>
