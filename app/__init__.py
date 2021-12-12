@@ -84,7 +84,7 @@ def create_app(environment="development"):
     app.add_url_rule(
         "/registrarPaciente",
         "registrarPaciente",
-        paciente.create_paciente,
+        paciente.registro_paciente,
         methods=["POST"],
     )
 

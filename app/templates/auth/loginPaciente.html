@@ -8,14 +8,14 @@
 {% block content %}
 
 
-<div class="login-box m-auto pt-5">
+<div class="login-box m-auto pt-5 text-center">
     <div class="login-logo">
         <a href="/"><b>LAB</b>ttps</a>
     </div>
     <!-- /.login-logo -->
     <div class="card">
         <div class="card-body login-card-body">
-            <p class="login-box-msg">Inicia sesión para acceder al sistema</p>
+            <p class="login-box-msg">Inicia sesión como paciente</p>
 
             <form action="{{ url_for('auth_authenticatePaciente') }}" method="post">
                 <div class="input-group mb-3">
@@ -40,18 +40,17 @@
                 </div>
             </form>
             <div>
-                <div class="col-8">
+                <div class="col-8 mt-3">
                     <a href="{{ url_for('nuevoPaciente') }}" class="btn btn-outline-primary btn-block"
                         style="width: 305px;">Registrarme</a>
                 </div>
             </div>
-
-
-
-
         </div>
         <!-- /.login-card-body -->
     </div>
+    <a href="{{ url_for('home') }}">
+        <p class="pt-3 text-black">Volver</p>
+    </a>
 </div>
 <!-- /.login-box -->
 

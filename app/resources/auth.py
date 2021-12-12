@@ -82,7 +82,7 @@ def authenticatePaciente():
         flash("Usuario o clave incorrecto.")
         return redirect(url_for("auth_loginPaciente"))
 
-    session["rol"] = pac.rol
+    session["rol"] = 3
     session["dni"] = pac.dni
     session["id"] = pac.id
     db.session.commit()

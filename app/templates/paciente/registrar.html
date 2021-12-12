@@ -5,36 +5,44 @@
 {% endblock %}
 {% block content %}
 
-<div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <div class="content-header">
-        <h1>Registrarme</h1>
-    </div>
-    <div class="row">
-        <div class="col-10">
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">Registrarme como paciente</h3>
-                </div>
-                <div class="card-body">
-                    <form class="row g-3" action="{{ url_for('paciente_create') }}" method="POST">
+<form class="" action="{{ url_for('registrarPaciente') }}" method="POST">
+    <div class="content-wrapper">
+
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <h1>Registrarme como paciente</h1>
+        </div>
+        <div class="row">
+            <div class="col-10">
+                <div class="card">
+                    <div class="card-body">
                         <div class="row">
-                            <div class="col-sm-4">
+                            <div class="col-sm-3">
                                 <div class="form-group">
                                     <label for="inputEmail4" class="form-label">Nombre</label>
-                                    <input type="text" name="nombre" class="form-control" required>
+                                    <input type="text" name="nombre" class="form-control"
+                                        placeholder="Nombre del paciente" required>
                                 </div>
                             </div>
-                            <div class="col-sm-4">
+                            <div class="col-sm-3">
                                 <div class="form-group">
                                     <label for="inputEmail4" class="form-label">Apellido</label>
-                                    <input type="text" name="apellido" class="form-control" required>
+                                    <input type="text" name="apellido" class="form-control"
+                                        placeholder="Apellido del paciente" required>
                                 </div>
                             </div>
-                            <div class="col-sm-4">
+                            <div class="col-sm-3">
                                 <div class="form-group">
                                     <label for="inputEmail4" class="form-label">DNI</label>
-                                    <input type="number" name="dni" class="form-control" maxlength="8" required>
+                                    <input type="number" name="dni" class="form-control" maxlength="8"
+                                        placeholder="DNI del paciente" required>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label for="inputEmail4" class="form-label">Contraseña</label>
+                                    <input type="password" name="password" class="form-control"
+                                        placeholder="Contraseña para inciar sesión" required>
                                 </div>
                             </div>
                             <div class="col-sm-4">
@@ -49,7 +57,7 @@
                                     <label for="inputState" class="form-label">Obra Social</label>
 
                                     <select name="obraSocial" id="obra" class="form-control">
-                                        <option selected value="0">Seleccionar</option>
+                                        <option selected value="0">Seleccionar obra social</option>
                                         <option value="0">no posee</option>
                                         {% for obra in obrasSociales %}
                                         <option value={{obra.id}}> {{obra.nombre}} </option>
@@ -60,45 +68,89 @@
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label for="inputEmail4" class="form-label">Numero de afiliado</label>
-                                    <input type="number" id="num" name="nroAfiliado" class="form-control" disabled>
+                                    <input type="number" id="num" name="nroAfiliado" class="form-control"
+                                        placeholder="Numero de afiliado del paciente" disabled>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-4 datosMayor" hidden>
+                                <div class="form-group">
+                                    <label for="inputEmail4" class="form-label">Email</label>
+                                    <input type="email" name="email" class="form-control mayor"
+                                        placeholder="Email del paciente" required>
+                                </div>
+                            </div>
+                            <div class="col-sm-4 datosMayor" hidden>
+                                <div class="form-group">
+                                    <label for="inputEmail4" class="form-label">Telefono</label>
+                                    <input type="tel" name="telefono" class="form-control mayor"
+                                        placeholder="Telefono del paciente" required>
+                                </div>
+                            </div>
+                            <div class="col-sm-4 datosMayor" hidden>
+                                <div class="form-group">
+                                    <label for="inputEmail4" class="form-label">Direccion</label>
+                                    <input type="text" name="direccion" class="form-control mayor"
+                                        placeholder="Dirección del paciente" required>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="card card-secondary" id="datosTutor" hidden>
+                    <div class="card-header">
+                        <h3 class="card-title">Datos del tutor</h3>
+                    </div>
+                    <div class="card-body ">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="inputEmail4" class="form-label">Nombre</label>
+                                    <input type="text" name="nombreTutor" class="form-control tutor"
+                                        placeholder="Nombre del tutor">
                                 </div>
                             </div>
                             <div class="col-sm-4">
                                 <div class="form-group">
-                                    <label for="inputEmail4" class="form-label">Contraseña</label>
-                                    <input type="password" name="password" class="form-control" required>
+                                    <label for="inputEmail4" class="form-label">Apellido</label>
+                                    <input type="text" name="apellidoTutor" class="form-control tutor"
+                                        placeholder="Apellido del tutor">
                                 </div>
                             </div>
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label for="inputEmail4" class="form-label">Email</label>
-                                    <input type="email" name="email" class="form-control" required>
+                                    <input type="email" name="emailTutor" class="form-control  tutor"
+                                        placeholder="Email del tutor">
                                 </div>
                             </div>
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label for="inputEmail4" class="form-label">Telefono</label>
-                                    <input type="tel" name="telefono" class="form-control" required>
+                                    <input type="tel" name="telefonoTutor" class="form-control tutor"
+                                        placeholder="Telefono del tutor">
                                 </div>
                             </div>
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label for="inputEmail4" class="form-label">Direccion</label>
-                                    <input type="text" name="direccion" class="form-control" required>
+                                    <input type="text" name="direccionTutor" class="form-control tutor"
+                                        placeholder="Dirección del tutor">
                                 </div>
                             </div>
-                            <div class="col-12">
-                                <button type="submit" class="btn btn-primary">Alta de paciente</button>
-                            </div>
                         </div>
-                    </form>
+                    </div>
+                </div>
+                <div class="col-12 row">
+                    <button type="submit" class="btn btn-primary mr-3">Registrase</button>
+                    <a href="{{ url_for('auth_loginPaciente') }}" class="btn btn-outline-danger">Cancelar</a>
                 </div>
             </div>
-            <a href="{{ url_for('auth_loginPaciente') }}" class="btn btn-outline-secondary">Volver</a>
         </div>
     </div>
-</div>
 
+</form>
 
 
 
@@ -113,8 +165,8 @@
 <script>
     let obra = document.getElementById("obra")
     let num = document.getElementById("num")
-    obra.addEventListener("change", function () {
-        if (obra.value) {
+    obra.addEventListener("change", () => {
+        if (obra.value && obra.value != 0) {
             num.disabled = false;
             num.requerid = true;
         }
@@ -122,12 +174,11 @@
             num.disabled = true;
             num.requerid = false;
         }
-
     });
 
     var today = new Date();
     var dd = today.getDate();
-    var mm = today.getMonth() + 1; //January is 0!
+    var mm = today.getMonth() + 1; //Enero es 0!
     var yyyy = today.getFullYear();
 
     if (dd < 10) {
@@ -139,5 +190,40 @@
     }
 
     today = yyyy + '-' + mm + '-' + dd;
-    document.getElementById("datefield").setAttribute("max", today);</script>
+
+    let selectFecha = document.getElementById("datefield")
+    let datosTutor = document.getElementById("datosTutor")
+    let inputsTutor = document.querySelectorAll(".tutor")
+    let datosMayor = document.querySelectorAll(".datosMayor")
+    let inputsMayor = document.querySelectorAll(".mayor")
+
+    selectFecha.setAttribute("max", today);
+
+
+
+    function mayorEdad(fechaNacimiento) {
+        let hoy = new Date();
+        let mayor = new Date(hoy.getFullYear() - 18, hoy.getMonth(), hoy.getDate())
+        return fechaNacimiento < mayor;
+    }
+
+    selectFecha.addEventListener('change', (e) => {
+        let fecha = e.target.valueAsDate
+
+        if (mayorEdad(fecha)) {
+            datosMayor.forEach(d => d.hidden = false)
+            inputsMayor.forEach(d => d.setAttribute("required", ""))
+
+            datosTutor.hidden = true;
+            inputsTutor.forEach(d => d.removeAttribute("required"))
+        } else {
+            datosMayor.forEach(d => d.hidden = true)
+            inputsMayor.forEach(d => d.removeAttribute("required"))
+            datosTutor.hidden = false;
+            inputsTutor.forEach(d => d.setAttribute("required", ""))
+        }
+    })
+
+
+</script>
 {% endblock %}
