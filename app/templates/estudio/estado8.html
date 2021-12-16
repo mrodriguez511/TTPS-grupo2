@@ -124,78 +124,80 @@
 <script>
 
     $(document).ready(function () {
+        let x = '{{estudio.estadoActual}}'
+        if (x > 8) {
+            //informe ya cargado
+            document.querySelector('#print').innerHTML = document.querySelector('#print').innerText
+            let btnDescargaCargado = document.querySelector('#descargarCargado')
+            btnDescargaCargado.addEventListener('click',
+                function descargarInformeGuardado() {
+                    console.log('asdasdasdasd')
 
-        //informe ya cargado
-        document.querySelector('#print').innerHTML = document.querySelector('#print').innerText
-        let btnDescargaCargado = document.querySelector('#descargarCargado')
-        btnDescargaCargado.addEventListener('click',
-            function descargarInformeGuardado() {
-                console.log('asdasdasdasd')
+                    var doc = new jsPDF();
+                    var elementHTML = $('#print').html();
+                    var specialElementHandlers = {
+                        '#elementF': function (element, renderer) {
+                            return true;
+                        }
+                    };
+                    doc.fromHTML(elementHTML, 15, 15, {
+                        'width': 100,
+                        'elementHandlers': specialElementHandlers
+                    });
+                    doc.save('consentimiento.pdf');
+                }
+            )
+        } else {
+
+            var informe = document.getElementById('summernote');
+            var resul = document.getElementById('resultado');
+            var form = document.getElementById('formulario');
+            var submit = document.getElementById('btn-enviar');
+            var guardar = document.getElementById('btn-guardar');
+            var descarga = document.getElementById('btn-descargar')
+
+
+            guardar.addEventListener("click", function () {
+                if (informe.value.length < 50) {
+                    alert('El cuerpo del informe debe ser más largo.')
+                    descarga.hidden = true;
+                } else {
+                    submit.disabled = false;
+                    descarga.hidden = false;
+                    document.getElementById('input-informe').value = document.querySelector('.note-editable').innerHTML.trim()
+                    console.log(typeof (document.getElementById('input-informe').value))
+                    //document.querySelector('#newInfo').innerHTML = document.getElementById('input-informe').value
+                }
+            });
+
+            descarga.addEventListener("click", function () {
+                let contenido = document.querySelector('.note-editable');
 
                 var doc = new jsPDF();
-                var elementHTML = $('#print').html();
+                var elementHTML = contenido
                 var specialElementHandlers = {
-                    '#elementF': function (element, renderer) {
+                    '#elementH': function (element, renderer) {
                         return true;
                     }
                 };
                 doc.fromHTML(elementHTML, 15, 15, {
-                    'width': 700,
+                    'width': 100,
                     'elementHandlers': specialElementHandlers
                 });
-                doc.save('consentimiento.pdf');
-            }
-        )
+                // Save the PDF
+                doc.save('informe-estudio{{estudio.id}}.pdf');
+            })
 
+            form.addEventListener("submit", function (e) {
+                if (!validar()) {
+                    alert('Error al completar campos')
+                    e.preventDefault();
+                } //stop form from submitting
 
-        var informe = document.getElementById('summernote');
-        var resul = document.getElementById('resultado');
-        var form = document.getElementById('formulario');
-        var submit = document.getElementById('btn-enviar');
-        var guardar = document.getElementById('btn-guardar');
-        var descarga = document.getElementById('btn-descargar')
+            })
 
-
-        guardar.addEventListener("click", function () {
-            if (informe.value.length < 50) {
-                alert('El cuerpo del informe debe ser más largo.')
-                descarga.hidden = true;
-            } else {
-                submit.disabled = false;
-                descarga.hidden = false;
-                document.getElementById('input-informe').value = document.querySelector('.note-editable').innerHTML.trim()
-                //document.querySelector('#newInfo').innerHTML = document.getElementById('input-informe').value
-            }
-        });
-
-        descarga.addEventListener("click", function () {
-            let contenido = document.querySelector('.note-editable');
-
-            var doc = new jsPDF();
-            var elementHTML = contenido
-            var specialElementHandlers = {
-                '#elementH': function (element, renderer) {
-                    return true;
-                }
-            };
-            doc.fromHTML(elementHTML, 15, 15, {
-                'width': 500,
-                'elementHandlers': specialElementHandlers
-            });
-            // Save the PDF
-            doc.save('informe-estudio{{estudio.id}}.pdf');
-        })
-
-        form.addEventListener("submit", function (e) {
-            if (!validar()) {
-                alert('Error al completar campos')
-                e.preventDefault();
-            } //stop form from submitting
-
-        })
-
-        let validar = () => ((informe.value.length > 50) && (resul != -1))
-
+            let validar = () => ((informe.value.length > 50) && (resul != -1))
+        }
 
 
 
