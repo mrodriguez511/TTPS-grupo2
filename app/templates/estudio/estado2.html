@@ -19,71 +19,72 @@
                     <h3 class="card-title">Esperando consentimiento informado</h3>
                 </div>
                 <div class="card-body">
-                    {% if estudio.estadoActual <= 2 %} <form class="row g-3 align-items-end"
-                        enctype="multipart/form-data"
-                        action="{{ url_for('estudio_estado2_carga' , estudio=estudio.id) }}" method="POST">
+                    {% if estudio.estadoActual <= 2 %} {% if session["pacObligado"] %} <div class="mx-auto text-center">
+                        <p>Esperando carga de consentimiento firmado del paciente</p>
+                </div>
+                {% else %}
+                <form class="row g-3 align-items-end" enctype="multipart/form-data"
+                    action="{{ url_for('estudio_estado2_carga' , estudio=estudio.id) }}" method="POST">
 
-                        <div class="col-md-8">
-
-                            <a href="javascript:demoFromHTML()" class="btn btn-outline-secondary btn-sm">Descargar
-                                consentimiento para enviar </a>
-                        </div>
-
-                        <div class="col-md-8 mt-5">
-                            <div class="custom-file">
-                                <input type="file" class="custom-file-input" name="file" id="customFile"
-                                    data-buttonText="Your label here.">
-                                <label class="custom-file-label" for="customFile">Cargar consentimiento informado
-                                    firmado enviado por
-                                    el
-                                    paciente...</label>
-                            </div>
-                        </div>
-                        <div id="print" class="d-none">
-
-                            <h3 id="logo" class="me-4" style="font-family: 'Source Sans Pro';">LABttps</h3>
-                            <p>La Plata, Calle 123</p>
-                            <p>Contacto: info@laboratoriotpps.com</p>
-                            <hr>
-                            </br>
-                            <p><strong> {{tipoEstudio.nombre}} </strong></p>
-                            <p> {{tipoEstudio.consentimientoInformado}} </p>
-                            </br>
-                            </br>
-                            </br>
-                            </br>
-                            </br>
-                            <p>...........................</p>
-                            <p>Firma y aclaración</p>
-                            <hr>
-                        </div>
-                        <div id="elementH"></div>
-
-
-
-
-                        <div class="col-12">
-                            <button id="btn-enviar" type="submit" class="btn btn-primary mt-5"
-                                disabled>Siguiente</button>
-                        </div>
-                        </form>
-                        
-                        {% else %}
                     <div class="col-md-8">
-                        <a href="{{ url_for('download', filename=firmado) }}" target="_blank"
-                            class="btn btn-outline-secondary btn-sm">Descargar archivo consentimiento firmado</a>
+                        <a href="javascript:demoFromHTML()" class="btn btn-outline-secondary btn-sm">Descargar
+                            consentimiento para enviar </a>
                     </div>
 
+                    <div class="col-md-8 mt-5">
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" name="file" id="customFile"
+                                data-buttonText="Your label here.">
+                            <label class="custom-file-label" for="customFile">Cargar consentimiento informado
+                                firmado enviado por
+                                el
+                                paciente...</label>
+                        </div>
+                    </div>
+                    <!--- archivo de descarga-->
+                    <div id="print" class="d-none">
 
-                    {% endif %}
+                        <h3 id="logo" class="me-4" style="font-family: 'Source Sans Pro';">LABttps</h3>
+                        <p>La Plata, Calle 123</p>
+                        <p>Contacto: info@laboratoriotpps.com</p>
+                        <hr>
+                        </br>
+                        <p><strong> {{tipoEstudio.nombre}} </strong></p>
+                        <p> {{tipoEstudio.consentimientoInformado}} </p>
+                        </br>
+                        </br>
+                        </br>
+                        </br>
+                        </br>
+                        <p>...........................</p>
+                        <p>Firma y aclaración</p>
+                        <hr>
+                    </div>
+                    <div id="elementH"></div>
 
+
+                    <div class="col-12">
+                        <button id="btn-enviar" type="submit" class="btn btn-primary mt-5" disabled>Siguiente</button>
+                    </div>
+                </form>
+                {% endif %}
+
+                {% else %}
+                <div class="col-md-8">
+                    <a href="{{ url_for('download', filename=firmado) }}" target="_blank"
+                        class="btn btn-outline-secondary btn-sm">Descargar archivo consentimiento firmado</a>
                 </div>
+
+
+                {% endif %}
+
             </div>
         </div>
     </div>
-    {% include 'includes/workflow.html' %}
+</div>
+{% include 'includes/workflow.html' %}
 
-    <a href="{{ url_for('empleado_home') }}" class="btn btn-outline-secondary mt-5">Volver a home</a>
+<a href="{{ url_for('empleado_home') }}" class="btn btn-outline-secondary mt-5">Volver a home</a>
 </div>
 
 

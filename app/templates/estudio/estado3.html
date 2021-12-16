@@ -21,55 +21,62 @@
                     <h3 class="card-title">Esperando selección de turno</h3>
                 </div>
                 <div class="card-body">
-                    {% if estudio.estadoActual <= 3 %} <form class="row g-3 align-items-start justify-content-around"
-                        id="formulario" action="{{ url_for('estudio_estado3_carga' , estudio=estudio.id) }}"
-                        method="POST">
-                        <div class="col-4 form-group">
-                            <label>Asignar turno:</label>
-                            <div class="row ml-1">
-                                <input type="date" id="fecha" name="fecha" value=""
-                                    min="{ (datetime.datetime.today().date()-object.date_due).days }">
-                                <input type="time" id="hora" name="hora" list="horas" step="900">
-                                <datalist class="d-none" id="horas">
-                                    {% for hora in range(4) %}
-                                    <option value='{% if hora == 0 %}0{% endif %}{{hora + 9}}:00'></option>
-                                    <option value='{% if hora == 0 %}0{% endif %}{{hora + 9}}:15'></option>
-                                    <option value='{% if hora == 0 %}0{% endif %}{{hora + 9}}:30'></option>
-                                    <option value='{% if hora == 0 %}0{% endif %}{{hora + 9}}:45'></option>
-                                    {% endfor %}
-                                </datalist>
-                            </div>
-
-
-                            <div class="col-12">
-                                <button id="btn-enviar" class="btn btn-primary mt-5" disabled>Seleccionar turno</button>
-                            </div>
-                        </div>
-
-                        <div class="col-md-8">
-                            <div class="col-md-12">
-                                <div class="card card-primary">
-                                    <div class="card-body p-0">
-                                        <!-- THE CALENDAR -->
-                                        <div id="calendar"></div>
-                                    </div>
-                                    <!-- /.card-body -->
-                                </div>
-                                <!-- /.card -->
-                            </div>
-                        </div>
-
-                        </form>
-                        {% else %}
-                        <h4>Turno agendado el día {{ estudio.turno.strftime('%d/%m/%Y a las %H:%M') }} </h4>
-                        {% endif %}
-
+                    {% if estudio.estadoActual <= 3 %} {% if session["pacObligado"] %} <div class="mx-auto text-center">
+                        <p>Esperando seleccion de turno del paciente</p>
                 </div>
+                {% else %}
+
+
+
+                <form class="row g-3 align-items-start justify-content-around" id="formulario"
+                    action="{{ url_for('estudio_estado3_carga' , estudio=estudio.id) }}" method="POST">
+                    <div class="col-4 form-group">
+                        <label>Asignar turno:</label>
+                        <div class="row ml-1">
+                            <input type="date" id="fecha" name="fecha" value=""
+                                min="{ (datetime.datetime.today().date()-object.date_due).days }">
+                            <input type="time" id="hora" name="hora" list="horas" step="900">
+                            <datalist class="d-none" id="horas">
+                                {% for hora in range(4) %}
+                                <option value='{% if hora == 0 %}0{% endif %}{{hora + 9}}:00'></option>
+                                <option value='{% if hora == 0 %}0{% endif %}{{hora + 9}}:15'></option>
+                                <option value='{% if hora == 0 %}0{% endif %}{{hora + 9}}:30'></option>
+                                <option value='{% if hora == 0 %}0{% endif %}{{hora + 9}}:45'></option>
+                                {% endfor %}
+                            </datalist>
+                        </div>
+
+
+                        <div class="col-12">
+                            <button id="btn-enviar" class="btn btn-primary mt-5" disabled>Seleccionar turno</button>
+                        </div>
+                    </div>
+
+                    <div class="col-md-8">
+                        <div class="col-md-12">
+                            <div class="card card-primary">
+                                <div class="card-body p-0">
+                                    <!-- THE CALENDAR -->
+                                    <div id="calendar"></div>
+                                </div>
+                                <!-- /.card-body -->
+                            </div>
+                            <!-- /.card -->
+                        </div>
+                    </div>
+
+                </form>
+                {% endif %}
+                {% else %}
+                <h4>Turno agendado el día {{ estudio.turno.strftime('%d/%m/%Y a las %H:%M') }} </h4>
+                {% endif %}
+
             </div>
         </div>
     </div>
-    {% include 'includes/workflow.html' %}
-    <a href="{{ url_for('empleado_home') }}" class="btn btn-outline-secondary mt-5">Volver a home</a>
+</div>
+{% include 'includes/workflow.html' %}
+<a href="{{ url_for('empleado_home') }}" class="btn btn-outline-secondary mt-5">Volver a home</a>
 </div>
 
 

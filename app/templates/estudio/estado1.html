@@ -19,7 +19,14 @@
                     <h3 class="card-title">Esperando comprobante de pago</h3>
                 </div>
                 <div class="card-body">
+
+
                     {% if estudio.estadoActual == 1 and not(estudio.comprobanteDePago) %}
+                    {% if session["pacObligado"] %}
+                    <div class="mx-auto text-center">
+                        <p>Esperando carga de comprobante de pago del paciente</p>
+                    </div>
+                    {% else %}
                     <form class="row g-3 align-items-end" enctype="multipart/form-data"
                         action="{{ url_for('estudio_estado1_carga' , estudio=estudio.id) }}" method="POST">
                         <div class="col-md-8">
@@ -44,6 +51,7 @@
                                 disabled>Siguiente</button>
                         </div>
                     </form>
+                    {% endif %}
                     {% else %}
 
                     <div class="col-md-8">
@@ -65,8 +73,8 @@
                         {% endif %}
                     </div>
 
-                    {% endif %}
 
+                    {% endif %}
                 </div>
             </div>
         </div>

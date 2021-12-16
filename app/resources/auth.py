@@ -2,6 +2,7 @@ from flask import redirect, render_template, request, url_for, abort, session, f
 from app.helpers.auth import authenticated
 from app.models.user import User
 from app.models.rol import Rol
+from app.models.configuracion import Configuracion
 from app.models.paciente import Paciente
 from app.db import db
 from operator import and_
@@ -61,6 +62,7 @@ def authenticate():
     session["rol"] = user.rol
     session["email"] = user.email
     session["id"] = user.id
+    session["pacObligado"] = (Configuracion.query.first()).pacienteObligado
     user.intentos = 0
     db.session.commit()
     flash("La sesión se inició correctamente.")
