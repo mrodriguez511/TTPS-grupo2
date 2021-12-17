@@ -20,12 +20,13 @@
                     <i class="fa fa-user-tie" style="font-size: 1.2rem;"></i>
                 </a>
                 <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
-
-                    <li><a class="dropdown-item" href="{{ url_for('auth_logout') }}">Cerrar sesión</a></li>
                     {% if session["dni"] %}
                     <li><a class="dropdown-item" href="{{ url_for('paciente_editar', id= session['id']) }}">Editar
                             Perfil</a></li>
                     {% endif %}
+
+                    <li><a class="dropdown-item" href="{{ url_for('auth_logout') }}">Cerrar sesión</a></li>
+
                 </ul>
 
 

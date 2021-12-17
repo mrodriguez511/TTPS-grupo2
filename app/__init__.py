@@ -145,6 +145,13 @@ def create_app(environment="development"):
         paciente.editar_paciente,
         methods=["GET"],
     )
+    app.add_url_rule(
+        "/paciente/edit_perfil",
+        "paciente_editar_perfil",
+        paciente.update_perfil,
+        methods=["POST"],
+    )
+
     app.add_url_rule("/empleado/pacientes", "paciente_index", paciente.index)
 
     # estudios para crear Lote
