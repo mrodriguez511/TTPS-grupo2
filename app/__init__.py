@@ -149,6 +149,13 @@ def create_app(environment="development"):
         paciente.editar_paciente,
         methods=["GET"],
     )
+    app.add_url_rule(
+        "/paciente/edit_perfil",
+        "paciente_editar_perfil",
+        paciente.update_perfil,
+        methods=["POST"],
+    )
+
     app.add_url_rule("/empleado/pacientes", "paciente_index", paciente.index)
 
     # estudios para crear Lote
@@ -169,6 +176,10 @@ def create_app(environment="development"):
         "/lotes/lotesEnProcesamiento",
         "lote_enProcesamiento_index",
         lote.esperaURL_index,
+    )
+
+    app.add_url_rule(
+        "/lotes/verEstudios", "lote_enProcesamiento_verEstudios", lote.verEstudios
     )
 
     app.add_url_rule(

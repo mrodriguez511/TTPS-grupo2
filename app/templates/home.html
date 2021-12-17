@@ -5,10 +5,18 @@
 {% endblock %}
 {% block content %}
 
-<div class="col-8 row mx-auto mt-5  justify-content-around">
-    <a href="{{ url_for('auth_login') }}" class="btn btn-outline-primary mr-3">Ingresar como Empleado</a>
-    <a href="{{ url_for('auth_loginPaciente') }}" class="btn btn-outline-primary mr-3">Ingresar como Paciente</a>
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header text-center">
+        <h4>Bienvenido!</h4>
+    </div>
+    <div class="col-8 row mx-auto mt-5  justify-content-around">
+        <a href="{{ url_for('auth_login') }}" class="btn btn-outline-primary mr-3">Ingresar como Empleado</a>
+        <a href="{{ url_for('auth_loginPaciente') }}" class="btn btn-outline-primary mr-3">Ingresar como Paciente</a>
+    </div>
 </div>
+
+
 
 
 

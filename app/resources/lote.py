@@ -7,6 +7,7 @@ from app.models.estudio import Estudio
 from app.models.paciente import Paciente
 from app.models.tipoEstudio import TipoEstudio
 from app.models.lote import Lote
+from operator import and_
 
 
 from app.helpers.auth import authenticated
@@ -83,12 +84,27 @@ def agregarURL():
     url = request.form["url"]
     lote = Lote.query.filter(Lote.id == lote_id).first()
     lote.url = url
+
     db.session.commit()
 
-    for estudio in lote.estudios:  # arreglar
+    estudios_id = request.form.getlist("checkbox")
+    for estudio_id in estudios_id:
+        estudio = Estudio.query.filter(Estudio.id == estudio_id).first()
         estudio.estadoActual += 1
         db.session.commit()
         cargarNuevoEstado(estudio)
+
+    for estudio in lote.estudios:
+        if (
+            estudio.estadoActual == 7
+        ):  # si no avanzo de estado porque no fue tildado con el checkbox
+            estudio.estadoActual = 3
+            estudio.empleadoMuestra = None
+            estudio.turno = None
+            estudio.muestra_ml = None
+            estudio.muestra_freezer = None
+            estudio.lote = None
+            db.session.commit()
 
     return redirect(url_for("lote_enProcesamiento_index"))
 
@@ -103,3 +119,23 @@ def procesados_index():
     lotes = Lote.query.filter(Lote.url != None).all()
 
     return render_template("lote/procesados.html", lotes=lotes)
+
+
+def verEstudios():
+    if not authenticated(session):
+        abort(401)
+
+    if not (session["rol"] == 2):
+        abort(401)
+
+    lote_id = request.args.get("id")
+
+    estudios = (
+        db.session.query(Estudio, TipoEstudio, Paciente)
+        .filter(and_(Estudio.tipoEstudio == TipoEstudio.id, Estudio.lote == lote_id))
+        .filter(Estudio.paciente == Paciente.id)
+        .all()
+    )
+    # estudios = Estudio.query.filter(Estudio.lote == lote_id).all()
+
+    return render_template("lote/verEstudios.html", estudios=estudios, lote=lote_id)

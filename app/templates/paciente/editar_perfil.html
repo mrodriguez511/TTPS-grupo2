@@ -1,16 +1,16 @@
 {% extends "layout.html" %}
-{% block title %}Registrarme{% endblock %}
+{% block title %}Editar Perfil{% endblock %}
 {% block head %}
 {{ super() }}
 {% endblock %}
 {% block content %}
 
-<form class="" action="{{ url_for('registrarPaciente') }}" method="POST">
+<form class="" action="{{ url_for('paciente_editar_perfil') }}" method="POST">
     <div class="content-wrapper">
 
         <!-- Content Header (Page header) -->
         <div class="content-header">
-            <h1>Registrarme como paciente</h1>
+            <h1>Editar perfil</h1>
         </div>
         <div class="row">
             <div class="col-10">
@@ -20,14 +20,14 @@
                             <div class="col-sm-3">
                                 <div class="form-group">
                                     <label for="inputEmail4" class="form-label">Nombre</label>
-                                    <input type="text" name="nombre" class="form-control"
+                                    <input type="text" name="nombre" class="form-control" value={{paciente.nombre}}
                                         placeholder="Nombre del paciente" required>
                                 </div>
                             </div>
                             <div class="col-sm-3">
                                 <div class="form-group">
                                     <label for="inputEmail4" class="form-label">Apellido</label>
-                                    <input type="text" name="apellido" class="form-control"
+                                    <input type="text" name="apellido" class="form-control" value={{paciente.apellido}}
                                         placeholder="Apellido del paciente" required>
                                 </div>
                             </div>
@@ -35,21 +35,14 @@
                                 <div class="form-group">
                                     <label for="inputEmail4" class="form-label">DNI</label>
                                     <input type="number" name="dni" class="form-control" maxlength="8"
-                                        placeholder="DNI del paciente" required>
-                                </div>
-                            </div>
-                            <div class="col-sm-3">
-                                <div class="form-group">
-                                    <label for="inputEmail4" class="form-label">Contraseña</label>
-                                    <input type="password" name="password" class="form-control"
-                                        placeholder="Contraseña para inciar sesión" required>
+                                        value={{paciente.dni}} placeholder="DNI del paciente" required disabled>
                                 </div>
                             </div>
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label for="inputEmail4" class="form-label">Fecha de nacimiento</label>
                                     <input type="date" name="fechaNacimiento" id="datefield" class="form-control"
-                                        min='1900-01-01' required>
+                                        value={{paciente.fechaNacimiento}} min='1900-01-01' required>
                                 </div>
                             </div>
                             <div class="col-sm-4">
@@ -57,10 +50,11 @@
                                     <label for="inputState" class="form-label">Obra Social</label>
 
                                     <select name="obraSocial" id="obra" class="form-control">
-                                        <option selected value="0">Seleccionar obra social</option>
-                                        <option value="0">no posee</option>
+                                        <option {% if (paciente.obraSocial==0) %}selected{% endif %} value="0">no posee
+                                        </option>
                                         {% for obra in obrasSociales %}
-                                        <option value={{obra.id}}> {{obra.nombre}} </option>
+                                        <option {% if (paciente.obraSocial==obra.id) %}selected{% endif %}
+                                            value={{obra.id}}> {{obra.nombre}} </option>
                                         {% endfor %}
                                     </select>
                                 </div>
@@ -69,14 +63,15 @@
                                 <div class="form-group">
                                     <label for="inputEmail4" class="form-label">Numero de afiliado</label>
                                     <input type="number" id="num" name="nroAfiliado" class="form-control"
-                                        placeholder="Numero de afiliado del paciente" disabled>
+                                        value={{paciente.nroAfiliado}} placeholder="Numero de afiliado del paciente"
+                                        disabled>
                                 </div>
                             </div>
 
                             <div class="col-sm-4 datosMayor" hidden>
                                 <div class="form-group">
                                     <label for="inputEmail4" class="form-label">Email</label>
-                                    <input type="email" name="email" class="form-control mayor"
+                                    <input type="email" name="email" class="form-control mayor" value={{paciente.email}}
                                         placeholder="Email del paciente" required>
                                 </div>
                             </div>
@@ -84,14 +79,14 @@
                                 <div class="form-group">
                                     <label for="inputEmail4" class="form-label">Telefono</label>
                                     <input type="tel" name="telefono" class="form-control mayor"
-                                        placeholder="Telefono del paciente" required>
+                                        value={{paciente.telefono}} placeholder="Telefono del paciente" required>
                                 </div>
                             </div>
                             <div class="col-sm-4 datosMayor" hidden>
                                 <div class="form-group">
                                     <label for="inputEmail4" class="form-label">Direccion</label>
                                     <input type="text" name="direccion" class="form-control mayor"
-                                        placeholder="Dirección del paciente" required>
+                                        value={{paciente.direccion}} placeholder="Dirección del paciente" required>
                                 </div>
                             </div>
 
@@ -108,43 +103,43 @@
                                 <div class="form-group">
                                     <label for="inputEmail4" class="form-label">Nombre</label>
                                     <input type="text" name="nombreTutor" class="form-control tutor"
-                                        placeholder="Nombre del tutor">
+                                        value={{paciente.nombre_tutor}} placeholder="Nombre del tutor">
                                 </div>
                             </div>
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label for="inputEmail4" class="form-label">Apellido</label>
                                     <input type="text" name="apellidoTutor" class="form-control tutor"
-                                        placeholder="Apellido del tutor">
+                                        value={{paciente.apellido_tutor}} placeholder="Apellido del tutor">
                                 </div>
                             </div>
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label for="inputEmail4" class="form-label">Email</label>
                                     <input type="email" name="emailTutor" class="form-control  tutor"
-                                        placeholder="Email del tutor">
+                                        value={{paciente.email}} placeholder="Email del tutor">
                                 </div>
                             </div>
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label for="inputEmail4" class="form-label">Telefono</label>
                                     <input type="tel" name="telefonoTutor" class="form-control tutor"
-                                        placeholder="Telefono del tutor">
+                                        value={{paciente.telefono}} placeholder="Telefono del tutor">
                                 </div>
                             </div>
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label for="inputEmail4" class="form-label">Direccion</label>
                                     <input type="text" name="direccionTutor" class="form-control tutor"
-                                        placeholder="Dirección del tutor">
+                                        value={{paciente.direccion}} placeholder="Dirección del tutor">
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-12 row">
-                    <button type="submit" class="btn btn-primary mr-3">Registrarme</button>
-                    <a href="{{ url_for('auth_loginPaciente') }}" class="btn btn-outline-danger">Cancelar</a>
+                    <button type="submit" class="btn btn-primary mr-3">Editar datos</button>
+                    <a href="{{ url_for('paciente_home') }}" class="btn btn-outline-danger">Cancelar</a>
                 </div>
             </div>
         </div>
@@ -173,8 +168,14 @@
         else {
             num.disabled = true;
             num.requerid = false;
+            num.value = "";
         }
     });
+
+    if (obra.value != 0) {
+        num.disabled = false;
+        num.requerid = true;
+    }
 
     var today = new Date();
     var dd = today.getDate();
@@ -201,15 +202,14 @@
 
 
 
+
     function mayorEdad(fechaNacimiento) {
         let hoy = new Date();
         let mayor = new Date(hoy.getFullYear() - 18, hoy.getMonth(), hoy.getDate())
         return fechaNacimiento < mayor;
     }
 
-    selectFecha.addEventListener('change', (e) => {
-        let fecha = e.target.valueAsDate
-
+    let verificarEdad = (fecha) => {
         if (mayorEdad(fecha)) {
             datosMayor.forEach(d => d.hidden = false)
             inputsMayor.forEach(d => d.setAttribute("required", ""))
@@ -222,8 +222,16 @@
             datosTutor.hidden = false;
             inputsTutor.forEach(d => d.setAttribute("required", ""))
         }
+    }
+
+    selectFecha.addEventListener('change', (e) => {
+        let fecha = e.target.valueAsDate
+        verificarEdad(fecha)
+
+
     })
 
+    verificarEdad(selectFecha.valueAsDate)
 
 </script>
 {% endblock %}
