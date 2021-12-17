@@ -11,7 +11,7 @@ class Paciente(db.Model):
     nombre = Column(String(30), unique=False)
     apellido = Column(String(30), unique=False)
     fechaNacimiento = Column(Date, unique=False)
-    email = Column(String(30), unique=True)
+    email = Column(String(30), unique=False)
     dni = Column(Integer, unique=True)
     telefono = Column(String(30))
     resumenHC = Column(String(300))

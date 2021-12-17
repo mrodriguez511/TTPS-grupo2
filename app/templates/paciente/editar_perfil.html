@@ -34,7 +34,7 @@
                             <div class="col-sm-3">
                                 <div class="form-group">
                                     <label for="inputEmail4" class="form-label">DNI</label>
-                                    <input type="number" name="dni" class="form-control" maxlength="8"
+                                    <input type="number" name="dni" min="100000" class="form-control" maxlength="8"
                                         value={{paciente.dni}} placeholder="DNI del paciente" required disabled>
                                 </div>
                             </div>
@@ -62,7 +62,7 @@
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label for="inputEmail4" class="form-label">Numero de afiliado</label>
-                                    <input type="number" id="num" name="nroAfiliado" class="form-control"
+                                    <input type="number" id="num" min="1000" name="nroAfiliado" class="form-control"
                                         value={{paciente.nroAfiliado}} placeholder="Numero de afiliado del paciente"
                                         disabled>
                                 </div>
