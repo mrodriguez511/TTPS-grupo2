@@ -57,19 +57,19 @@
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label for="inputEmail4" class="form-label">Telefono</label>
-                                    <input type="tel" name="telefono" class="form-control" value={{paciente.telefono}}
+                                    <input type="tel" value={{paciente.telefono}} name="telefono" class="form-control"
                                         required>
                                 </div>
                             </div>
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label for="inputState" class="form-label">Obra Social</label>
-
                                     <select name="obraSocial" id="obra" class="form-control">
-                                        <option selected value="0">Seleccionar</option>
-                                        <option value="0">no posee</option>
+                                        <option {% if (paciente.obraSocial==0) %}selected{% endif %} value="0">no posee
+                                        </option>
                                         {% for obra in obrasSociales %}
-                                        <option value={{obra.id}}> {{obra.nombre}} </option>
+                                        <option {% if (paciente.obraSocial==obra.id) %}selected{% endif %}
+                                            value={{obra.id}}> {{obra.nombre}} </option>
                                         {% endfor %}
                                     </select>
                                 </div>
@@ -77,14 +77,15 @@
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label for="inputEmail4" class="form-label">Numero de afiliado</label>
-                                    <input type="number" id="num" name="nroAfiliado" class="form-control" disabled>
+                                    <input type="number" id="num" name="nroAfiliado" class="form-control"
+                                        value={{paciente.nroAfiliado}} disabled>
                                 </div>
                             </div>
                             <div class="col-sm-12">
                                 <div class="form-group">
                                     <label for="inputEmail4" class="form-label">Resumen de historia clinica</label>
                                     <textarea name="resumenHC" class="form-control"
-                                        required>{{paciente.resumenHC}}</textarea>
+                                        required>{% if paciente.resumenHC %}{{paciente.resumenHC}}{% else %}Historia clínica{% endif %}</textarea>
                                 </div>
                             </div>
                             <div class="col-12">
@@ -121,9 +122,15 @@
         else {
             num.disabled = true;
             num.requerid = false;
+            num.value = "";
         }
 
     });
+
+    if (obra.value != 0) {
+        num.disabled = false;
+        num.requerid = true;
+    }
 
     var today = new Date();
     var dd = today.getDate();
