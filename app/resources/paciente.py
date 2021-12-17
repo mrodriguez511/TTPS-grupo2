@@ -196,15 +196,13 @@ def update_perfil():
     if not (session["rol"] == 3):
         abort(401)
 
-    paciente_id = request.args.get("id")
+    paciente_id = session["id"]
     paciente = Paciente.query.filter(Paciente.id == paciente_id).first()
 
     params = request.form
     paciente.nombre = params["nombre"]
     paciente.apellido = params["apellido"]
     paciente.fechaNacimiento = params["fechaNacimiento"]
-   
-    
 
     if params["obraSocial"] != "0":
         paciente.obraSocial = params["obraSocial"]
