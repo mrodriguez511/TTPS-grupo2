@@ -102,15 +102,15 @@
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label for="inputEmail4" class="form-label">Nombre</label>
-                                    <input type="text" name="nombreTutor" class="form-control tutor"
-                                        value={{paciente.nombre_tutor}} placeholder="Nombre del tutor">
+                                    <input type="text" placeholder="Nombre del tutor" name="nombreTutor"
+                                        class="form-control tutor" value={{paciente.nombre_tutor}}>
                                 </div>
                             </div>
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label for="inputEmail4" class="form-label">Apellido</label>
-                                    <input type="text" name="apellidoTutor" class="form-control tutor"
-                                        value={{paciente.apellido_tutor}} placeholder="Apellido del tutor">
+                                    <input type="text" placeholder="Apellido del tutor" name="apellidoTutor"
+                                        class="form-control tutor" value={{paciente.apellido_tutor}}>
                                 </div>
                             </div>
                             <div class="col-sm-4">
@@ -215,10 +215,10 @@
             inputsMayor.forEach(d => d.setAttribute("required", ""))
 
             datosTutor.hidden = true;
-            inputsTutor.forEach(d => d.removeAttribute("required"))
+            inputsTutor.forEach(d => { d.removeAttribute("required"); d.value = '' })
         } else {
             datosMayor.forEach(d => d.hidden = true)
-            inputsMayor.forEach(d => d.removeAttribute("required"))
+            inputsMayor.forEach(d => { d.removeAttribute("required"); d.value = '' })
             datosTutor.hidden = false;
             inputsTutor.forEach(d => d.setAttribute("required", ""))
         }
