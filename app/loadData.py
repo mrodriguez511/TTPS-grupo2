@@ -137,13 +137,13 @@ def cargarPacientes():
 
     p1.email = "paciente1@gmail.com"
     p1.telefono = 1111
-    p1.direccion = "45 123"
+    p1.direccion = "Calle 45 123"
     p1.resumenHC = "El paciente presenta multiples fracturas desde niño"
     p1.password = 4444
 
     p2.email = "paciente2@gmail.com"
     p2.telefono = 54321
-    p2.direccion = "142 1553"
+    p2.direccion = "Calle 142 1553"
     p2.resumenHC = (
         "El paciente presenta alteraciones detectadas en su primer año de vida"
     )
