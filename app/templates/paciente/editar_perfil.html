@@ -34,7 +34,7 @@
                             <div class="col-sm-3">
                                 <div class="form-group">
                                     <label for="inputEmail4" class="form-label">DNI</label>
-                                    <input type="number" name="dni" class="form-control" maxlength="8"
+                                    <input type="number" name="dni" min="100000" class="form-control" maxlength="8"
                                         value={{paciente.dni}} placeholder="DNI del paciente" required disabled>
                                 </div>
                             </div>
@@ -62,7 +62,7 @@
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label for="inputEmail4" class="form-label">Numero de afiliado</label>
-                                    <input type="number" id="num" name="nroAfiliado" class="form-control"
+                                    <input type="number" id="num" min="1000" name="nroAfiliado" class="form-control"
                                         value={{paciente.nroAfiliado}} placeholder="Numero de afiliado del paciente"
                                         disabled>
                                 </div>
@@ -102,15 +102,15 @@
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label for="inputEmail4" class="form-label">Nombre</label>
-                                    <input type="text" name="nombreTutor" class="form-control tutor"
-                                        value={{paciente.nombre_tutor}} placeholder="Nombre del tutor">
+                                    <input type="text" placeholder="Nombre del tutor" name="nombreTutor"
+                                        class="form-control tutor" value={{paciente.nombre_tutor}}>
                                 </div>
                             </div>
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label for="inputEmail4" class="form-label">Apellido</label>
-                                    <input type="text" name="apellidoTutor" class="form-control tutor"
-                                        value={{paciente.apellido_tutor}} placeholder="Apellido del tutor">
+                                    <input type="text" placeholder="Apellido del tutor" name="apellidoTutor"
+                                        class="form-control tutor" value={{paciente.apellido_tutor}}>
                                 </div>
                             </div>
                             <div class="col-sm-4">
@@ -215,10 +215,10 @@
             inputsMayor.forEach(d => d.setAttribute("required", ""))
 
             datosTutor.hidden = true;
-            inputsTutor.forEach(d => d.removeAttribute("required"))
+            inputsTutor.forEach(d => { d.removeAttribute("required"); d.value = '' })
         } else {
             datosMayor.forEach(d => d.hidden = true)
-            inputsMayor.forEach(d => d.removeAttribute("required"))
+            inputsMayor.forEach(d => { d.removeAttribute("required"); d.value = '' })
             datosTutor.hidden = false;
             inputsTutor.forEach(d => d.setAttribute("required", ""))
         }
