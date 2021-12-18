@@ -76,7 +76,7 @@
                     </div>
                 </div>
             </div>
-            <a href="{{ url_for('empleado_home') }}" class="btn btn-outline-success">Volver</a>
+            <a href="{{ url_for('paciente_index') }}" class="btn btn-outline-success">Volver</a>
         </div>
     </section>
 </div>
@@ -101,7 +101,7 @@
 <!-- Page specific script -->
 <script>
 
-    let pacientes 
+    let pacientes
     $(function () {
         $("#tabla").DataTable({
             "responsive": true, "lengthChange": false, "autoWidth": false,
