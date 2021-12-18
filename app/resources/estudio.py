@@ -479,7 +479,16 @@ def estudio_estado8_carga():
     if not (session["rol"] == 2):
         abort(401)
 
-    informe = request.form["informe"]
+    informe = (
+        "Resultado: "
+        + request.form["resultado"]
+        + "\n"
+        + "Informado por: "
+        + request.form["medicoInformante"]
+        + "\n"
+        + "Informe: "
+        + request.form["informe"]
+    )
     valor = request.form["resultado"]
     medico = request.form["medicoInformante"]
 
