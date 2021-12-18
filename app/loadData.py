@@ -129,7 +129,7 @@ def cargarObrasSociales():
 
 def cargarPacientes():
     fecha1 = datetime.date(2000, 5, 17)
-    fecha2 = datetime.date(2005, 6, 10)
+    fecha2 = datetime.date(1998, 6, 10)
 
     p1 = Paciente("Paciente1", "uno", 4444, fecha1)
 
@@ -137,11 +137,13 @@ def cargarPacientes():
 
     p1.email = "paciente1@gmail.com"
     p1.telefono = 1111
+    p1.direccion = "45 123"
     p1.resumenHC = "El paciente presenta multiples fracturas desde niño"
     p1.password = 4444
 
     p2.email = "paciente2@gmail.com"
     p2.telefono = 54321
+    p2.direccion = "142 1553"
     p2.resumenHC = (
         "El paciente presenta alteraciones detectadas en su primer año de vida"
     )
