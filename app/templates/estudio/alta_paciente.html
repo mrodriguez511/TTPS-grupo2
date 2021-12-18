@@ -109,8 +109,8 @@
 <script>
     let obra = document.getElementById("obra")
     let num = document.getElementById("num")
-    obra.addEventListener("change", function () {
-        if (obra.value) {
+    obra.addEventListener("change", () => {
+        if (obra.value && obra.value != 0) {
             num.disabled = false;
             num.requerid = true;
         }
