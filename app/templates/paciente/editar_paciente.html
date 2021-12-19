@@ -22,42 +22,42 @@
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label for="inputEmail4" class="form-label">Nombre</label>
-                                    <input type="text" name="nombre" class="form-control" value={{paciente.nombre}}
+                                    <input type="text" name="nombre" class="form-control" value='{{paciente.nombre}}'
                                         required>
                                 </div>
                             </div>
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label for="inputEmail4" class="form-label">Apellido</label>
-                                    <input type="text" name="apellido" class="form-control" value={{paciente.apellido}}
-                                        required>
+                                    <input type="text" name="apellido" class="form-control"
+                                        value='{{paciente.apellido}}' required>
                                 </div>
                             </div>
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label for="inputEmail4" class="form-label">DNI</label>
                                     <input type="number" name="dni" min="100000" class="form-control" maxlength="8"
-                                        value={{paciente.dni}} required disabled>
+                                        value='{{paciente.dni}}' required disabled>
                                 </div>
                             </div>
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label for="inputEmail4" class="form-label">Fecha de nacimiento</label>
                                     <input type="date" name="fechaNacimiento" id="datefield" class="form-control"
-                                        min='1900-01-01' value={{paciente.fechaNacimiento}} required>
+                                        min='1900-01-01' value='{{paciente.fechaNacimiento}}' required>
                                 </div>
                             </div>
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label for="inputEmail4" class="form-label">Email</label>
-                                    <input type="email" name="email" class="form-control" value={{paciente.email}}
+                                    <input type="email" name="email" class="form-control" value='{{paciente.email}}'
                                         disabled required>
                                 </div>
                             </div>
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label for="inputEmail4" class="form-label">Telefono</label>
-                                    <input type="tel" value={{paciente.telefono}} name="telefono" class="form-control"
+                                    <input type="tel" value='{{paciente.telefono}}' name="telefono" class="form-control"
                                         required>
                                 </div>
                             </div>
@@ -78,7 +78,7 @@
                                 <div class="form-group">
                                     <label for="inputEmail4" class="form-label">Numero de afiliado</label>
                                     <input type="number" id="num" min="1000" name="nroAfiliado" class="form-control"
-                                        value={{paciente.nroAfiliado}} disabled>
+                                        value='{{paciente.nroAfiliado}}' disabled>
                                 </div>
                             </div>
                             <div class="col-sm-12">
