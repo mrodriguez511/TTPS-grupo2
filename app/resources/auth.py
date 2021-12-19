@@ -47,7 +47,7 @@ def authenticate():
         u.intentos += 1
         db.session.commit()
         if u.intentos <= 2:
-            flash("Usuario o clave incorrecto.")
+            flash("Usuario o clave incorrecto.", "error")
             return redirect(url_for("auth_login"))
         else:
             u.activo = False
@@ -85,14 +85,14 @@ def authenticatePaciente():
 
     # le pido la primer tupla que machee
     if not pac:
-        flash("Usuario o clave incorrecto.")
+        flash("Usuario o clave incorrecto.", "error")
         return redirect(url_for("auth_loginPaciente"))
 
     session["rol"] = 3
     session["dni"] = pac.dni
     session["id"] = pac.id
     db.session.commit()
-    flash("La sesión se inició correctamente.")
+    flash("La sesión se inició correctamente.", "success")
 
     return redirect(url_for("paciente_home"))
 
