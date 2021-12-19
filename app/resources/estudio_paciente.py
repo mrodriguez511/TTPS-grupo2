@@ -95,6 +95,8 @@ def estudio_estado1():
         "estudio_paciente/estado1.html",
         estudio=estudio,
         filename=estudio.archivoPresupuesto,
+        presupuesto=estudio.archivoPresupuesto,
+        comprobante=estudio.comprobanteDePago,
     )
 
 
