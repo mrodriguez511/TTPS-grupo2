@@ -95,7 +95,7 @@
                     </form>
                 </div>
             </div>
-            <a href="{{ url_for('estudio_new') }}" class="btn btn-outline-secondary">Volver</a>
+            <a href="{{ url_for('paciente_index') }}" class="btn btn-outline-secondary">Volver</a>
         </div>
     </div>
 </div>
@@ -115,7 +115,7 @@
     let obra = document.getElementById("obra")
     let num = document.getElementById("num")
     obra.addEventListener("change", function () {
-        if (obra.value) {
+        if (obra.value && obra.value != 0) {
             num.disabled = false;
             num.requerid = true;
         }

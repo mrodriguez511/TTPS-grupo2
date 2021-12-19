@@ -167,7 +167,7 @@ def update_paciente():
 
     if not authenticated(session):
         abort(401)
-    if not (session["rol"] == 2) and not (session["rol"] == 3):
+    if not (session["rol"] == 2):
         abort(401)
 
     paciente_id = request.args.get("id")
@@ -183,6 +183,9 @@ def update_paciente():
     if params["obraSocial"] != "0":
         paciente.obraSocial = params["obraSocial"]
         paciente.nroAfiliado = params["nroAfiliado"]
+    else:
+        paciente.obraSocial = None
+        paciente.nroAfiliado = None
 
     db.session.commit()
 
@@ -207,6 +210,9 @@ def update_perfil():
     if params["obraSocial"] != "0":
         paciente.obraSocial = params["obraSocial"]
         paciente.nroAfiliado = params["nroAfiliado"]
+    else:
+        paciente.obraSocial = None
+        paciente.nroAfiliado = None
 
     if params["nombreTutor"] != "":
         paciente.nombre_tutor = params["nombreTutor"]
