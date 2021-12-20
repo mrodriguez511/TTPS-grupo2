@@ -62,7 +62,7 @@
                         {% if estudio.estadoActual == 1 and (estudio.comprobanteDePago) %}
                         <div class="col-12">
                             <a href="{{ url_for('validarComprobante', estudio=estudio.id,value=1) }}"
-                                class="btn btn-primary mt-5">Marcar comprobante
+                                class="btn btn-success mt-5">Marcar comprobante
                                 como válido</a>
                             <a href="{{ url_for('validarComprobante', estudio=estudio.id,value=0) }}"
                                 class="btn btn-danger mt-5">Denegar
