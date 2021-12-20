@@ -105,10 +105,10 @@ def create_paciente():
 
     params = request.form
     paciente = Paciente.query.filter(
-        Paciente.dni == params["dni"] or Paciente.email == params["email"]
+        or_(Paciente.dni == params["dni"], Paciente.email == params["email"])
     ).first()
     if paciente:
-        flash("Ya existe un paciente con el DNI o email ingresado")
+        flash("Ya existe un paciente con el DNI o email ingresado", "error")
         return redirect(url_for("paciente_new"))
 
     new_paciente = Paciente(
@@ -130,7 +130,7 @@ def create_paciente():
     db.session.add(new_paciente)
     db.session.commit()
 
-    return redirect(url_for("estudio_new"))
+    return redirect(url_for("paciente_index"))
 
 
 def editar_paciente():

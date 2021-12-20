@@ -38,7 +38,7 @@ def authenticate():
     # le pido la primer tupla que machee
 
     if not user:
-        flash("Usuario o clave incorrecto.")
+        flash("Usuario o clave incorrecto.", "error")
         return redirect(url_for("auth_login"))
 
     u = User.query.filter(User.email == params["email"]).first()
@@ -52,7 +52,7 @@ def authenticate():
         else:
             u.activo = False
             db.session.commit()
-            flash("Usuario Bloqueado")
+            flash("Usuario Bloqueado", "error")
             return redirect(url_for("auth_login"))
 
     if not user.activo:
@@ -65,7 +65,7 @@ def authenticate():
     session["pacObligado"] = (Configuracion.query.first()).pacienteObligado
     user.intentos = 0
     db.session.commit()
-    flash("La sesión se inició correctamente.")
+    flash("La sesión se inició correctamente.", "success")
 
     if user.rol == 1:
         return redirect(url_for("empleado_index"))
@@ -101,6 +101,6 @@ def logout():
     del session["rol"]
     del session["id"]
     session.clear()
-    flash("La sesión se cerró correctamente.")
+    flash("La sesión se cerró correctamente.", "success")
 
     return redirect(url_for("home"))
