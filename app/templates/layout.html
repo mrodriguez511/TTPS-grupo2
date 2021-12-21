@@ -41,12 +41,9 @@
 
   {% with messages = get_flashed_messages(with_categories=true) %}
   {% if messages %}
-
   {% for category, message in messages %}
   <span class="d-none toastrs toastr-{{ category }}">{{ message }}</span>
   {% endfor %}
-
-
   {% endif %}
   {% endwith %}
 
@@ -78,16 +75,19 @@
       const toastrs = document.querySelectorAll('.toastrs');
 
       if (toastrs.length > 0) {
-        
+        toastr.options.positionClass = "toast-top-center";
         toastrs.forEach((t) => {
           t.classList.contains('toastr-success') && toastr.success(t.innerText);
           t.classList.contains('toastr-info') && toastr.info(t.innerText);
           t.classList.contains('toastr-error') && toastr.error(t.innerText);
           t.classList.contains('toastr-warning') && toastr.warning(t.innerText);
+          document.getElementById('toast-container').classList.add('mx-auto')
+
         })
 
-        
       }
+
+
     })
 
   </script>
