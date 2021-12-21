@@ -347,9 +347,8 @@ def cargarEstudios():
     estudio10.turno = "2021-08-01"
     estudio11.turno = "2021-08-01"
     estudio12.turno = "2021-08-01"
-
-    estudio13.turno = datetime.strptime("2021-12-20-10:30", "%Y/%m/%d-%H:%M")
-    estudio14.turno = datetime.strptime("2021-12-20-11:30", "%Y/%m/%d-%H:%M")
+    estudio13.turno = "2021-12-20"
+    estudio14.turno = "2021-12-20"
 
     estudioMarzo2 = Estudio(
         4,  # tipoEstudio hay 5
