@@ -425,6 +425,8 @@ def cargarEstudios():
     db.session.add(estudio10)
     db.session.add(estudio11)
     db.session.add(estudio12)
+    db.session.add(estudio13)
+    db.session.add(estudio14)
 
     db.session.commit()
     db.session.add(estudioMarzo2)
