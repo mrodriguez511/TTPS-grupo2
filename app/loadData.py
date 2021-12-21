@@ -139,10 +139,10 @@ def cargarPacientes():
     p1.telefono = 1111
     p1.direccion = "Calle 45 123"
     p1.resumenHC = "El paciente presenta multiples fracturas desde niño"
-    p1.password = 4444
+    p1.password = 44000000
 
     p2.email = "paciente2@gmail.com"
-    p2.telefono = 54321
+    p2.telefono = 45000000
     p2.direccion = "Calle 142 1553"
     p2.resumenHC = (
         "El paciente presenta alteraciones detectadas en su primer año de vida"
@@ -405,13 +405,5 @@ def cargarEstudios():
     db.session.add(estudio11)
     db.session.add(estudio12)
 
-    lote1 = Lote()
-    lote1.estudios.append(estudio5)
-    lote1.estudios.append(estudio6)
-    lote2 = Lote()
-    lote2.estudios.append(estudio7)
-    lote2.url = "https://www.google.com/"
-    db.session.add(lote1)
-    db.session.add(lote2)
     db.session.commit()
     db.session.add(estudioMarzo2)

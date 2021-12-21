@@ -4,5 +4,9 @@ from app.db import db
 
 
 def cargarNuevoEstado(estudio):
-    estudio.estados.append(Estado(estudio.estadoActual, session["id"], estudio.id))
+    if session["rol"] == 2:
+        estudio.estados.append(Estado(estudio.estadoActual, session["id"], estudio.id))
+    else:
+        empleado = estudio.empleado
+        estudio.estados.append(Estado(estudio.estadoActual, empleado, estudio.id))
     db.session.commit()

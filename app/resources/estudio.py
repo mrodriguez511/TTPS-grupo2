@@ -218,7 +218,7 @@ def estudio_estado2():
     estudio = Estudio.query.filter(Estudio.id == estudio_id).first()
 
     if estudio.estadoActual < 2:
-        flash("no puede acceder a un estado futuro")
+        flash("no puede acceder a un estado futuro", "error")
         return redirect(url_for("home"))
 
     tipoEstudio = TipoEstudio.query.filter(
@@ -276,7 +276,7 @@ def estudio_estado3():
     estudio = Estudio.query.filter(Estudio.id == estudio_id).first()
 
     if estudio.estadoActual < 3:
-        flash("no puede acceder a un estado futuro")
+        flash("no puede acceder a un estado futuro", "error")
         return redirect(url_for("home"))
 
     turnos = db.session.query(Estudio.turno).filter(Estudio.turno != None).all()
@@ -322,7 +322,7 @@ def estudio_estado4():
     estudio = Estudio.query.filter(Estudio.id == estudio_id).first()
 
     if estudio.estadoActual < 4:
-        flash("no puede acceder a un estado futuro")
+        flash("no puede acceder a un estado futuro", "error")
         return redirect(url_for("home"))
 
     enfecha = estudio.fecha < datetime.now()
@@ -380,7 +380,7 @@ def estudio_estado5():
     estudio = Estudio.query.filter(Estudio.id == estudio_id).first()
 
     if estudio.estadoActual < 5:
-        flash("no puede acceder a un estado futuro")
+        flash("no puede acceder a un estado futuro", "error")
         return redirect(url_for("home"))
 
     return render_template("estudio/estado5.html", estudio=estudio)
@@ -412,7 +412,7 @@ def estudio_estado6():
     estudio_id = request.args.get("estudio")
     estudio = Estudio.query.filter(Estudio.id == estudio_id).first()
     if estudio.estadoActual < 6:
-        flash("no puede acceder a un estado futuro")
+        flash("no puede acceder a un estado futuro", "error")
         return redirect(url_for("home"))
     elif estudio.estadoActual > 6:
         estado = Estado.query.filter(
@@ -435,7 +435,7 @@ def estudio_estado7():
     estudio = Estudio.query.filter(Estudio.id == estudio_id).first()
 
     if estudio.estadoActual < 7:
-        flash("no puede acceder a un estado futuro")
+        flash("no puede acceder a un estado futuro", "error")
         return redirect(url_for("home"))
 
     elif estudio.estadoActual > 7:
@@ -461,7 +461,7 @@ def estudio_estado8():
     medicos = MedicoInformante.query.all()
 
     if estudio.estadoActual < 8:
-        flash("no puede acceder a un estado futuro")
+        flash("no puede acceder a un estado futuro", "error")
         return redirect(url_for("home"))
     elif estudio.estadoActual > 8:
         resultado = Resultado.query.filter(Resultado.id == estudio.resultado_id).first()
@@ -514,7 +514,7 @@ def estudio_estado9():
     estudio = Estudio.query.filter(Estudio.id == estudio_id).first()
 
     if estudio.estadoActual < 9:
-        flash("no puede acceder a un estado futuro")
+        flash("no puede acceder a un estado futuro", "error")
         return redirect(url_for("home"))
 
     resultado = Resultado.query.filter(Resultado.id == estudio.resultado_id).first()
@@ -621,6 +621,8 @@ def actualizar():
                 if estudio.turno < fecha:
                     estudio.retrasado = True
                     db.session.commit()
+
+    flash("Los estudios han sido actualizados exitosamente", "success")
 
     return redirect(url_for("estudio_index"))
 

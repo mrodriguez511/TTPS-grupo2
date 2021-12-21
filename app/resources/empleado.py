@@ -45,7 +45,7 @@ def create():
         or_(User.email == params["email"], User.dni == params["dni"])
     ).first()
     if user:
-        flash("El Email o DNI ingresados ya existe")
+        flash("El Email o DNI ingresados ya existe", "error")
         return redirect(url_for("empleado_new"))
 
     new_user = User(
@@ -56,6 +56,8 @@ def create():
         password=params["password"],
         rol=2,
     )
+
+    flash("Alta exitosa de empleado", "success")
 
     db.session.add(new_user)
     db.session.commit()
@@ -94,6 +96,7 @@ def update():
 
     db.session.commit()
 
+    flash("Los datos del empleado han sido modificados exitosamente", "success")
     return redirect(url_for("empleado_index"))
 
 
@@ -117,5 +120,7 @@ def swichtstate():
     u.activo = user_estado
     u.intentos = intentos
     db.session.commit()
+
+    flash("El estado del empleado ha sido modificado exitosamente", "success")
 
     return redirect(url_for("empleado_index"))

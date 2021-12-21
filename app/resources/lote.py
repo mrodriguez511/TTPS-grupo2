@@ -57,6 +57,8 @@ def formarLote():
         db.session.commit()
         cargarNuevoEstado(estudio)
 
+    flash("Lote creado exitosamente", "success")
+
     return redirect(url_for("estudiosFormarLote_index"))
 
 
@@ -105,6 +107,8 @@ def agregarURL():
             estudio.muestra_freezer = None
             estudio.lote = None
             db.session.commit()
+
+    flash("URL ingresada exitosamente", "success")
 
     return redirect(url_for("lote_enProcesamiento_index"))
 

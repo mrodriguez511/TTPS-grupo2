@@ -42,10 +42,11 @@ def abonar():
         abort(401)
 
     estudios_id = request.form.getlist("checkbox")
-    flash("Extracciones abonadas")
+
     for estudio_id in estudios_id:
         estudio = Estudio.query.filter(Estudio.id == estudio_id).first()
         estudio.extraccionAbonada = True
     db.session.commit()
+    flash("Extracciones abonadas exitosamente", "success")
 
     return redirect(url_for("liquidacionExtracciones_index"))

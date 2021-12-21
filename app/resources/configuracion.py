@@ -1,4 +1,4 @@
-from flask import redirect, render_template, request, url_for, session, abort
+from flask import redirect, render_template, request, url_for, session, abort, flash
 from app.models.configuracion import Configuracion
 from app.helpers.auth import authenticated
 from app.db import db
@@ -29,5 +29,6 @@ def configurar():
     config.pacienteObligado = int(params)
 
     db.session.commit()
+    flash("La configuracion ha sido modificada exitosamente.", "success")
 
     return redirect(url_for("configurador_home"))
