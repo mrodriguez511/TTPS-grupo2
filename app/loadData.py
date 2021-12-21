@@ -81,7 +81,7 @@ def carga():
 def cargarConfig():
     from app.models.configuracion import Configuracion
 
-    config = Configuracion(True)
+    config = Configuracion(False)
     db.session.add(config)
     db.session.commit()
 
@@ -131,23 +131,23 @@ def cargarPacientes():
     fecha1 = datetime.date(2000, 5, 17)
     fecha2 = datetime.date(1998, 6, 10)
 
-    p1 = Paciente("Paciente1", "uno", 4444, fecha1)
+    p1 = Paciente("Paciente1", "uno", 44000000, fecha1)
 
-    p2 = Paciente("Paciente2", "dos", 2222, fecha2)
+    p2 = Paciente("Paciente2", "dos", 45000000, fecha2)
 
     p1.email = "paciente1@gmail.com"
     p1.telefono = 1111
     p1.direccion = "Calle 45 123"
     p1.resumenHC = "El paciente presenta multiples fracturas desde niño"
-    p1.password = 44000000
+    p1.password = 123
 
     p2.email = "paciente2@gmail.com"
-    p2.telefono = 45000000
+    p2.telefono = 2222
     p2.direccion = "Calle 142 1553"
     p2.resumenHC = (
         "El paciente presenta alteraciones detectadas en su primer año de vida"
     )
-    p2.password = 2222
+    p2.password = 123
 
     db.session.add(p1)
     db.session.add(p2)
@@ -312,6 +312,22 @@ def cargarEstudios():
         300,  # diagnostico hay muchos 300 y pico
         10000,  # presupuesto
     )
+    estudio13 = Estudio(
+        4,  # tipoEstudio hay 5
+        2,  # medicoDerivante hay 4
+        1,  # paciente hay 2
+        2,  # empleado hay 1
+        265,  # diagnostico hay muchos 300 y pico
+        5000,  # presupuesto
+    )
+    estudio14 = Estudio(
+        5,  # tipoEstudio hay 5
+        4,  # medicoDerivante hay 4
+        1,  # paciente hay 2
+        2,  # empleado hay 1
+        200,  # diagnostico hay muchos 300 y pico
+        6000,  # presupuesto
+    )
 
     estudio5.estadoActual = 10
     estudio6.estadoActual = 10
@@ -321,6 +337,8 @@ def cargarEstudios():
     estudio10.estadoActual = 10
     estudio11.estadoActual = 10
     estudio12.estadoActual = 10
+    estudio13.estadoActual = 4
+    estudio14.estadoActual = 4
     estudio5.turno = "2021-08-01"
     estudio6.turno = "2021-08-01"
     estudio7.turno = "2021-08-01"
@@ -329,6 +347,8 @@ def cargarEstudios():
     estudio10.turno = "2021-08-01"
     estudio11.turno = "2021-08-01"
     estudio12.turno = "2021-08-01"
+    estudio13.turno = "2021-12-20"
+    estudio14.turno = "2021-12-20"
 
     estudioMarzo2 = Estudio(
         4,  # tipoEstudio hay 5
@@ -389,6 +409,7 @@ def cargarEstudios():
     estudio2.extraccionAbonada = False
     estudio3.extraccionAbonada = False
     estudio4.extraccionAbonada = False
+
     db.session.add(estudio1)
     db.session.add(estudio2)
     db.session.add(estudio3)

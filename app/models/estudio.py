@@ -3,7 +3,7 @@ from datetime import datetime
 from sqlalchemy.sql.sqltypes import Date
 from app.models.estado import Estado
 from app.models.resultado import Resultado
-from sqlalchemy import Column, Integer, String, Boolean, DateTime, ForeignKey
+from sqlalchemy import Column, Integer, String, Boolean, DateTime, ForeignKey, Float
 from app.db import db
 from sqlalchemy.orm import relationship
 from flask import session
@@ -34,7 +34,7 @@ class Estudio(db.Model):
     consentimientoFirmado = Column(String(100), nullable=True)
     empleadoMuestra = Column(String(100), nullable=True)
     turno = Column(DateTime, nullable=True)
-    muestra_ml = Column(Integer, nullable=True)
+    muestra_ml = Column(Float, nullable=True)
     muestra_freezer = Column(Integer, nullable=True)
     resultadoEnviado = Column(Boolean, nullable=True)
     extraccionAbonada = Column(Boolean, nullable=True)
