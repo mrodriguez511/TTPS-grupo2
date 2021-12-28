@@ -56,7 +56,7 @@ def authenticate():
             return redirect(url_for("auth_login"))
 
     if not user.activo:
-        flash("Usuario bloqueado.")
+        flash("Usuario bloqueado.", "error")
         return redirect(url_for("auth_login"))
 
     session["rol"] = user.rol

@@ -405,13 +405,5 @@ def cargarEstudios():
     db.session.add(estudio11)
     db.session.add(estudio12)
 
-    lote1 = Lote()
-    lote1.estudios.append(estudio5)
-    lote1.estudios.append(estudio6)
-    lote2 = Lote()
-    lote2.estudios.append(estudio7)
-    lote2.url = "https://www.google.com/"
-    db.session.add(lote1)
-    db.session.add(lote2)
     db.session.commit()
     db.session.add(estudioMarzo2)
